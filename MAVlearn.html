@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyArtificialVocabs - AI-powered Vocabulary Learning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --text-lighter: #9ca3af;
+            --bg-white: #ffffff;
+            --bg-light: #f9fafb;
+            --bg-lighter: #f3f4f6;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition-default: all 0.3s ease;
+            --container-width: 1280px;
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 1rem;
+            --spacing-xs: 0.25rem;
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2rem;
+            --spacing-2xl: 3rem;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            font-size: 2rem;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+        
+        p {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        img {
+            max-width: 100%;
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: var(--transition-default);
+        }
+        
+        a:hover {
+            color: var(--primary-dark);
+        }
+        
+        .container {
+            max-width: var(--container-width);
+            padding: 0 var(--spacing-xl);
+            margin: 0 auto;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1.25rem;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-default);
+            border: none;
+            outline: none;
+            text-align: center;
+            font-size: 0.875rem;
+            height: 2.5rem;
+            gap: 0.5rem;
+        }
+        
+        .btn-icon {
+            width: 2.5rem;
+            padding: 0;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+            box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #0da271;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .btn-outlined {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outlined:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-accent:hover {
+            background-color: #e69008;
+            color: white;
+        }
+        
+        .btn-link {
+            background: none;
+            color: var(--primary);
+            padding: 0;
+            height: auto;
+        }
+        
+        .btn-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        /* Forms */
+        .form-group {
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            background-color: white;
+            font-size: 0.875rem;
+            transition: var(--transition-default);
+            height: 2.5rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        /* Cards */
+        .card {
+            background-color: var(--bg-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: var(--transition-default);
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .card-header {
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--bg-lighter);
+        }
+        
+        .card-body {
+            padding: var(--spacing-lg);
+        }
+        
+        .card-footer {
+            padding: var(--spacing-lg);
+            border-top: 1px solid var(--bg-lighter);
+        }
+        
+        /* App Header */
+        .app-header {
+            background-color: var(--bg-white);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: var(--spacing-md) 0;
+        }
+        
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            font-size: 1.5rem;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-weight: 500;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            transition: var(--transition-default);
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary);
+            background-color: var(--bg-lighter);
+        }
+        
+        .nav-link i {
+            font-size: 1.125rem;
+        }
+        
+        .user-menu {
+            position: relative;
+        }
+        
+        .user-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 700;
+        }
+        
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: var(--spacing-xl) 0;
+            min-height: calc(100vh - 4rem - 5rem);
+        }
+        
+        /* Dashboard */
+        .welcome-banner {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            color: white;
+            margin-bottom: var(--spacing-xl);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .welcome-banner h2 {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .language-level {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .stat-card {
+            background-color: var(--bg-white);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .stat-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .stat-icon.blue {
+            background-color: var(--primary);
+        }
+        
+        .stat-icon.green {
+            background-color: var(--secondary);
+        }
+        
+        .stat-icon.orange {
+            background-color: var(--accent);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+        
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .section-title {
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .course-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .course-header {
+            position: relative;
+            height: 160px;
+            overflow: hidden;
+            border-top-left-radius: var(--radius-lg);
+            border-top-right-radius: var(--radius-lg);
+            background: linear-gradient(45deg, var(--primary), var(--primary-light));
+        }
+        
+        .course-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 5rem;
+        }
+        
+        .course-badge {
+            position: absolute;
+            top: var(--spacing-md);
+            right: var(--spacing-md);
+            background-color: white;
+            color: var(--primary);
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-body {
+            padding: var(--spacing-lg);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .course-title {
+            font-size: 1.125rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .course-description {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .course-meta {
+            display: flex;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            color: var(--text-lighter);
+            font-size: 0.75rem;
+        }
+        
+        .course-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .course-actions {
+            margin-top: auto;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 0.5rem;
+            background-color: var(--bg-lighter);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            border-radius: var(--radius-sm);
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+        
+        /* Practice Cards */
+        .practice-card {
+            padding: var(--spacing-lg);
+        }
+        
+        .practice-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .practice-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: var(--radius-md);
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        /* Daily Challenge */
+        .daily-challenge {
+            background: linear-gradient(45deg, var(--accent), #fcd34d);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            color: white;
+            margin-top: var(--spacing-xl);
+        }
+        
+        .challenge-badge {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-sm);
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        
+        /* Vocabulary Test */
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .question-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .question-counter {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+        
+        .test-word {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .option-btn {
+            background-color: var(--bg-white);
+            border: 1px solid var(--bg-lighter);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            cursor: pointer;
+            transition: var(--transition-default);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            height: 3rem;
+        }
+        
+        .option-btn:hover {
+            border-color: var(--primary-light);
+            background-color: var(--bg-lighter);
+        }
+        
+        .option-btn.selected {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Progress Page */
+        .level-indicator {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .level-circle {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            background: linear-gradient(to bottom right, var(--primary), var(--primary-dark));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
+        }
+        
+        .level-details {
+            flex: 1;
+        }
+        
+        .level-name {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-chart {
+            height: 10rem;
+            display: flex;
+            align-items: flex-end;
+            gap: 0.5rem;
+            padding: var(--spacing-md) 0;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .activity-day {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .activity-bar {
+            width: 100%;
+            max-width: 2rem;
+            background: linear-gradient(to top, var(--primary), var(--primary-light));
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            transition: height 0.5s ease;
+        }
+        
+        .day-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+        
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: var(--spacing-md);
+        }
+        
+        .achievement {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .achievement-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: var(--bg-lighter);
+            color: var(--text-lighter);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .achievement-icon.unlocked {
+            background: linear-gradient(to bottom right, var(--primary), var(--primary-light));
+            color: white;
+        }
+        
+        .achievement-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+        
+        /* Footer */
+        .app-footer {
+            background-color: var(--bg-white);
+            padding: var(--spacing-lg) 0;
+            border-top: 1px solid var(--bg-lighter);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: var(--spacing-lg);
+        }
+        
+        .footer-link {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+        
+        .footer-copyright {
+            color: var(--text-lighter);
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .card-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 4rem;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background-color: var(--bg-white);
+                padding: var(--spacing-md);
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                gap: 0;
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                transition: var(--transition-default);
+                z-index: 99;
+            }
+            
+            .nav-menu.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+            
+            .nav-link {
+                padding: var(--spacing-md);
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .welcome-image {
+                display: none;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: var(--spacing-lg);
+                text-align: center;
+            }
+            
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .achievements {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* Animation styles */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animated {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        /* Dark mode toggle - just implemented in CSS for show */
+        .theme-switch {
+            position: relative;
+            width: 3rem;
+            height: 1.5rem;
+            background-color: var(--text-lighter);
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: var(--transition-default);
+        }
+        
+        .theme-switch::after {
+            content: '';
+            position: absolute;
+            top: 0.125rem;
+            left: 0.125rem;
+            width: 1.25rem;
+            height: 1.25rem;
+            background-color: white;
+            border-radius: 50%;
+            transition: var(--transition-default);
+        }
+        
+        .theme-switch.dark {
+            background-color: var(--primary);
+        }
+        
+        .theme-switch.dark::after {
+            transform: translateX(1.5rem);
+        }
+    </style>
+</head>
+<body>
+    <!-- App Header -->
+    <header class="app-header">
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <span>MyArtificialVocabs</span>
+            </div>
+            <button class="mobile-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="nav-menu" id="navMenu">
+                <a href="#" class="nav-link active" data-page="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-link" data-page="courses">
+                    <i class="fas fa-book"></i>
+                    <span>Courses</span>
+                </a>
+                <a href="#" class="nav-link" data-page="practice">
+                    <i class="fas fa-dumbbell"></i>
+                    <span>Practice</span>
+                </a>
+                <a href="#" class="nav-link" data-page="progress">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Progress</span>
+                </a>
+                <a href="#" class="nav-link" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+            <div class="user-menu">
+                <div class="user-avatar">JD</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <section id="dashboard-page" class="container animated">
+            <div class="welcome-banner">
+                <div class="welcome-content">
+                    <span class="language-level">Level B1</span>
+                    <h2>Welcome back, John</h2>
+                    <p>You're making great progress. Keep going!</p>
+                    <button class="btn btn-outlined">Continue Learning</button>
+                </div>
+                <div class="welcome-image">
+                    <!-- Placeholder for illustration -->
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">247</div>
+                        <div class="stat-label">Words Mastered</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Day Streak</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">4.5h</div>
+                        <div class="stat-label">Total Learning Time</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-heading">
+                <h3 class="section-title">Personalized for You</h3>
+                <a href="#" class="btn btn-link">View All</a>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card course-card">
+                    <div class="course-header">
+                        <i class="fas fa-bolt course-icon"></i>
+                        <span class="course-badge">5 min</span>
+                    </div>
+                    <div class="course-body">
+                        <h4 class="course-title">Daily Exercise</h4>
+                        <p class="course-description">Quick daily exercises to reinforce your vocabulary retention with AI-generated examples and contexts.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-brain"></i> 10 words</span>
+                            <span><i class="fas fa-chart-line"></i> B1 Level</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 40%;"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>Progress</span>
+                            <span>40%</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card course-card">
+                    <div class="course-header">
+                        <i class="fas fa-comments course-icon"></i>
+                        <span class="course-badge">New</span>
+                    </div>
+                    <div class="course-body">
+                        <h4 class="course-title">Conversation Vocabulary</h4>
+                        <p class="course-description">Learn essential words for everyday conversations with context-aware AI tutoring.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-brain"></i> 25 words</span>
+                            <span><i class="fas fa-chart-line"></i> B1 Level</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 15%;"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>Progress</span>
+                            <span>15%</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card course-card">
+                    <div class="course-header">
+                        <i class="fas fa-briefcase course-icon"></i>
+                        <span class="course-badge">15 min</span>
+                    </div>
+                    <div class="course-body">
+                        <h4 class="course-title">Business English</h4>
+                        <p class="course-description">Professional vocabulary for workplace communication with AI-powered scenario training.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-brain"></i> 30 words</span>
+                            <span><i class="fas fa-chart-line"></i> B2 Level</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 60%;"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>Progress</span>
+                            <span>60%</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-heading">
+                <h3 class="section-title">Recent Activities</h3>
+                <a href="#" class="btn btn-link">View All</a>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card practice-card">
+                    <div class="practice-header">
+                        <div class="practice-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div>
+                            <h4 class="course-title">Vocabulary Quiz</h4>
+                            <span class="stat-label">Yesterday</span>
+                        </div>
+                    </div>
+                    <p class="course-description">You scored 85% on the B1 level vocabulary quiz.</p>
+                    <button class="btn btn-outlined">View Results</button>
+                </div>
+                
+                <div class="card practice-card">
+                    <div class="practice-header">
+                        <div class="practice-icon">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div>
+                            <h4 class="course-title">Flashcard Session</h4>
+                            <span class="stat-label">2 days ago</span>
+                        </div>
+                    </div>
+                    <p class="course-description">You practiced 20 words with AI-generated examples.</p>
+                    <button class="btn btn-outlined">Practice Again</button>
+                </div>
+                
+                <div class="card practice-card">
+                    <div class="practice-header">
+                        <div class="practice-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div>
+                            <h4 class="course-title">Level Assessment</h4>
+                            <span class="stat-label">Last week</span>
+                        </div>
+                    </div>
+                    <p class="course-description">Your current level is B1. 67 more words until B2!</p>
+                    <button class="btn btn-outlined">View Details</button>
+                </div>
+            </div>
+            
+            <div class="daily-challenge">
+                <span class="challenge-badge">Daily Challenge</span>
+                <h3>Complete Today's Challenge</h3>
+                <p class="course-description">Learn 5 new words about technology and use them in context.</p>
+                <button class="btn btn-accent">Start Challenge</button>
+            </div>
+        </section>
+        
+        <!-- Courses Page -->
+        <section id="courses-page" class="container animated" style="display: none;">
+            <h2>Language Courses</h2>
+            <p>Choose from our AI-powered language courses tailored to your level and interests.</p>
+            
+            <div class="section-heading">
+                <h3 class="section-title">Your Current Languages</h3>
+                <div>
+                    <button class="btn btn-outlined btn-icon"><i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card course-card">
+                    <div class="course-header" style="background: linear-gradient(45deg, #4f46e5, #818cf8);">
+                        <i class="fas fa-language course-icon"></i>
+                        <span class="course-badge">German</span>
+                    </div>
+                    <div class="course-body">
+                        <h4 class="course-title">German B1</h4>
+                        <p class="course-description">Intermediate German vocabulary with AI-powered context learning.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-brain"></i> 500 words</span>
+                            <span><i class="fas fa-chart-line"></i> B1 Level</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 42%;"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>Progress</span>
+                            <span>42%</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card course-card">
+                    <div class="course-header" style="background: linear-gradient(45deg, #10b981, #34d399);">
+                        <i class="fas fa-language course-icon"></i>
+                        <span class="course-badge">French</span>
+                    </div>
+                    <div class="course-body">
+                        <h4 class="course-title">French A2</h4>
+                        <p class="course-description">Elementary French vocabulary with personalized learning paths.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-brain"></i> 350 words</span>
+                            <span><i class="fas fa-chart-line"></i> A2 Level</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 68%;" ></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>Progress</span>
+                            <span>68%</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card course-card">
+                    <div class="course-header" style="background: linear-gradient(45deg, #f59e0b, #fbbf24);">
+                        <i class="fas fa-language course-icon"></i>
+                        <span class="course-badge">English</span>
+                    </div>
+                    <div class="course-body">
+                        <h4 class="course-title">English C1</h4>
+                        <p class="course-description">Advanced English vocabulary with domain-specific terminology.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-brain"></i> 800 words</span>
+                            <span><i class="fas fa-chart-line"></i> C1 Level</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 25%;"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span>Progress</span>
+                            <span>25%</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-heading">
+                <h3 class="section-title">Available Learning Modules</h3>
+            </div>
+            
+            <div class="card-grid">
+                <div class="card course-card">
+                    <div class="course-header">
+                        <i class="fas fa-comments course-icon"></i>
+                        <span class="course-badge">Module</span>
+                    </div>
+                    <div class="course-body">
+                        <h4 class="course-title">Daily Conversations</h4>
+                        <p class="course-description">Everyday vocabulary for common conversations with real-life scenarios.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-brain"></i> 5 units</span>
+                            <span><i class="fas fa-chart-line"></i> Multiple levels</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Start Module</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card course-card">
+                    <div class="course-header">
+                        <i class="fas fa-plane course-icon"></i>
+                        <span class="course-badge">Module</span>
+                    </div>
+                    <div class="course-body">
+                        <h4 class="course-title">Travel & Tourism</h4>
+                        <p class="course-description">Essential vocabulary for travelers with interactive scenarios.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-brain"></i> 3 units</span>
+                            <span><i class="fas fa-chart-line"></i> A2-B2 levels</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Start Module</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card course-card">
+                    <div class="course-header">
+                        <i class="fas fa-laptop-code course-icon"></i>
+                        <span class="course-badge">Module</span>
+                    </div>
+                    <div class="course-body">
+                        <h4 class="course-title">Technology & IT</h4>
+                        <p class="course-description">Tech terminology for professional and everyday use with AI explanations.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-brain"></i> 4 units</span>
+                            <span><i class="fas fa-chart-line"></i> B1-C2 levels</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Start Module</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card course-card">
+                    <div class="course-header">
+                        <i class="fas fa-utensils course-icon"></i>
+                        <span class="course-badge">Module</span>
+                    </div>
+                    <div class="course-body">
+                        <h4 class="course-title">Food & Dining</h4>
+                        <p class="course-description">Culinary vocabulary with cultural context and practical applications.</p>
+                        <div class="course-meta">
+                            <span><i class="fas fa-brain"></i> 3 units</span>
+                            <span><i class="fas fa-chart-line"></i> A1-C1 levels</span>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-primary">Start Module</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Practice Page -->
+        <section id="practice-page" class="container animated" style="display: none;">
+            <h2>Practice Vocabulary</h2>
+            <p>Strengthen your vocabulary skills with AI-powered practice exercises.</p>
+            
+            <div class="card-grid">
+                <div class="card practice-card">
+                    <div class="practice-header">
+                        <div class="practice-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="course-title">Flashcards</h4>
+                        </div>
+                    </div>
+                    <p class="course-description">Practice with interactive flashcards enhanced with AI-generated context examples.</p>
+                    <button class="btn btn-primary">Start Practice</button>
+                </div>
+                
+                <div class="card practice-card">
+                    <div class="practice-header">
+                        <div class="practice-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div>
+                            <h4 class="course-title">Vocabulary Quiz</h4>
+                        </div>
+                    </div>
+                    <p class="course-description">Test your knowledge with adaptive quizzes that adjust to your skill level.</p>
+                    <button class="btn btn-primary">Start Quiz</button>
+                </div>
+                
+                <div class="card practice-card">
+                    <div class="practice-header">
+                        <div class="practice-icon">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </div>
+                        <div>
+                            <h4 class="course-title">Word Games</h4>
+                        </div>
+                    </div>
+                    <p class="course-description">Fun word games that reinforce your vocabulary in an engaging way.</p>
+                    <button class="btn btn-primary">Play Games</button>
+                </div>
+                
+                <div class="card practice-card">
+                    <div class="practice-header">
+                        <div class="practice-icon">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <div>
+                            <h4 class="course-title">Dictation</h4>
+                        </div>
+                    </div>
+                    <p class="course-description">Improve your listening and spelling with AI-powered dictation exercises.</p>
+                    <button class="btn btn-primary">Start Dictation</button>
+                </div>
+            </div>
+            
+            <div class="section-heading">
+                <h3 class="section-title">Vocabulary Test</h3>
+            </div>
+            
+            <div class="card">
+                <div class="card-body test-container">
+                    <div class="question-header">
+                        <h4>Choose the correct translation</h4>
+                        <span class="question-counter">1/10</span>
+                    </div>
+                    
+                    <div class="test-word">Flughafen</div>
+                    
+                    <div class="options-grid">
+                        <button class="option-btn">flight</button>
+                        <button class="option-btn selected">airport</button>
+                        <button class="option-btn">airplane</button>
+                        <button class="option-btn">ticket</button>
+                    </div>
+                    
+                    <div class="card" style="background-color: var(--bg-lighter); margin-bottom: var(--spacing-lg);">
+                        <div class="card-body">
+                            <p><strong>Correct!</strong> "Flughafen" means "airport" in English.</p>
+                            <p class="course-description">Example: "Der Flughafen in München ist sehr groß." (The airport in Munich is very big.)</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="btn btn-outlined" disabled>Previous</button>
+                        <button class="btn btn-primary">Next</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Progress Page -->
+        <section id="progress-page" class="container animated" style="display: none;">
+            <h2>Your Learning Progress</h2>
+            <p>Track your vocabulary growth and achievements.</p>
+            
+            <div class="card" style="margin-bottom: var(--spacing-lg);">
+                <div class="card-body">
+                    <div class="level-indicator">
+                        <div class="level-circle">B1</div>
+                        <div class="level-details">
+                            <h4 class="level-name">Intermediate Level</h4>
+                            <div class="progress-container" style="margin-bottom: var(--spacing-xs);">
+                                <div class="progress-bar" style="width: 68%;"></div>
+                            </div>
+                            <div class="progress-text">
+                                <span>247/400 words mastered</span>
+                                <span>68%</span>
+                            </div>
+                            <p class="course-description">You need 153 more words to reach the B2 level.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-bottom: var(--spacing-lg);">
+                <div class="card-header">
+                    <h4>Learning Activity</h4>
+                </div>
+                <div class="card-body">
+                    <div class="activity-chart">
+                        <div class="activity-day">
+                            <div class="activity-bar" style="height: 30%;"></div>
+                            <span class="day-label">Mon</span>
+                        </div>
+                        <div class="activity-day">
+                            <div class="activity-bar" style="height: 60%;"></div>
+                            <span class="day-label">Tue</span>
+                        </div>
+                        <div class="activity-day">
+                            <div class="activity-bar" style="height: 45%;"></div>
+                            <span class="day-label">Wed</span>
+                        </div>
+                        <div class="activity-day">
+                            <div class="activity-bar" style="height: 80%;"></div>
+                            <span class="day-label">Thu</span>
+                        </div>
+                        <div class="activity-day">
+                            <div class="activity-bar" style="height: 70%;"></div>
+                            <span class="day-label">Fri</span>
+                        </div>
+                        <div class="activity-day">
+                            <div class="activity-bar" style="height: 20%;"></div>
+                            <span class="day-label">Sat</span>
+                        </div>
+                        <div class="activity-day">
+                            <div class="activity-bar" style="height: 50%;"></div>
+                            <span class="day-label">Sun</span>
+                        </div>
+                    </div>
+                    <div class="progress-text">
+                        <span>Words learned this week:</span>
+                        <span>42</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h4>Achievements</h4>
+                </div>
+                <div class="card-body">
+                    <div class="achievements">
+                        <div class="achievement">
+                            <div class="achievement-icon unlocked">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <span class="achievement-label">10-Day Streak</span>
+                        </div>
+                        <div class="achievement">
+                            <div class="achievement-icon unlocked">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <span class="achievement-label">200+ Words</span>
+                        </div>
+                        <div class="achievement">
+                            <div class="achievement-icon unlocked">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <span class="achievement-label">Perfect Quiz</span>
+                        </div>
+                        <div class="achievement">
+                            <div class="achievement-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="achievement-label">30-Day Streak</span>
+                        </div>
+                        <div class="achievement">
+                            <div class="achievement-icon">
+                                <i class="fas fa-medal"></i>
+                            </div>
+                            <span class="achievement-label">500+ Words</span>
+                        </div>
+                        <div class="achievement">
+                            <div class="achievement-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <span class="achievement-label">10+ Hours</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Settings Page -->
+        <section id="settings-page" class="container animated" style="display: none;">
+            <h2>Settings</h2>
+            <p>Customize your learning experience.</p>
+            
+            <div class="card" style="margin-bottom: var(--spacing-lg);">
+                <div class="card-header">
+                    <h4>Account Settings</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="form-label">Display Name</label>
+                        <input type="text" class="form-control" value="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-control" value="john.doe@example.com">
+                    </div>
+                    <button class="btn btn-primary">Save Changes</button>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-bottom: var(--spacing-lg);">
+                <div class="card-header">
+                    <h4>Learning Preferences</h4>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="form-label">Native Language</label>
+                        <select class="form-control">
+                            <option>English</option>
+                            <option>German</option>
+                            <option>French</option>
+                            <option>Spanish</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Daily Learning Goal</label>
+                        <select class="form-control">
+                            <option>5 words per day</option>
+                            <option selected>10 words per day</option>
+                            <option>15 words per day</option>
+                            <option>20 words per day</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Learning Reminder</label>
+                        <select class="form-control">
+                            <option>Off</option>
+                            <option>Daily</option>
+                            <option selected>Weekly</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary">Save Preferences</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h4>App Settings</h4>
+                </div>
+                <div class="card-body">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--spacing-md);">
+                        <span>Dark Mode</span>
+                        <div class="theme-switch" id="themeSwitch"></div>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--spacing-md);">
+                        <span>Sound Effects</span>
+                        <div class="theme-switch" id="soundSwitch"></div>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span>Notifications</span>
+                        <div class="theme-switch" id="notificationSwitch"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- App Footer -->
+    <footer class="app-footer">
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="#" class="footer-link">About</a>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Contact Us</a>
+            </div>
+            <div class="footer-copyright">
+                &copy; 2025 MyArtificialVocabs. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+      // Complete the page navigation event listener (continuing from your snippet)
+      navLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+              e.preventDefault();
+              const targetPage = link.getAttribute('data-page');
+              // Update active link style
+              navLinks.forEach(navLink => navLink.classList.remove('active'));
+              link.classList.add('active');
+              // Show/hide pages based on target
+              pages.forEach(page => {
+                  if (page.id === targetPage + '-page') {
+                      page.style.display = 'block';
+                  } else {
+                      page.style.display = 'none';
+                  }
+              });
+          });
+      });
+  
+      // Utility: Shuffle an array randomly
+      function shuffleArray(arr) {
+          return arr.sort(() => Math.random() - 0.5);
+      }
+  
+      // Utility: Create a modal window for interactive sessions
+      function createModal(title, content) {
+          // Remove any existing modal
+          const existingModal = document.querySelector('.modal-overlay');
+          if (existingModal) existingModal.remove();
+  
+          const overlay = document.createElement('div');
+          overlay.className = 'modal-overlay';
+          overlay.style.position = 'fixed';
+          overlay.style.top = 0;
+          overlay.style.left = 0;
+          overlay.style.width = '100%';
+          overlay.style.height = '100%';
+          overlay.style.backgroundColor = 'rgba(0,0,0,0.6)';
+          overlay.style.display = 'flex';
+          overlay.style.alignItems = 'center';
+          overlay.style.justifyContent = 'center';
+          overlay.style.zIndex = '10000';
+  
+          const modal = document.createElement('div');
+          modal.className = 'modal';
+          modal.style.backgroundColor = '#fff';
+          modal.style.padding = '2rem';
+          modal.style.borderRadius = '0.5rem';
+          modal.style.maxWidth = '600px';
+          modal.style.width = '90%';
+          modal.style.position = 'relative';
+  
+          const modalHeader = document.createElement('div');
+          modalHeader.className = 'modal-header';
+          modalHeader.innerHTML = `<h3>${title}</h3>`;
+          modalHeader.style.marginBottom = '1rem';
+  
+          const closeButton = document.createElement('button');
+          closeButton.textContent = 'X';
+          closeButton.style.position = 'absolute';
+          closeButton.style.top = '1rem';
+          closeButton.style.right = '1rem';
+          closeButton.style.border = 'none';
+          closeButton.style.background = 'transparent';
+          closeButton.style.fontSize = '1.25rem';
+          closeButton.style.cursor = 'pointer';
+          closeButton.addEventListener('click', () => overlay.remove());
+  
+          const modalBody = document.createElement('div');
+          modalBody.className = 'modal-body';
+          modalBody.appendChild(content);
+  
+          modal.appendChild(closeButton);
+          modal.appendChild(modalHeader);
+          modal.appendChild(modalBody);
+          overlay.appendChild(modal);
+          document.body.appendChild(overlay);
+      }
+  
+      /* --------------------- Vocabulary Learning Modes --------------------- */
+  
+      // Flashcards Session: Flip between word and translation
+      function startFlashcardsSession() {
+          const lang = currentLanguage;
+          const level = currentLevel;
+          if (vocabularyData && vocabularyData[lang] && vocabularyData[lang][level]) {
+              const flashcards = vocabularyData[lang][level];
+              let currentIndex = 0;
+              let isFlipped = false;
+  
+              const content = document.createElement('div');
+              content.innerHTML = `
+                  <h3>Flashcards Session - ${lang.toUpperCase()} ${level}</h3>
+                  <p id="flashcardDisplay" style="font-size: 1.75rem; font-weight: bold; margin: 1rem 0;"></p>
+                  <div style="margin-top: 1rem;">
+                      <button class="btn btn-secondary" id="flipFlashcardBtn">Show Translation</button>
+                      <button class="btn btn-primary" id="nextFlashcardBtn" style="margin-left: 1rem;">Next</button>
+                  </div>
+              `;
+              createModal('Flashcards Session', content);
+  
+              const display = content.querySelector('#flashcardDisplay');
+              const flipBtn = content.querySelector('#flipFlashcardBtn');
+              const nextBtn = content.querySelector('#nextFlashcardBtn');
+  
+              function showFlashcard() {
+                  isFlipped = false;
+                  display.textContent = flashcards[currentIndex].word;
+                  flipBtn.textContent = 'Show Translation';
+              }
+              flipBtn.addEventListener('click', () => {
+                  if (!isFlipped) {
+                      display.textContent = flashcards[currentIndex].translation;
+                      flipBtn.textContent = 'Show Word';
+                      isFlipped = true;
+                  } else {
+                      display.textContent = flashcards[currentIndex].word;
+                      flipBtn.textContent = 'Show Translation';
+                      isFlipped = false;
+                  }
+              });
+              nextBtn.addEventListener('click', () => {
+                  currentIndex = (currentIndex + 1) % flashcards.length;
+                  showFlashcard();
+              });
+              showFlashcard();
+          } else {
+              alert('No flashcard data available for the selected language and level.');
+          }
+      }
+  
+      // Vocabulary Quiz: Multiple-choice questions
+      function startVocabularyQuiz() {
+          const lang = currentLanguage;
+          const level = currentLevel;
+          if (vocabularyData && vocabularyData[lang] && vocabularyData[lang][level]) {
+              const vocabList = vocabularyData[lang][level];
+              const randomWord = vocabList[Math.floor(Math.random() * vocabList.length)];
+              const correctTranslation = randomWord.translation;
+  
+              const content = document.createElement('div');
+              content.innerHTML = `
+                  <h3>Vocabulary Quiz - ${lang.toUpperCase()} ${level}</h3>
+                  <p style="font-size: 1.25rem;">Translate the word: <strong>${randomWord.word}</strong></p>
+                  <div id="quizOptions" class="options-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;"></div>
+                  <p id="quizFeedback" style="margin-top: 1rem; font-weight: bold;"></p>
+                  <button class="btn btn-primary" id="nextQuizQuestionBtn" style="margin-top: 1rem;">Next Question</button>
+              `;
+              createModal('Vocabulary Quiz', content);
+  
+              const optionsDiv = content.querySelector('#quizOptions');
+              const feedbackP = content.querySelector('#quizFeedback');
+              const nextBtn = content.querySelector('#nextQuizQuestionBtn');
+  
+              // Generate options: correct answer plus three distractors
+              let options = [correctTranslation];
+              while (options.length < 4 && options.length < vocabList.length) {
+                  const option = vocabList[Math.floor(Math.random() * vocabList.length)].translation;
+                  if (!options.includes(option)) {
+                      options.push(option);
+                  }
+              }
+              options = shuffleArray(options);
+              options.forEach(opt => {
+                  const btn = document.createElement('button');
+                  btn.className = 'btn btn-outlined';
+                  btn.textContent = opt;
+                  btn.addEventListener('click', () => {
+                      optionsDiv.querySelectorAll('button').forEach(b => b.disabled = true);
+                      if (opt === correctTranslation) {
+                          feedbackP.textContent = 'Correct!';
+                          feedbackP.style.color = 'green';
+                      } else {
+                          feedbackP.textContent = `Incorrect. Correct answer: ${correctTranslation}`;
+                          feedbackP.style.color = 'red';
+                      }
+                  });
+                  optionsDiv.appendChild(btn);
+              });
+              nextBtn.addEventListener('click', () => {
+                  const modal = document.querySelector('.modal-overlay');
+                  if (modal) modal.remove();
+                  startVocabularyQuiz();
+              });
+          } else {
+              alert('Vocabulary data not available for the selected language and level.');
+          }
+      }
+  
+      // Word Matching Game: Match words with their translations
+      function startWordMatchingGame() {
+          const lang = currentLanguage;
+          const level = currentLevel;
+          if (vocabularyData && vocabularyData[lang] && vocabularyData[lang][level]) {
+              const words = vocabularyData[lang][level];
+              // Use a subset for the game (e.g., 8 pairs)
+              const gameWords = words.slice(0, Math.min(8, words.length));
+              let shuffledWords = shuffleArray(gameWords.map(item => item.word));
+              let shuffledTranslations = shuffleArray(gameWords.map(item => item.translation));
+              let firstSelection = null;
+              let secondSelection = null;
+  
+              const content = document.createElement('div');
+              content.innerHTML = `
+                  <h3>Word Matching Game - ${lang.toUpperCase()} ${level}</h3>
+                  <p>Click on a word and then its matching translation.</p>
+                  <div style="display: flex; gap: 2rem;">
+                      <div id="wordsColumn" style="flex: 1;"></div>
+                      <div id="translationsColumn" style="flex: 1;"></div>
+                  </div>
+                  <p id="matchFeedback" style="margin-top: 1rem; font-weight: bold;"></p>
+                  <button class="btn btn-primary" id="restartGameBtn" style="margin-top: 1rem;">Restart Game</button>
+              `;
+              createModal('Word Matching Game', content);
+  
+              const wordsColumn = content.querySelector('#wordsColumn');
+              const translationsColumn = content.querySelector('#translationsColumn');
+              const feedbackEl = content.querySelector('#matchFeedback');
+              const restartBtn = content.querySelector('#restartGameBtn');
+  
+              function renderColumns() {
+                  wordsColumn.innerHTML = '<h4>Words</h4>';
+                  translationsColumn.innerHTML = '<h4>Translations</h4>';
+                  shuffledWords.forEach(word => {
+                      const btn = document.createElement('button');
+                      btn.className = 'btn btn-outlined';
+                      btn.textContent = word;
+                      btn.addEventListener('click', () => selectMatch(btn, 'word'));
+                      wordsColumn.appendChild(btn);
+                  });
+                  shuffledTranslations.forEach(trans => {
+                      const btn = document.createElement('button');
+                      btn.className = 'btn btn-outlined';
+                      btn.textContent = trans;
+                      btn.addEventListener('click', () => selectMatch(btn, 'translation'));
+                      translationsColumn.appendChild(btn);
+                  });
+              }
+  
+              function selectMatch(button, type) {
+                  if (!firstSelection) {
+                      firstSelection = { button, type, text: button.textContent };
+                      button.classList.add('selected');
+                  } else if (!secondSelection && button !== firstSelection.button) {
+                      secondSelection = { button, type, text: button.textContent };
+                      button.classList.add('selected');
+                      // Check if the pair is correct
+                      let matched = false;
+                      gameWords.forEach(item => {
+                          if ((firstSelection.type === 'word' && firstSelection.text === item.word &&
+                               secondSelection.type === 'translation' && secondSelection.text === item.translation) ||
+                              (firstSelection.type === 'translation' && firstSelection.text === item.translation &&
+                               secondSelection.type === 'word' && secondSelection.text === item.word)) {
+                              matched = true;
+                          }
+                      });
+                      if (matched) {
+                          feedbackEl.textContent = 'Correct match!';
+                          feedbackEl.style.color = 'green';
+                          firstSelection.button.disabled = true;
+                          secondSelection.button.disabled = true;
+                      } else {
+                          feedbackEl.textContent = 'Incorrect match. Try again!';
+                          feedbackEl.style.color = 'red';
+                          setTimeout(() => {
+                              firstSelection.button.classList.remove('selected');
+                              secondSelection.button.classList.remove('selected');
+                          }, 1000);
+                      }
+                      firstSelection = null;
+                      secondSelection = null;
+                  }
+              }
+              
+              restartBtn.addEventListener('click', () => {
+                  shuffledWords = shuffleArray(gameWords.map(w => w.word));
+                  shuffledTranslations = shuffleArray(gameWords.map(w => w.translation));
+                  renderColumns();
+                  feedbackEl.textContent = '';
+              });
+              
+              renderColumns();
+          } else {
+              alert('No data available for the matching game.');
+          }
+      }
+  
+      // Dictation Session: Type the correct translation for a given word
+      function startDictationSession() {
+          const lang = currentLanguage;
+          const level = currentLevel;
+          if (vocabularyData && vocabularyData[lang] && vocabularyData[lang][level]) {
+              const words = vocabularyData[lang][level];
+              const randomWord = words[Math.floor(Math.random() * words.length)];
+              const content = document.createElement('div');
+              content.innerHTML = `
+                  <h3>Dictation Session - ${lang.toUpperCase()} ${level}</h3>
+                  <p>Translate the following word:</p>
+                  <p style="font-size:1.5rem; font-weight:bold;">${randomWord.word}</p>
+                  <input type="text" id="dictationInput" class="form-control" placeholder="Type translation here" style="margin-top:1rem;">
+                  <p id="dictationFeedback" style="margin-top:1rem; font-weight:bold;"></p>
+                  <button class="btn btn-primary" id="submitDictationBtn" style="margin-top:1rem;">Submit</button>
+                  <button class="btn btn-outlined" id="nextDictationBtn" style="margin-top:1rem; display:none;">Next</button>
+              `;
+              createModal('Dictation Session', content);
+              const inputField = content.querySelector('#dictationInput');
+              const feedbackText = content.querySelector('#dictationFeedback');
+              const submitBtn = content.querySelector('#submitDictationBtn');
+              const nextBtn = content.querySelector('#nextDictationBtn');
+  
+              submitBtn.addEventListener('click', () => {
+                  const userAnswer = inputField.value.trim().toLowerCase();
+                  const correctAnswer = randomWord.translation.toLowerCase();
+                  if (userAnswer === correctAnswer) {
+                      feedbackText.textContent = 'Correct!';
+                      feedbackText.style.color = 'green';
+                  } else {
+                      feedbackText.textContent = `Incorrect. Correct answer: ${randomWord.translation}`;
+                      feedbackText.style.color = 'red';
+                  }
+                  submitBtn.style.display = 'none';
+                  nextBtn.style.display = 'inline-block';
+              });
+              nextBtn.addEventListener('click', () => {
+                  const modalOverlay = document.querySelector('.modal-overlay');
+                  if (modalOverlay) modalOverlay.remove();
+                  startDictationSession();
+              });
+          } else {
+              alert('No dictation data available.');
+          }
+      }
+  
+      // Advanced AI Tutoring Session: Interactive session with AI explanations and reflection
+      function startAITutoringSession() {
+          const lang = currentLanguage;
+          const level = currentLevel;
+          if (vocabularyData && vocabularyData[lang] && vocabularyData[lang][level]) {
+              const words = vocabularyData[lang][level];
+              const randomWord = words[Math.floor(Math.random() * words.length)];
+              const content = document.createElement('div');
+              content.innerHTML = `
+                  <h3>AI Tutoring Session - ${lang.toUpperCase()} ${level}</h3>
+                  <p>Let's learn: <strong>${randomWord.word}</strong></p>
+                  <p id="tutorExplanation" style="margin-top:1rem;"></p>
+                  <textarea id="userReflection" class="form-control" rows="3" placeholder="Type your thoughts here..." style="margin-top:1rem;"></textarea>
+                  <button class="btn btn-primary" id="submitReflectionBtn" style="margin-top:1rem;">Submit Reflection</button>
+                  <p id="tutorFeedback" style="margin-top:1rem; font-weight:bold;"></p>
+              `;
+              createModal('AI Tutoring Session', content);
+              const tutorExplanation = content.querySelector('#tutorExplanation');
+              const reflectionInput = content.querySelector('#userReflection');
+              const submitReflectionBtn = content.querySelector('#submitReflectionBtn');
+              const tutorFeedback = content.querySelector('#tutorFeedback');
+  
+              // Simulate AI explanation
+              tutorExplanation.textContent = `The word "${randomWord.word}" means "${randomWord.translation}". It is used in various contexts—try to think of a sentence using it.`;
+  
+              submitReflectionBtn.addEventListener('click', () => {
+                  const reflection = reflectionInput.value.trim();
+                  if (reflection.length < 5) {
+                      tutorFeedback.textContent = 'Please provide a more detailed reflection.';
+                      tutorFeedback.style.color = 'orange';
+                  } else {
+                      tutorFeedback.textContent = 'Great reflection! Keep up the practice.';
+                      tutorFeedback.style.color = 'green';
+                      // Simulate saving the reflection to user progress
+                      if (!userProgress[lang][level][randomWord.word]) {
+                          userProgress[lang][level][randomWord.word] = {};
+                      }
+                      userProgress[lang][level][randomWord.word].reflection = reflection;
+                      console.log('Updated user progress:', userProgress);
+                  }
+              });
+          } else {
+              alert('No tutoring data available.');
+          }
+      }
+  
+      // Bind practice events to each learning mode button based on the card title
+      function bindPracticeEvents() {
+          document.querySelectorAll('.practice-card').forEach(card => {
+              const title = card.querySelector('.course-title').textContent.toLowerCase();
+              const btn = card.querySelector('button');
+              if (title.includes('flashcards')) {
+                  btn.addEventListener('click', startFlashcardsSession);
+              } else if (title.includes('quiz')) {
+                  btn.addEventListener('click', startVocabularyQuiz);
+              } else if (title.includes('word games')) {
+                  btn.addEventListener('click', startWordMatchingGame);
+              } else if (title.includes('dictation')) {
+                  btn.addEventListener('click', startDictationSession);
+              } else if (title.includes('tutor')) {
+                  btn.addEventListener('click', startAITutoringSession);
+              }
+          });
+      }
+  
+      // Additional functionality: Update word counts, simulate progress analytics, etc.
+      function updateWordCounts() {
+          // Here you could update elements on the page showing the total number of words per level.
+          console.log('Word counts updated based on vocabulary data.');
+      }
+  
+      function generateDemoProgress() {
+          // Simulate random progress for demonstration
+          if (vocabularyData) {
+              Object.keys(vocabularyData).forEach(lang => {
+                  Object.keys(vocabularyData[lang]).forEach(level => {
+                      const words = vocabularyData[lang][level];
+                      if (words) {
+                          words.forEach((wordObj, index) => {
+                              if (index % 3 === 0) {
+                                  userProgress[lang][level][wordObj.word] = {
+                                      mastered: Math.random() > 0.3,
+                                      lastReviewed: new Date().toISOString(),
+                                      reviewCount: Math.floor(Math.random() * 5)
+                                  };
+                              }
+                          });
+                      }
+                  });
+              });
+          }
+          console.log('Demo progress generated:', userProgress);
+      }
+  
+      function setupCourseCards() {
+          // Implement dynamic creation of course cards if needed, e.g. looping through vocabularyData to display levels.
+          console.log('Course cards set up with vocabulary data.');
+      }
+  
+      // Bind theme switch and additional toggles
+      themeSwitch.addEventListener('click', () => {
+          document.body.classList.toggle('dark-mode');
+          themeSwitch.classList.toggle('dark');
+      });
+      soundSwitch.addEventListener('click', () => {
+          soundSwitch.classList.toggle('active');
+          console.log('Sound toggled');
+      });
+      notificationSwitch.addEventListener('click', () => {
+          notificationSwitch.classList.toggle('active');
+          console.log('Notifications toggled');
+      });
+  
+      // Global function to complete a learning session and return to Dashboard
+      function completeLearningSession() {
+          alert('Learning session completed! Your progress has been saved.');
+          navLinks.forEach(link => {
+              if (link.getAttribute('data-page') === 'dashboard') {
+                  link.click();
+              }
+          });
+      }
+  
+      // Optionally, bind a "Complete Session" button if present
+      const completeSessionBtn = document.getElementById('completeSessionBtn');
+      if (completeSessionBtn) {
+          completeSessionBtn.addEventListener('click', completeLearningSession);
+      }
+  
+      // Initialize all learning features after vocabulary data is fetched
+      function initializeLearningFeatures() {
+          updateWordCounts();
+          generateDemoProgress();
+          setupCourseCards();
+          bindPracticeEvents();
+      }
+  
+      // Fetch vocabulary data and initialize app features
+      async function initApp() {
+          try {
+              const response = await fetch('vocabs.json');
+              vocabularyData = await response.json();
+              console.log('Vocabulary data loaded:', vocabularyData);
+          } catch (error) {
+              console.error('Error fetching vocabulary data:', error);
+          }
+          initializeLearningFeatures();
+      }
+      initApp();
+  </script>
+</body>
+</html>
+  
