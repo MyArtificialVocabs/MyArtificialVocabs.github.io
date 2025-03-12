@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VocabMaster - Modern Vocabulary Trainer</title>
+    <link rel="icon" type="image/png" href="../assets/my/books.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary-color: #10b981;
+            --secondary-hover: #059669;
+            --text-color: #1f2937;
+            --text-muted: #6b7280;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --hover-color: #f3f4f6;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #818cf8;
+            --primary-hover: #6366f1;
+            --secondary-color: #34d399;
+            --secondary-hover: #10b981;
+            --text-color: #f9fafb;
+            --text-muted: #9ca3af;
+            --bg-color: #111827;
+            --card-bg: #1f2937;
+            --border-color: #374151;
+            --hover-color: #374151;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: var(--transition);
+            min-height: 100vh;
+            line-height: 1.5;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: -0.025em;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        button, .file-input-label {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            line-height: 1.25;
+        }
+
+        button:hover, .file-input-label:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        button.secondary {
+            background-color: var(--secondary-color);
+        }
+
+        button.secondary:hover {
+            background-color: var(--secondary-hover);
+        }
+
+        button.danger {
+            background-color: #ef4444;
+        }
+
+        button.danger:hover {
+            background-color: #dc2626;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+            padding-right: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .vocab-list {
+            margin-top: 1.5rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .vocab-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background-color: var(--card-bg);
+            transition: var(--transition);
+        }
+
+        .vocab-item:hover {
+            background-color: var(--hover-color);
+            transform: translateX(4px);
+        }
+
+        .flashcard {
+            perspective: 1000px;
+            width: 100%;
+            height: 300px;
+            margin: 2rem 0;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 600;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, var(--secondary-color), var(--secondary-hover));
+            transform: rotateY(180deg);
+        }
+
+        .test-container {
+            text-align: center;
+        }
+
+        .progress-container {
+            margin: 1rem 0;
+            height: 0.5rem;
+            background-color: var(--border-color);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            padding: 1rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(1rem);
+            transition: var(--transition);
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .notification.success {
+            background-color: var(--secondary-color);
+        }
+
+        .notification.error {
+            background-color: #ef4444;
+        }
+
+        .test-result {
+            font-size: 1.25rem;
+            margin: 1rem 0;
+            color: var(--text-muted);
+        }
+
+        .score {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 1rem 0;
+            line-height: 1;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav li {
+                margin: 0.25rem;
+            }
+
+            main {
+                padding: 0 1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .flashcard {
+                height: 200px;
+            }
+
+            .score {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Subtle animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .card:hover h2 {
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .vocab-item:hover button {
+            transform: scale(1.05);
+        }
+
+        /* Loading states */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+            position: relative;
+        }
+
+        .loading::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Neue Styles für Auth und Profil */
+        .auth-menu {
+            position: relative;
+            margin-left: 2rem;
+        }
+
+        .profile-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .profile-button:hover {
+            border-color: var(--primary-color);
+        }
+
+        /* Bei Bildschirmen, die kleiner als 600px sind, zentriert der Button sich */
+        @media (max-width: 600px) {
+            .profile-button {
+                margin: 0 auto;
+            }
+        }
+
+
+        .profile-avatar {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .profile-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            min-width: 200px;
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .profile-menu.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .profile-menu-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-menu-name {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .profile-menu-stats {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .profile-menu-list {
+            padding: 0.5rem 0;
+        }
+
+        .profile-menu-item {
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-color);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .profile-menu-item:hover {
+            background: var(--hover-color);
+        }
+
+        .profile-menu-item.danger {
+            color: #ef4444;
+        }
+
+        .auth-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .auth-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .auth-form {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 400px;
+            transform: translateY(-20px);
+            transition: var(--transition);
+        }
+
+        .auth-modal.show .auth-form {
+            transform: translateY(0);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .auth-tab {
+            padding: 0.75rem 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 2px solid transparent;
+        }
+
+        .auth-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .auth-input {
+            margin-bottom: 1rem;
+        }
+
+        .auth-input label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .auth-input input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .auth-input input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .auth-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .xp-display {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            z-index: 90;
+            min-width: 120px;
+        }
+
+
+        .level {
+            font-weight: 600;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .xp-bar {
+            height: 0.5rem;
+            background: var(--border-color);
+            border-radius: 9999px;
+            margin: 0.5rem 0;
+            overflow: hidden;
+        }
+
+        .xp-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.3s ease;
+        }
+
+        .xp-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .level-up-popup {
+            position: fixed;
+            left: 1rem;
+            bottom: 5rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 95;
+            min-width: 200px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: popupAnimation 4s ease-in-out forwards;
+            text-align: center;
+        }
+
+        @keyframes popupAnimation {
+            0% { opacity: 0; transform: translateY(20px); }
+            10% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="notification" id="notification"></div>
+    
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="auth-modal">
+        <div class="auth-form">
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Anmelden</div>
+                <div class="auth-tab" data-tab="register">Registrieren</div>
+            </div>
+            <form id="auth-form">
+                <div class="auth-input">
+                    <label for="username">Benutzername</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="auth-input">
+                    <label for="password">Passwort</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="w-full">Anmelden</button>
+            </form>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">VocabMaster</div>
+        <nav>
+            <ul>
+                <li><a href="#" data-page="learn">Lernen</a></li>
+                <li><a href="#" data-page="settings">Einstellungen</a></li>
+            </ul>
+        </nav>
+        <div class="auth-menu">
+            <button class="profile-button" id="profile-button">
+                <div class="profile-avatar">JD</div>
+                <span>John Doe</span>
+            </button>
+            <div class="profile-menu" id="profile-menu">
+                <div class="profile-menu-header">
+                    <div class="profile-menu-name" id="profile-menu-name"></div>
+                </div>
+                <div class="profile-menu-list">
+                    <div class="profile-menu-item" id="switch-profile">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                        </svg>
+                        Profil wechseln
+                    </div>
+                    <div class="profile-menu-item" id="settings-button">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Einstellungen
+                    </div>
+                    <div class="profile-menu-item danger" id="logout">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        Abmelden
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Learn Page -->
+        <div id="learn-page" class="page active">
+            <div class="card">
+                <h2>Start Learning</h2>
+                <div class="form-group">
+                    <label for="vocab-list-select">Choose Vocabulary List</label>
+                    <select id="vocab-list-select">
+                        <option value="">Select a vocabulary list</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="vocab-count">Number of Words to Learn</label>
+                    <input type="number" id="vocab-count" min="1" value="10">
+                </div>
+
+                <div class="form-group">
+                    <label for="direction-select">Abfragerichtung</label>
+                    <select id="direction-select">
+                        <option value="term-to-def">Begriff → Definition</option>
+                        <option value="def-to-term">Definition → Begriff</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Learning Mode</label>
+                    <div>
+                        <button id="flashcard-mode" class="secondary">Flashcard Mode</button>
+                        <button id="test-mode">Test Mode</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="learning-area"></div>
+        </div>
+
+        <!-- Settings Page -->
+        <div id="settings-page" class="page">
+            <div class="card">
+                <div class="flex mb-2">
+                    <h2>Settings</h2>
+                    <div>
+                        <button id="theme-toggle">Toggle Dark Mode</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="vocab-file" class="file-input-label">Import Vocabulary List</label>
+                    <input type="file" id="vocab-file" accept=".json">
+                </div>
+
+                <div class="form-group">
+                    <button id="reset-xp" class="danger">XP zurücksetzen</button>
+                </div>
+
+                <h3>Your Vocabulary Lists</h3>
+                <div id="vocab-lists" class="vocab-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // State management
+        const state = {
+            currentPage: 'learn',
+            vocabularyLists: {},
+            currentList: null,
+            darkMode: localStorage.getItem('darkMode') === 'true',
+            learning: {
+                mode: null,
+                count: 10,
+                current: 0,
+                words: [],
+                correct: 0,
+                direction: 'term-to-def'
+            },
+            currentUser: null,
+            users: [],
+            auth: {
+                isAuthenticated: false,
+                currentTab: 'login',
+                registerMode: false
+            },
+            // Neue Systeme
+            xp: {
+                current: 0,
+                level: 1,
+                nextLevel: 100
+            },
+            srs: {
+                stages: [1, 3, 7, 14, 30], // Wiederholungsintervalle in Tagen
+                reviews: {} // Speichert die nächsten Wiederholungstermine
+            },
+            // Vordefinierte Vokabellisten
+            predefinedLists: {
+                "englishunit3_1": {
+                    name: "englishunit3_1",
+                    words: [
+                        {"english":"marriage","german":"Ehe, Heirat"},
+                        {"english":"chief executive officer (CEO)","german":"Geschäftsführer/-in"},
+                        {"english":"momentous","german":"bedeutsam, folgenschwer"},
+                        {"english":"obligation","german":"Verpflichtung"},
+                        {"english":"multiple","german":"vielfältig"},
+                        {"english":"to overlap","german":"sich überschneiden"},
+                        {"english":"burden","german":"Last, Belastung"},
+                        {"english":"to be bound to do sth","german":"etw. tun müssen"},
+                        {"english":"to what extent","german":"inwieweit"},
+                        {"english":"orator","german":"Redner/-in"},
+                        {"english":"standing","german":"Ansehen, Status"},
+                        {"english":"to accomplish","german":"vollbringen"},
+                        {"english":"poll","german":"Umfrage"},
+                        {"english":"confidence","german":"Vertrauen"},
+                        {"english":"affair","german":"Angelegenheit"},
+                        {"english":"implicitly","german":"implizit"},
+                        {"english":"agenda","german":"Programm"},
+                        {"english":"indicator","german":"Anzeichen"},
+                        {"english":"well-being","german":"Wohlbefinden"},
+                        {"english":"incarceration","german":"Inhaftierung"},
+                        {"english":"rate","german":"Quote"},
+                        {"english":"outcome","german":"Ergebnis"}
+                    ]
+                },
+                "englishunit3_2": {
+                    name: "englishunit3_2",
+                    words: [
+                        {"english":"to fare","german":"sich befinden"},
+                        {"english":"expansion","german":"Erweiterung"},
+                        {"english":"failure","german":"Versagen"},
+                        {"english":"implausibility","german":"Unglaubwürdigkeit"},
+                        {"english":"preparatory","german":"vorbereitend"},
+                        {"english":"selective","german":"anspruchsvoll, wählerisch"},
+                        {"english":"loan","german":"Darlehen"},
+                        {"english":"roughly","german":"ungefähr"},
+                        {"english":"majority","german":"Mehrheit"},
+                        {"english":"to reject","german":"ablehnen"},
+                        {"english":"to kneel","german":"knien"},
+                        {"english":"anthem","german":"Hymne"},
+                        {"english":"league","german":"Liga"},
+                        {"english":"to distinguish","german":"unterscheiden"},
+                        {"english":"to assess","german":"bewerten"},
+                        {"english":"sensational","german":"spektakulär"},
+                        {"english":"capital letter","german":"Großbuchstabe"},
+                        {"english":"to manipulate","german":"manipulieren"},
+                        {"english":"to verify","german":"überprüfen"},
+                        {"english":"to confirm","german":"bestätigen"}
+                    ]
+                },
+                "englishunit3_3": {
+                    name: "englishunit3_3",
+                    words: [
+                        {"english":"to guard","german":"bewachen"},
+                        {"english":"rhyme scheme","german":"Reimschema"},
+                        {"english":"repetition","german":"Wiederholung"},
+                        {"english":"to intensify","german":"verstärken"},
+                        {"english":"reflective","german":"nachdenklich"},
+                        {"english":"affectionate","german":"liebevoll"},
+                        {"english":"prose","german":"Prosa"},
+                        {"english":"anxiety","german":"Angst"},
+                        {"english":"Afro","german":"Afro-Look"},
+                        {"english":"actual","german":"tatsächlich"},
+                        {"english":"sum total","german":"Gesamtheit"},
+                        {"english":"contradictory","german":"widersprüchlich"},
+                        {"english":"assumption","german":"Annahme"},
+                        {"english":"brand","german":"Marke"},
+                        {"english":"commerce","german":"Handel"},
+                        {"english":"to mistake sb/sth for sb/sth","german":"verwechseln"},
+                        {"english":"proprietary","german":"urheberrechtlich geschützt"},
+                        {"english":"observer","german":"Beobachter/-in"},
+                        {"english":"discontent","german":"Unzufriedenheit"},
+                        {"english":"overt","german":"offenkundig"},
+                        {"english":"to define","german":"definieren"}
+                    ]
+                },
+                "englishunit3_4": {
+                    name: "englishunit3_4",
+                    words: [
+                        {"english":"epic","german":"gewaltig"},
+                        {"english":"tragedy","german":"Tragödie"},
+                        {"english":"ultimately","german":"letztendlich"},
+                        {"english":"courage","german":"Mut"},
+                        {"english":"appropriation","german":"Aneignung"},
+                        {"english":"peer group","german":"Gleichaltrigengruppe"},
+                        {"english":"ladder","german":"Leiter"},
+                        {"english":"counterpart","german":"Gegenstück"},
+                        {"english":"shortage","german":"Mangel"},
+                        {"english":"to recruit","german":"rekrutieren"},
+                        {"english":"to seek","german":"suchen"},
+                        {"english":"bathroom facilities","german":"Toiletten"},
+                        {"english":"to launch","german":"starten"},
+                        {"english":"to ensure","german":"sicherstellen"},
+                        {"english":"to promote","german":"fördern"},
+                        {"english":"to advocate","german":"eintreten für"},
+                        {"english":"treatment","german":"Behandlung"},
+                        {"english":"manual","german":"händisch"},
+                        {"english":"to supervise","german":"beaufsichtigen"},
+                        {"english":"to endure","german":"ertragen"},
+                        {"english":"post-","german":"Nach-"},
+                        {"english":"to bring about","german":"herbeiführen"}
+                    ]
+                },
+                "englishunit3_5": {
+                    name: "englishunit3_5",
+                    words: [
+                        {"english":"to pull over","german":"anhalten"},
+                        {"english":"unarmed","german":"unbewaffnet"},
+                        {"english":"coffin","german":"Sarg"},
+                        {"english":"to suspect","german":"verdächtigen"},
+                        {"english":"to investigate","german":"ermitteln"},
+                        {"english":"to recover","german":"zurückgewinnen"},
+                        {"english":"to pace","german":"hin und her gehen"},
+                        {"english":"to rush","german":"hetzen"},
+                        {"english":"lately","german":"kürzlich"},
+                        {"english":"thug","german":"Gangster"},
+                        {"english":"to mind one's own business","german":"sich nicht einmischen"},
+                        {"english":"to swallow","german":"schlucken"},
+                        {"english":"violence","german":"Gewalt"},
+                        {"english":"prevention","german":"Vorbeugung"},
+                        {"english":"bail","german":"Kaution"},
+                        {"english":"to be located","german":"gelegen sein"},
+                        {"english":"to reclaim","german":"zurückfordern"},
+                        {"english":"self-empowerment","german":"Selbstermächtigung"},
+                        {"english":"to originate","german":"entstehen"},
+                        {"english":"intestine","german":"Darm"},
+                        {"english":"to nourish","german":"ernähren"},
+                        {"english":"obesity","german":"Fettleibigkeit"},
+                        {"english":"trendy","german":"modisch"}
+                    ]
+                },
+                "englishunit3_6": {
+                    name: "englishunit3_6",
+                    words: [
+                        {"english":"dubious","german":"zweifelhaft"},
+                        {"english":"imprint","german":"Impressum"},
+                        {"english":"account","german":"Konto"},
+                        {"english":"alliteration","german":"Stabreim"},
+                        {"english":"accordingly","german":"entsprechend"},
+                        {"english":"vivid","german":"lebendig"},
+                        {"english":"to convey","german":"vermitteln"},
+                        {"english":"choppy","german":"bewegt (Wasser)"},
+                        {"english":"to recite","german":"rezitieren"},
+                        {"english":"opponent","german":"Gegner/-in"},
+                        {"english":"frustration","german":"Frust"},
+                        {"english":"to tug","german":"ziehen"},
+                        {"english":"daycare","german":"Kita"},
+                        {"english":"setback","german":"Rückschlag"},
+                        {"english":"to arrange","german":"organisieren"},
+                        {"english":"chin","german":"Kinn"},
+                        {"english":"to handle","german":"umgehen mit"},
+                        {"english":"to blink","german":"blinzeln"},
+                        {"english":"fist","german":"Faust"},
+                        {"english":"microphone","german":"Mikrofon"},
+                        {"english":"notebook","german":"Notizbuch"},
+                        {"english":"to shove","german":"schieben"}
+                    ]
+                },
+                "englishunit3_7": {
+                    name: "englishunit3_7",
+                    words: [
+                        {"english":"memorial","german":"Denkmal"},
+                        {"english":"Hispanic","german":"lateinamerikanisch"},
+                        {"english":"to measure","german":"messen"},
+                        {"english":"probability","german":"Wahrscheinlichkeit"},
+                        {"english":"random","german":"zufällig"},
+                        {"english":"composition","german":"Zusammensetzung"},
+                        {"english":"sensitivity","german":"Empfindsamkeit"},
+                        {"english":"to coin","german":"prägen (Begriff)"},
+                        {"english":"to differentiate","german":"unterscheiden"},
+                        {"english":"finding","german":"Ergebnis"},
+                        {"english":"repercussion","german":"Auswirkung"}
+                    ]
+                },
+                // ... existing predefined lists ...
+            }
+        };
+
+        // DOM Elements
+        const learnPage = document.getElementById('learn-page');
+        const settingsPage = document.getElementById('settings-page');
+        const navLinks = document.querySelectorAll('nav a');
+        const themeToggle = document.getElementById('theme-toggle');
+        const vocabFileInput = document.getElementById('vocab-file');
+        const vocabListsContainer = document.getElementById('vocab-lists');
+        const vocabListSelect = document.getElementById('vocab-list-select');
+        const vocabCount = document.getElementById('vocab-count');
+        const directionSelect = document.getElementById('direction-select');
+        const flashcardModeBtn = document.getElementById('flashcard-mode');
+        const testModeBtn = document.getElementById('test-mode');
+        const learningArea = document.getElementById('learning-area');
+        const notification = document.getElementById('notification');
+        const authModal = document.getElementById('auth-modal');
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const authForm = document.getElementById('auth-form');
+        const profileButton = document.getElementById('profile-button');
+        const profileMenu = document.getElementById('profile-menu');
+        const logoutButton = document.getElementById('logout');
+
+        // Initialize
+        function init() {
+            if (state.darkMode) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+
+            // Event listeners
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const page = e.target.getAttribute('data-page');
+                    navigateToPage(page);
+                });
+            });
+
+            themeToggle.addEventListener('click', toggleTheme);
+            vocabFileInput.addEventListener('change', importVocabList);
+            vocabListSelect.addEventListener('change', selectVocabList);
+            vocabCount.addEventListener('input', updateVocabCount);
+            directionSelect.addEventListener('change', () => {
+                state.learning.direction = directionSelect.value;
+            });
+            flashcardModeBtn.addEventListener('click', () => startLearning('flashcard'));
+            testModeBtn.addEventListener('click', () => startLearning('test'));
+            
+            // XP zurücksetzen Button
+            const resetXpButton = document.getElementById('reset-xp');
+            resetXpButton.addEventListener('click', resetXP);
+
+            // Lade gespeicherte Benutzer
+            const savedUsers = localStorage.getItem('users');
+            if (savedUsers) {
+                state.users = JSON.parse(savedUsers);
+            }
+
+            // Prüfe auf gespeicherten Benutzer
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                state.currentUser = JSON.parse(savedUser);
+                state.auth.isAuthenticated = true;
+                updateProfileUI();
+            } else {
+                authModal.classList.add('show');
+            }
+        }
+
+        // Navigation
+        function navigateToPage(page) {
+            state.currentPage = page;
+            
+            // Update active class on navigation
+            navLinks.forEach(link => {
+                if (link.getAttribute('data-page') === page) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Show active page
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`${page}-page`).classList.add('active');
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            state.darkMode = !state.darkMode;
+            if (state.darkMode) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.removeAttribute('data-theme');
+            }
+            localStorage.setItem('darkMode', state.darkMode);
+            showNotification(`${state.darkMode ? 'Dark' : 'Light'} mode activated`, 'success');
+        }
+
+        // Import Vocabulary List
+        function importVocabList(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // Detaillierte Logging-Informationen
+            console.log('Datei ausgewählt:', file.name, 'Größe:', file.size, 'Typ:', file.type);
+            showNotification('Importiere Liste: ' + file.name, 'default');
+
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                try {
+                    console.log('Datei gelesen, Inhalt-Länge:', event.target.result.length);
+                    console.log('Erster Teil des Inhalts:', event.target.result.substring(0, 100) + '...');
+                    
+                    let parsedData;
+                    try {
+                        parsedData = JSON.parse(event.target.result);
+                        console.log('JSON erfolgreich geparst');
+                    } catch (parseError) {
+                        console.error('JSON Parse error:', parseError, 'in Datei:', file.name);
+                        showNotification('Fehler: Ungültiges JSON-Format in ' + file.name, 'error');
+                        return;
+                    }
+                    
+                    // Tiefe Validierung der Daten
+                    if (!parsedData) {
+                        throw new Error('Leere Daten in Datei ' + file.name);
+                    }
+                    
+                    if (!parsedData.name || typeof parsedData.name !== 'string') {
+                        throw new Error('Fehlender oder ungültiger Listen-Name in ' + file.name);
+                    }
+                    
+                    if (!Array.isArray(parsedData.words)) {
+                        throw new Error('Wörter müssen als Array vorliegen in ' + file.name);
+                    }
+                    
+                    if (parsedData.words.length === 0) {
+                        throw new Error('Leere Wortliste in ' + file.name);
+                    }
+                    
+                    // Prüfung jedes Wortes
+                    let cleanedWords = [];
+                    for (let i = 0; i < parsedData.words.length; i++) {
+                        const word = parsedData.words[i];
+                        if (!word.term || !word.definition) {
+                            console.warn(`Ungültiges Wort an Position ${i}, wird übersprungen:`, word);
+                            continue;
+                        }
+                        // Trimmen von Whitespace
+                        cleanedWords.push({
+                            term: word.term.trim(),
+                            definition: word.definition.trim()
+                        });
+                    }
+                    
+                    if (cleanedWords.length === 0) {
+                        throw new Error('Keine gültigen Wörter in der Liste ' + file.name);
+                    }
+                    
+                    console.log(`Liste "${parsedData.name}" enthält ${cleanedWords.length} gültige Wörter`);
+                    
+                    // Speichern mit verbesserter Fehlerbehandlung
+                    const listName = parsedData.name;
+                    const list = {
+                        name: listName,
+                        words: cleanedWords
+                    };
+                    
+                    // Speichere die Liste im State
+                    state.vocabularyLists[listName] = list;
+                    
+                    // Versuche zu speichern und aktualisiere die UI
+                    if (saveUserData()) {
+                        updateVocabListsUI();
+                        showNotification(`${listName} erfolgreich importiert (${cleanedWords.length} Wörter)`, 'success');
+                        console.log('Liste erfolgreich importiert und gespeichert');
+                    } else {
+                        // Letzter Versuch: speichere diese eine Liste direkt
+                        try {
+                            localStorage.setItem(`sharedList_${listName}`, JSON.stringify(list));
+                            
+                            // Aktualisiere den Index
+                            const listIndex = JSON.parse(localStorage.getItem('sharedVocabListNames') || '[]');
+                            if (!listIndex.includes(listName)) {
+                                listIndex.push(listName);
+                                localStorage.setItem('sharedVocabListNames', JSON.stringify(listIndex));
+                            }
+                            
+                            updateVocabListsUI();
+                            showNotification(`${listName} erfolgreich importiert (${cleanedWords.length} Wörter)`, 'success');
+                        } catch (directError) {
+                            console.error('Direkter Speicherversuch fehlgeschlagen:', directError);
+                            delete state.vocabularyLists[listName]; // Entferne die Liste aus dem State
+                            showNotification('Liste konnte nicht gespeichert werden - Browser-Speicherlimit erreicht', 'error');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Allgemeiner Import-Fehler:', error);
+                    showNotification('Import-Fehler: ' + error.message, 'error');
+                }
+            };
+            
+            reader.onerror = function(error) {
+                console.error('FileReader Fehler:', error);
+                showNotification('Fehler beim Lesen der Datei: ' + file.name, 'error');
+            };
+            
+            // Starte den Lesevorgang
+            console.log('Starte FileReader für Datei:', file.name);
+            reader.readAsText(file);
+            vocabFileInput.value = ''; // Zurücksetzen des Datei-Inputs
+        }
+
+        // Update Vocabulary Lists UI
+        function updateVocabListsUI() {
+            // Update settings page list
+            vocabListsContainer.innerHTML = '';
+            
+            if (Object.keys(state.vocabularyLists).length === 0) {
+                vocabListsContainer.innerHTML = '<p>No vocabulary lists imported yet.</p>';
+            } else {
+                for (const listName in state.vocabularyLists) {
+                    const list = state.vocabularyLists[listName];
+                    const listElement = document.createElement('div');
+                    listElement.className = 'vocab-item';
+                    listElement.innerHTML = `
+                        <div>
+                            <strong>${list.name}</strong> - ${list.words.length} words
+                        </div>
+                        <button class="danger delete-list" data-list="${list.name}">Delete</button>
+                    `;
+                    vocabListsContainer.appendChild(listElement);
+                }
+
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-list').forEach(button => {
+                    button.addEventListener('click', deleteVocabList);
+                });
+            }
+
+            // Update learn page dropdown
+            vocabListSelect.innerHTML = '<option value="">Select a vocabulary list</option>';
+            for (const listName in state.vocabularyLists) {
+                const option = document.createElement('option');
+                option.value = listName;
+                option.textContent = listName;
+                vocabListSelect.appendChild(option);
+            }
+        }
+
+        // Delete Vocabulary List
+        function deleteVocabList(e) {
+            const listName = e.target.getAttribute('data-list');
+            delete state.vocabularyLists[listName];
+            saveUserData();
+            updateVocabListsUI();
+            showNotification(`${listName} erfolgreich gelöscht`, 'success');
+        }
+
+        // Select Vocabulary List
+        function selectVocabList(e) {
+            const listName = e.target.value;
+            state.currentList = listName ? state.vocabularyLists[listName] : null;
+        }
+
+        // Update Vocabulary Count
+        function updateVocabCount(e) {
+            state.learning.count = parseInt(e.target.value, 10) || 10;
+        }
+
+        // Start Learning
+        function startLearning(mode) {
+            if (!state.currentList) {
+                showNotification('Bitte wähle eine Vokabelliste aus', 'error');
+                return;
+            }
+
+            state.learning.mode = mode;
+            state.learning.current = 0;
+            state.learning.correct = 0;
+            state.learning.direction = directionSelect.value;
+
+            // Get random words from the current list
+            const allWords = [...state.currentList.words];
+            state.learning.words = [];
+            
+            // Ensure we don't try to get more words than available
+            const count = Math.min(state.learning.count, allWords.length);
+            
+            for (let i = 0; i < count; i++) {
+                const randomIndex = Math.floor(Math.random() * allWords.length);
+                state.learning.words.push(allWords.splice(randomIndex, 1)[0]);
+            }
+
+            showCurrentWord();
+        }
+
+        // Show Current Word
+        function showCurrentWord() {
+            if (state.learning.current >= state.learning.words.length) {
+                showResults();
+                return;
+            }
+
+            const word = state.learning.words[state.learning.current];
+            const progress = ((state.learning.current / state.learning.words.length) * 100).toFixed(0);
+            
+            // Je nach Richtung Term/Definition tauschen
+            const frontText = state.learning.direction === 'term-to-def' ? word.term : word.definition;
+            const backText = state.learning.direction === 'term-to-def' ? word.definition : word.term;
+
+            if (state.learning.mode === 'flashcard') {
+                learningArea.innerHTML = `
+                    <div class="card">
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: ${progress}%"></div>
+                        </div>
+                        <p>${state.learning.current + 1} of ${state.learning.words.length}</p>
+                        <div class="flashcard">
+                            <div class="flashcard-inner">
+                                <div class="flashcard-front">${frontText}</div>
+                                <div class="flashcard-back">${backText}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <button id="flip-card">Flip Card</button>
+                            <button id="next-card" class="secondary">Next Card</button>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('flip-card').addEventListener('click', () => {
+                    document.querySelector('.flashcard').classList.toggle('flipped');
+                });
+
+                document.getElementById('next-card').addEventListener('click', () => {
+                    state.learning.current++;
+                    addXP(5); // 5 XP für jede gesehene Flashcard
+                    showCurrentWord();
+                });
+            } else if (state.learning.mode === 'test') {
+                learningArea.innerHTML = `
+                    <div class="card test-container">
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: ${progress}%"></div>
+                        </div>
+                        <p>${state.learning.current + 1} of ${state.learning.words.length}</p>
+                        <h3>${frontText}</h3>
+                        <div class="form-group">
+                            <input type="text" id="test-answer" placeholder="Type the definition...">
+                        </div>
+                        <button id="check-answer">Check Answer</button>
+                    </div>
+                `;
+
+                const testAnswer = document.getElementById('test-answer');
+                testAnswer.focus();
+                
+                document.getElementById('check-answer').addEventListener('click', () => {
+                    checkAnswer(testAnswer.value, backText);
+                });
+
+                testAnswer.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        checkAnswer(testAnswer.value, backText);
+                    }
+                });
+            }
+        }
+
+        // Check Answer
+        function checkAnswer(userAnswer, correctAnswer) {
+            const isCorrect = userAnswer.toLowerCase().trim() === correctAnswer.toLowerCase().trim();
+            const word = state.learning.words[state.learning.current];
+            
+            if (isCorrect) {
+                state.learning.correct++;
+                showNotification('Richtig!', 'success');
+                updateSRS(word, true);
+                addXP(10); // 10 XP für richtige Antwort
+            } else {
+                showNotification(`Falsch. Die richtige Antwort ist: ${correctAnswer}`, 'error');
+                updateSRS(word, false);
+                addXP(2); // 2 XP für falsche Antwort
+            }
+
+            state.learning.current++;
+            setTimeout(showCurrentWord, 1500);
+        }
+
+        // Show Results
+        function showResults() {
+            const score = state.learning.correct;
+            const total = state.learning.words.length;
+            const percentage = ((score / total) * 100).toFixed(0);
+
+            learningArea.innerHTML = `
+                <div class="card test-container">
+                    <h2>Test Complete!</h2>
+                    <div class="test-result">
+                        You scored:
+                    </div>
+                    <div class="score">${score} / ${total} (${percentage}%)</div>
+                    <button id="return-to-learn">Return to Learn</button>
+                </div>
+            `;
+
+            document.getElementById('return-to-learn').addEventListener('click', () => {
+                learningArea.innerHTML = '';
+            });
+        }
+
+        // Show Notification
+        function showNotification(message, type = 'default') {
+            // Fehlermeldungen unterdrücken außer bei wichtigen Systemmeldungen
+            const isImportantMessage = 
+                message.includes('wähle') || 
+                message.includes('select') || 
+                message.includes('Liste') || 
+                message.includes('erfolgreich') ||
+                message.includes('Richtig') ||
+                message.includes('Level') ||
+                type === 'success';
+                
+            if (!isImportantMessage && type === 'error') {
+                // Nur in Konsole loggen, nicht anzeigen
+                console.log('Unterdrückte Fehlermeldung:', message);
+                return;
+            }
+            
+            // Spezielle Fehlermeldungen unterdrücken
+            if (message.includes('Fehler beim Speichern der Liste')) {
+                console.log('Unterdrückte spezifische Fehlermeldung:', message);
+                return;
+            }
+            
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Auth Modal Funktionalität
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+                state.auth.currentTab = tabName;
+                authTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                authForm.querySelector('button').textContent = tabName === 'login' ? 'Anmelden' : 'Registrieren';
+            });
+        });
+
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (state.auth.currentTab === 'register') {
+                // Registrierung
+                if (state.users.find(u => u.username === username)) {
+                    showNotification('Benutzername bereits vergeben', 'error');
+                    return;
+                }
+                state.users.push({ username, password });
+                localStorage.setItem('users', JSON.stringify(state.users));
+            }
+
+            // Login
+            const user = state.users.find(u => u.username === username && u.password === password);
+            if (user) {
+                state.currentUser = user;
+                state.auth.isAuthenticated = true;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                authModal.classList.remove('show');
+                updateProfileUI();
+                showNotification('Erfolgreich angemeldet', 'success');
+            } else {
+                showNotification('Ungültige Anmeldedaten', 'error');
+            }
+        });
+
+        // Profil Menü Funktionalität
+        profileButton.addEventListener('click', () => {
+            profileMenu.classList.toggle('show');
+        });
+
+        document.getElementById('settings-button').addEventListener('click', () => {
+            navigateToPage('settings');
+            profileMenu.classList.remove('show');
+        });
+
+        document.getElementById('switch-profile').addEventListener('click', () => {
+            state.currentUser = null;
+            state.auth.isAuthenticated = false;
+            localStorage.removeItem('currentUser');
+            authModal.classList.add('show');
+            profileMenu.classList.remove('show');
+            updateProfileUI();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.remove('show');
+            }
+        });
+
+        logoutButton.addEventListener('click', () => {
+            state.currentUser = null;
+            state.auth.isAuthenticated = false;
+            localStorage.removeItem('currentUser');
+            updateProfileUI();
+            showNotification('Erfolgreich abgemeldet', 'success');
+            profileMenu.classList.remove('show');
+        });
+
+        function updateProfileUI() {
+            if (state.auth.isAuthenticated && state.currentUser) {
+                const avatar = profileButton.querySelector('.profile-avatar');
+                const name = profileButton.querySelector('span');
+                const menuName = document.getElementById('profile-menu-name');
+                
+                avatar.textContent = state.currentUser.username.substring(0, 2).toUpperCase();
+                name.textContent = state.currentUser.username;
+                menuName.textContent = state.currentUser.username;
+                
+                // Lade die Vokabellisten des aktuellen Benutzers
+                loadUserVocabLists();
+            } else {
+                authModal.classList.add('show');
+            }
+        }
+
+        // Vokabellisten pro Benutzer verwalten
+        function loadUserVocabLists() {
+            if (!state.currentUser) return;
+            
+            try {
+                console.log('Lade Daten für Benutzer:', state.currentUser.username);
+                
+                // Vokabellisten für alle Benutzer gemeinsam laden
+                try {
+                    const sharedLists = localStorage.getItem('sharedVocabLists');
+                    if (sharedLists) {
+                        state.vocabularyLists = JSON.parse(sharedLists);
+                        console.log('Gemeinsame Listen geladen:', Object.keys(state.vocabularyLists).length);
+                    } else {
+                        // Wenn keine gemeinsamen Listen gefunden wurden, versuche einzelne Listen zu laden
+                        state.vocabularyLists = {};
+                        
+                        // Lade Listen-Index
+                        const listNames = JSON.parse(localStorage.getItem('sharedVocabListNames') || '[]');
+                        console.log('Liste der gespeicherten Listen:', listNames);
+                        
+                        // Lade jede Liste einzeln
+                        if (listNames.length > 0) {
+                            for (const listName of listNames) {
+                                try {
+                                    const listData = localStorage.getItem(`sharedList_${listName}`);
+                                    if (listData) {
+                                        state.vocabularyLists[listName] = JSON.parse(listData);
+                                        console.log(`Liste "${listName}" einzeln geladen`);
+                                    }
+                                } catch (listError) {
+                                    console.error(`Fehler beim Laden der Liste "${listName}":`, listError);
+                                }
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error('Fehler beim Laden der gemeinsamen Listen:', e);
+                    
+                    // Wenn ein Fehler beim Parsen der gemeinsamen Listen auftritt, versuche einzelne Listen zu laden
+                    state.vocabularyLists = {};
+                    
+                    // Lade Listen-Index
+                    const listNames = JSON.parse(localStorage.getItem('sharedVocabListNames') || '[]');
+                    console.log('Fallback: Liste der gespeicherten Listen:', listNames);
+                    
+                    // Lade jede Liste einzeln
+                    if (listNames.length > 0) {
+                        for (const listName of listNames) {
+                            try {
+                                const listData = localStorage.getItem(`sharedList_${listName}`);
+                                if (listData) {
+                                    state.vocabularyLists[listName] = JSON.parse(listData);
+                                    console.log(`Fallback: Liste "${listName}" einzeln geladen`);
+                                }
+                            } catch (listError) {
+                                console.error(`Fehler beim Laden der Liste "${listName}":`, listError);
+                            }
+                        }
+                    }
+                }
+                
+                // Füge die vordefinierten Listen hinzu, falls sie noch nicht existieren
+                for (const listName in state.predefinedLists) {
+                    if (!state.vocabularyLists[listName]) {
+                        state.vocabularyLists[listName] = state.predefinedLists[listName];
+                        console.log(`Vordefinierte Liste "${listName}" hinzugefügt`);
+                    }
+                }
+                
+                // Lade benutzerspezifische Daten (XP und SRS)
+                const userData = JSON.parse(localStorage.getItem(`userData_${state.currentUser.username}`) || '{}');
+                state.xp = userData.xp || { current: 0, level: 1, nextLevel: 100 };
+                state.srs.reviews = userData.srs || {};
+                
+                updateVocabListsUI();
+                updateXPDisplay();
+                checkDueReviews();
+                
+                // Zeige Feedback über die geladenen Listen
+                const listCount = Object.keys(state.vocabularyLists).length;
+                if (listCount > 0) {
+                    console.log(`${listCount} Vokabellisten erfolgreich geladen`);
+                    showNotification(`${listCount} Vokabellisten geladen`, 'success');
+                }
+            } catch (e) {
+                console.error('Fehler beim Laden der Daten:', e);
+                
+                // Bei kritischem Fehler, verwende zumindest die vordefinierten Listen
+                state.vocabularyLists = {...state.predefinedLists};
+                updateVocabListsUI();
+                
+                showNotification('Vordefinierte Listen wurden geladen', 'success');
+            }
+        }
+
+        function saveUserData() {
+            if (!state.currentUser) return false;
+            
+            try {
+                console.log('Speichere Daten');
+                let saveSuccess = false;
+                
+                // Speichere Vokabellisten für alle Benutzer gemeinsam
+                try {
+                    localStorage.setItem('sharedVocabLists', JSON.stringify(state.vocabularyLists));
+                    console.log('Gemeinsame Listen gespeichert:', Object.keys(state.vocabularyLists).length);
+                    saveSuccess = true;
+                } catch (e) {
+                    console.error('Fehler beim Speichern der gemeinsamen Listen:', e);
+                    
+                    // Bei Speicherüberlauf versuche Listen einzeln zu speichern
+                    if (e.toString().includes('quota') || e.toString().includes('exceeded')) {
+                        console.log('Speicherplatz überschritten, speichere Listen einzeln...');
+                        
+                        try {
+                            // Speichere Listen-Index
+                            const listNames = Object.keys(state.vocabularyLists);
+                            localStorage.setItem('sharedVocabListNames', JSON.stringify(listNames));
+                            console.log('Listenindex gespeichert:', listNames.length, 'Listen');
+                            
+                            // Zähle erfolgreiche Speicherungen
+                            let successCount = 0;
+                            
+                            // Speichere jede Liste einzeln
+                            for (const listName of listNames) {
+                                try {
+                                    const listData = JSON.stringify(state.vocabularyLists[listName]);
+                                    console.log(`Speichere Liste "${listName}" (${listData.length} Zeichen)`);
+                                    
+                                    // Versuche die Liste zu speichern
+                                    localStorage.setItem(`sharedList_${listName}`, listData);
+                                    console.log(`Liste "${listName}" separat gespeichert`);
+                                    successCount++;
+                                } catch (listError) {
+                                    console.error(`Fehler beim Speichern der Liste "${listName}":`, listError);
+                                }
+                            }
+                            
+                            if (successCount > 0) {
+                                console.log(`${successCount} von ${listNames.length} Listen erfolgreich gespeichert`);
+                                saveSuccess = true;
+                            }
+                        } catch (indexError) {
+                            console.error('Fehler beim Speichern des Listenindex:', indexError);
+                            showNotification('Fehler beim Speichern der Listen - Listenindex konnte nicht gespeichert werden', 'error');
+                        }
+                    } else {
+                        showNotification('Fehler beim Speichern der Listen', 'error');
+                    }
+                }
+                
+                // Speichere nur benutzerspezifische Daten (XP, SRS)
+                try {
+                    const userData = {
+                        xp: state.xp,
+                        srs: state.srs.reviews
+                    };
+                    
+                    localStorage.setItem(`userData_${state.currentUser.username}`, JSON.stringify(userData));
+                    console.log('Benutzerdaten gespeichert für:', state.currentUser.username);
+                } catch (userDataError) {
+                    console.error('Fehler beim Speichern der Benutzerdaten:', userDataError);
+                    showNotification('Fehler beim Speichern der Benutzerdaten', 'error');
+                }
+                
+                if (saveSuccess) {
+                    console.log('Daten erfolgreich gespeichert');
+                    return true;
+                } else {
+                    console.error('Keine Listen konnten gespeichert werden');
+                    return false;
+                }
+            } catch (e) {
+                console.error('Kritischer Fehler beim Speichern:', e);
+                return false;
+            }
+        }
+
+        // XP System
+        function addXP(amount) {
+            state.xp.current += amount;
+            let levelUp = false;
+            let newLevel = state.xp.level;
+            
+            while (state.xp.current >= state.xp.nextLevel) {
+                newLevel++;
+                state.xp.level = newLevel;
+                state.xp.current -= state.xp.nextLevel;
+                state.xp.nextLevel = Math.floor(state.xp.nextLevel * 1.5);
+                levelUp = true;
+            }
+            
+            updateXPDisplay();
+            saveUserData();
+            
+            if (levelUp) {
+                // Level-Up Popup erstellen
+                const levelUpPopup = document.createElement('div');
+                levelUpPopup.className = 'level-up-popup';
+                levelUpPopup.innerHTML = `
+                    <div style="font-size: 1.5rem; font-weight: bold;">Neues Level!</div>
+                    <div style="font-size: 2rem; font-weight: 800;">Level ${newLevel}</div>
+                    <div>Glückwunsch!</div>
+                `;
+                document.body.appendChild(levelUpPopup);
+                
+                setTimeout(() => {
+                    document.body.removeChild(levelUpPopup);
+                }, 4000);
+            }
+        }
+
+        function updateXPDisplay() {
+            const xpDisplay = document.createElement('div');
+            xpDisplay.className = 'xp-display';
+            xpDisplay.innerHTML = `
+                <div class="level">Level ${state.xp.level}</div>
+                <div class="xp-bar">
+                    <div class="xp-progress" style="width: ${(state.xp.current / state.xp.nextLevel) * 100}%"></div>
+                </div>
+                <div class="xp-text">${state.xp.current}/${state.xp.nextLevel} XP</div>
+            `;
+            
+            // Füge XP-Anzeige zum Body hinzu statt zur Navigation
+            const existingDisplay = document.querySelector('.xp-display');
+            if (existingDisplay) {
+                document.body.replaceChild(xpDisplay, existingDisplay);
+            } else {
+                document.body.appendChild(xpDisplay);
+            }
+        }
+
+        // SRS System
+        function updateSRS(word, isCorrect) {
+            const now = Date.now();
+            const review = state.srs.reviews[word.term] || { stage: -1, nextReview: now };
+            
+            if (isCorrect) {
+                review.stage = Math.min(review.stage + 1, state.srs.stages.length - 1);
+                // Kein extra XP hier, da es bereits in checkAnswer hinzugefügt wird
+            } else {
+                review.stage = Math.max(review.stage - 1, 0);
+                // Kein extra XP hier, da es bereits in checkAnswer hinzugefügt wird
+            }
+            
+            const daysUntilReview = state.srs.stages[review.stage];
+            review.nextReview = now + (daysUntilReview * 24 * 60 * 60 * 1000);
+            state.srs.reviews[word.term] = review;
+            
+            saveUserData();
+        }
+
+        function checkDueReviews() {
+            const now = Date.now();
+            const dueWords = Object.entries(state.srs.reviews)
+                .filter(([_, review]) => review.nextReview <= now)
+                .map(([term, _]) => term);
+            
+            if (dueWords.length > 0) {
+                showNotification(`${dueWords.length} Wörter zur Wiederholung bereit!`, 'info');
+            }
+        }
+
+        // XP zurücksetzen
+        function resetXP() {
+            if (confirm('Möchtest du wirklich deine XP und dein Level zurücksetzen?')) {
+                state.xp = { 
+                    current: 0, 
+                    level: 1, 
+                    nextLevel: 100 
+                };
+                updateXPDisplay();
+                saveUserData();
+                showNotification('XP und Level wurden zurückgesetzt', 'success');
+            }
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

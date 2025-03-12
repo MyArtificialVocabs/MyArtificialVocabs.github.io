@@ -1,0 +1,25 @@
+{
+    "name": "Adjectives German to English",
+    "words": [
+        {"term": "vielschichtig", "definition": "multifaceted"},
+        {"term": "ambivalent", "definition": "ambivalent"},
+        {"term": "subtil", "definition": "subtle"},
+        {"term": "provozierend", "definition": "provocative"},
+        {"term": "inkohärent", "definition": "incoherent"},
+        {"term": "differenziert", "definition": "differentiated"},
+        {"term": "grundlegend", "definition": "foundational"},
+        {"term": "exzentrisch", "definition": "eccentric"},
+        {"term": "intrinsisch", "definition": "intrinsic"},
+        {"term": "exemplarisch", "definition": "exemplary"},
+        {"term": "integral", "definition": "integral"},
+        {"term": "kontrovers", "definition": "controversial"},
+        {"term": "akribisch", "definition": "meticulous"},
+        {"term": "souverän", "definition": "self-assured"},
+        {"term": "reflektiert", "definition": "reflective"},
+        {"term": "resilient", "definition": "resilient"},
+        {"term": "substanziell", "definition": "substantial"},
+        {"term": "charismatisch", "definition": "charismatic"},
+        {"term": "pragmatisch", "definition": "pragmatic"},
+        {"term": "nuanciert", "definition": "nuanced"}
+    ]
+}

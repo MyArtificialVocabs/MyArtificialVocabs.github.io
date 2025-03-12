@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Zusätzliche Styles für die Community-Seite */
+        .community-hero {
+            background: linear-gradient(135deg, var(--secondary-color), #1E1F3A);
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .community-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .community-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .stat-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .stat-item:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff, #a5b4fc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .community-features {
+            padding: 5rem 0;
+            background: var(--background-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-text {
+            color: var(--text-color-light);
+            line-height: 1.6;
+        }
+
+        .community-feed {
+            padding: 5rem 0;
+            background: var(--background-color);
+        }
+
+        .feed-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-full);
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .feed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .post-card {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .post-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .post-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .post-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            color: var(--text-color);
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .post-meta {
+            color: var(--text-color-light);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .post-content {
+            padding: 1.5rem;
+        }
+
+        .post-title {
+            color: var(--text-color);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .post-text {
+            color: var(--text-color-light);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .post-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-color-light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .action-btn i {
+            font-size: 1.25rem;
+        }
+
+        .join-community {
+            padding: 5rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color-transparent), var(--primary-light-transparent));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .join-community::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 50%, 
+                rgba(255, 255, 255, 0.1) 100%);
+            animation: shine 3s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes shine {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        .join-title {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .join-text {
+            color: var(--text-color-light);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .join-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .community-stats {
+                gap: 2rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .feed-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-btn {
+                text-align: center;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Community Hero Section -->
+    <section class="community-hero">
+        <div class="container">
+            <h1 class="hero-title">Vocabo.ai Community</h1>
+            <p class="hero-subtitle">Tausche dich mit anderen Lernenden aus und teile deine Erfahrungen</p>
+            
+            <div class="community-stats">
+                <div class="stat-item">
+                    <div class="stat-number" data-value="15000">15.000+</div>
+                    <div class="stat-label">Aktive Mitglieder</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-value="50000">50.000+</div>
+                    <div class="stat-label">Diskussionsbeiträge</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-value="25">25+</div>
+                    <div class="stat-label">Sprachgruppen</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Features -->
+    <section class="community-features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Community Features</h2>
+                <p>Entdecke alle Möglichkeiten unserer lebendigen Community</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Sprachgruppen</h3>
+                    <p class="feature-text">
+                        Finde Gleichgesinnte in deiner Zielsprache und tausche dich in moderierten Gruppen aus.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="feature-title">Diskussionsforen</h3>
+                    <p class="feature-text">
+                        Stelle Fragen, teile deine Erkenntnisse und hilf anderen bei ihrem Lernprozess.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Events & Meetups</h3>
+                    <p class="feature-text">
+                        Nimm an virtuellen und lokalen Treffen teil und übe deine Sprachkenntnisse im echten Leben.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Feed -->
+    <section class="community-feed">
+        <div class="container">
+            <div class="section-header">
+                <h2>Community Feed</h2>
+                <p>Die neuesten Beiträge aus der Community</p>
+            </div>
+
+            <div class="feed-filters">
+                <button class="filter-btn active">Alle Beiträge</button>
+                <button class="filter-btn">Diskussionen</button>
+                <button class="filter-btn">Fragen</button>
+                <button class="filter-btn">Erfolgsgeschichten</button>
+                <button class="filter-btn">Events</button>
+            </div>
+
+            <div class="feed-grid">
+                <div class="post-card">
+                    <div class="post-header">
+                        <img src="https://i.pravatar.cc/150?img=32" alt="Sarah Meyer" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Sarah Meyer</h4>
+                            <div class="post-meta">
+                                <i class="fas fa-clock"></i>
+                                <span>Vor 2 Stunden</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <h3 class="post-title">Meine Erfahrungen mit der KI-gestützten Aussprachekorrektur</h3>
+                        <p class="post-text">
+                            Nach einem Monat intensiver Nutzung der neuen Aussprachekorrektur-Funktion kann ich sagen: 
+                            Es ist beeindruckend! Meine Aussprache hat sich deutlich verbessert...
+                        </p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-actions">
+                            <button class="action-btn">
+                                <i class="far fa-heart"></i>
+                                <span>24</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>8</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-header">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Marcus Schmidt" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Marcus Schmidt</h4>
+                            <div class="post-meta">
+                                <i class="fas fa-clock"></i>
+                                <span>Vor 4 Stunden</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <h3 class="post-title">Suche Lernpartner für Spanisch (B1)</h3>
+                        <p class="post-text">
+                            Hallo zusammen! Ich suche einen Lernpartner für regelmäßige Konversationsübungen auf B1-Niveau. 
+                            Zeitlich bin ich flexibel...
+                        </p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-actions">
+                            <button class="action-btn">
+                                <i class="far fa-heart"></i>
+                                <span>12</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>15</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="post-card">
+                    <div class="post-header">
+                        <img src="https://i.pravatar.cc/150?img=23" alt="Lisa Müller" class="author-avatar">
+                        <div class="author-info">
+                            <h4>Lisa Müller</h4>
+                            <div class="post-meta">
+                                <i class="fas fa-clock"></i>
+                                <span>Vor 6 Stunden</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <h3 class="post-title">Online Language Exchange Event - Nächste Woche!</h3>
+                        <p class="post-text">
+                            Seid dabei bei unserem monatlichen Language Exchange Event! Diesmal mit Fokus auf 
+                            Französisch und Spanisch. Alle Niveaus willkommen...
+                        </p>
+                    </div>
+                    <div class="post-footer">
+                        <div class="post-actions">
+                            <button class="action-btn">
+                                <i class="far fa-heart"></i>
+                                <span>45</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-comment"></i>
+                                <span>23</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-share-square"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Community Section -->
+    <section class="join-community">
+        <div class="container">
+            <h2 class="join-title">Werde Teil unserer Community</h2>
+            <p class="join-text">
+                Tausche dich mit anderen Lernenden aus, finde Lernpartner und beschleunige deinen Lernfortschritt 
+                durch gegenseitige Unterstützung.
+            </p>
+            <div class="cta-buttons" style="display: flex; justify-content: center; gap: 1rem;">
+                <a href="../account/signup.html" class="btn btn-primary">Jetzt kostenlos registrieren</a>
+                <a href="../index.html" class="btn btn-secondary">Mehr erfahren</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="funktionen.html">Funktionen</a></li>
+                        <li><a href="preise.html">Preise</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="dokumentation.html">Dokumentation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                        <li><a href="cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.7/dist/countUp.min.js"></script>
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter buttons functionality
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Like button functionality
+            const actionBtns = document.querySelectorAll('.action-btn');
+            
+            actionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    const count = this.querySelector('span');
+                    
+                    if (icon.classList.contains('far')) {
+                        icon.classList.replace('far', 'fas');
+                        if (count) {
+                            count.textContent = parseInt(count.textContent) + 1;
+                        }
+                    } else {
+                        icon.classList.replace('fas', 'far');
+                        if (count) {
+                            count.textContent = parseInt(count.textContent) - 1;
+                        }
+                    }
+                });
+            });
+
+            // Animate statistics
+            const stats = document.querySelectorAll('.stat-number');
+            const options = {
+                duration: 2.5,
+                useEasing: true
+            };
+
+            stats.forEach(stat => {
+                const value = parseInt(stat.getAttribute('data-value'));
+                const countUp = new CountUp(stat, value, options);
+                
+                if (!countUp.error) {
+                    countUp.start();
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

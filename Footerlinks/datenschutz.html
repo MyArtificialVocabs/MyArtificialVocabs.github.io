@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datenschutz - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .privacy-hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .privacy-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .privacy-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            background: var(--background-color);
+        }
+
+        .privacy-nav {
+            position: sticky;
+            top: 80px;
+            background: var(--background-color);
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            z-index: 100;
+        }
+
+        .privacy-nav-list {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) var(--border-color);
+        }
+
+        .privacy-nav-list::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .privacy-nav-list::-webkit-scrollbar-track {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .privacy-nav-list::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .privacy-nav-item {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-full);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .privacy-nav-item:hover,
+        .privacy-nav-item.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .privacy-section {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .privacy-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .privacy-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .privacy-section h2 {
+            color: var(--text-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .privacy-section h2 i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .privacy-section h3 {
+            color: var(--text-color);
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .privacy-section p {
+            color: var(--text-color);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .privacy-section ul {
+            list-style: none;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .privacy-section li {
+            color: var(--text-color);
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .privacy-section li::before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: -1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg,
+                var(--primary-color-transparent),
+                var(--secondary-color-transparent));
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .contact-box {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .contact-box h3 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .contact-box p {
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .last-updated {
+            text-align: right;
+            color: var(--text-color-light);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .privacy-nav-list {
+                flex-wrap: nowrap;
+            }
+
+            .privacy-section {
+                padding: 1.5rem;
+            }
+
+            .privacy-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .privacy-section h3 {
+                font-size: 1.3rem;
+            }
+
+            .privacy-section p,
+            .privacy-section li {
+                font-size: 1rem;
+            }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--primary-color);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Privacy Hero Section -->
+    <section class="privacy-hero">
+        <div class="container">
+            <h1 class="hero-title">Datenschutzerklärung</h1>
+            <p class="hero-subtitle">Erfahre, wie wir deine Daten schützen und deine Privatsphäre respektieren</p>
+        </div>
+    </section>
+
+    <!-- Privacy Content -->
+    <div class="privacy-content">
+        <!-- Navigation -->
+        <nav class="privacy-nav">
+            <div class="privacy-nav-list">
+                <button class="privacy-nav-item active" data-section="overview">Überblick</button>
+                <button class="privacy-nav-item" data-section="data-collection">Datenerhebung</button>
+                <button class="privacy-nav-item" data-section="data-usage">Datennutzung</button>
+                <button class="privacy-nav-item" data-section="data-protection">Datenschutz</button>
+                <button class="privacy-nav-item" data-section="cookies">Cookies</button>
+                <button class="privacy-nav-item" data-section="rights">Deine Rechte</button>
+                <button class="privacy-nav-item" data-section="contact">Kontakt</button>
+            </div>
+        </nav>
+
+        <!-- Overview Section -->
+        <section id="overview" class="privacy-section visible">
+            <h2><i class="fas fa-shield-alt"></i> Überblick</h2>
+            <p>Der Schutz deiner persönlichen Daten ist uns ein wichtiges Anliegen. In dieser Datenschutzerklärung informieren wir dich über die Erhebung, Verarbeitung und Nutzung deiner Daten bei der Nutzung von Vocabo.ai.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Wichtig:</strong> Wir verarbeiten deine Daten ausschließlich gemäß den gesetzlichen Bestimmungen (DSGVO, BDSG) und nur für die angegebenen Zwecke.</p>
+            </div>
+
+            <h3>Verantwortliche Stelle</h3>
+            <p>Vocabo.ai GmbH<br>
+            Friedrichstraße 123<br>
+            10117 Berlin<br>
+            Deutschland</p>
+        </section>
+
+        <!-- Data Collection Section -->
+        <section id="data-collection" class="privacy-section">
+            <h2><i class="fas fa-database"></i> Datenerhebung</h2>
+            <p>Bei der Nutzung unserer Dienste erheben wir folgende Daten:</p>
+            <ul>
+                <li>Persönliche Daten (Name, E-Mail, Nutzer-ID)</li>
+                <li>Nutzungsdaten (Lernfortschritt, Übungsstatistiken)</li>
+                <li>Technische Daten (IP-Adresse, Browsertyp)</li>
+                <li>Kommunikationsdaten (Chat-Nachrichten, Support-Anfragen)</li>
+            </ul>
+
+            <h3>Rechtsgrundlage</h3>
+            <p>Die Datenerhebung erfolgt auf Basis von:</p>
+            <ul>
+                <li>Deiner Einwilligung (Art. 6 Abs. 1 lit. a DSGVO)</li>
+                <li>Vertraglicher Notwendigkeit (Art. 6 Abs. 1 lit. b DSGVO)</li>
+                <li>Rechtlichen Verpflichtungen (Art. 6 Abs. 1 lit. c DSGVO)</li>
+            </ul>
+        </section>
+
+        <!-- Data Usage Section -->
+        <section id="data-usage" class="privacy-section">
+            <h2><i class="fas fa-cogs"></i> Datennutzung</h2>
+            <p>Wir nutzen deine Daten für folgende Zwecke:</p>
+            <ul>
+                <li>Bereitstellung und Verbesserung unserer Dienste</li>
+                <li>Personalisierung deines Lernerlebnisses</li>
+                <li>Kommunikation und Support</li>
+                <li>Analyse und Optimierung unserer Plattform</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Hinweis:</strong> Deine Daten werden niemals ohne deine ausdrückliche Einwilligung an Dritte weitergegeben.</p>
+            </div>
+        </section>
+
+        <!-- Data Protection Section -->
+        <section id="data-protection" class="privacy-section">
+            <h2><i class="fas fa-lock"></i> Datenschutz</h2>
+            <p>Wir setzen modernste Sicherheitsmaßnahmen ein:</p>
+            <ul>
+                <li>SSL/TLS-Verschlüsselung für alle Übertragungen</li>
+                <li>Regelmäßige Sicherheitsaudits</li>
+                <li>Zugriffskontrolle und Authentifizierung</li>
+                <li>Datenverschlüsselung nach aktuellen Standards</li>
+            </ul>
+        </section>
+
+        <!-- Cookies Section -->
+        <section id="cookies" class="privacy-section">
+            <h2><i class="fas fa-cookie-bite"></i> Cookies</h2>
+            <p>Wir verwenden Cookies für:</p>
+            <ul>
+                <li>Technisch notwendige Funktionen</li>
+                <li>Verbesserung der Nutzererfahrung</li>
+                <li>Analyse des Nutzerverhaltens</li>
+                <li>Marketing (nur mit deiner Einwilligung)</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Cookie-Einstellungen:</strong> Du kannst deine Cookie-Einstellungen jederzeit in deinem Konto anpassen.</p>
+            </div>
+        </section>
+
+        <!-- Rights Section -->
+        <section id="rights" class="privacy-section">
+            <h2><i class="fas fa-user-shield"></i> Deine Rechte</h2>
+            <p>Du hast folgende Rechte bezüglich deiner Daten:</p>
+            <ul>
+                <li>Recht auf Auskunft</li>
+                <li>Recht auf Berichtigung</li>
+                <li>Recht auf Löschung</li>
+                <li>Recht auf Einschränkung der Verarbeitung</li>
+                <li>Recht auf Datenübertragbarkeit</li>
+                <li>Widerspruchsrecht</li>
+            </ul>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="privacy-section">
+            <h2><i class="fas fa-envelope"></i> Kontakt</h2>
+            <p>Bei Fragen zum Datenschutz kannst du dich jederzeit an uns wenden:</p>
+            
+            <div class="contact-box">
+                <h3>Datenschutzbeauftragter</h3>
+                <p>Max Mustermann<br>
+                datenschutz@vocabo.ai<br>
+                Tel: +49 30 123 456 789</p>
+                <a href="kontakt.html" class="contact-btn">
+                    <i class="fas fa-envelope"></i>
+                    Kontakt aufnehmen
+                </a>
+            </div>
+        </section>
+
+        <p class="last-updated">Letzte Aktualisierung: 1. März 2024</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="funktionen.html">Funktionen</a></li>
+                        <li><a href="preise.html">Preise</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="dokumentation.html">Dokumentation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                        <li><a href="cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation Functionality
+            const navItems = document.querySelectorAll('.privacy-nav-item');
+            const sections = document.querySelectorAll('.privacy-section');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // Show corresponding section
+                    const targetId = item.getAttribute('data-section');
+                    sections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('visible');
+                            // Smooth scroll to section
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        } else {
+                            section.classList.remove('visible');
+                        }
+                    });
+                });
+            });
+
+            // Progress Bar
+            const progressBar = document.getElementById('progressBar');
+            
+            window.addEventListener('scroll', () => {
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight) * 100;
+                progressBar.style.width = scrolled + '%';
+            });
+
+            // Intersection Observer for Sections
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Update nav item
+                        const sectionId = entry.target.id;
+                        navItems.forEach(item => {
+                            if (item.getAttribute('data-section') === sectionId) {
+                                item.classList.add('active');
+                            } else {
+                                item.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html> 

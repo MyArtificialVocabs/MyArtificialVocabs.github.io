@@ -1,306 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyArtificialVocabs - AI-Powered Language Learning</title>
+    <title>Vocabo.ai - KI-gestützte Vokabellernplattform</title>
+    <link rel="icon" type="image/png" href="assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="mav.css"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
-    
 <body>
-    <!-- Header & Navigation -->
+    <!-- Header -->
     <header>
-        <div class="container">
-            <nav>
-                <div class="logo">
-                    <i class="fas fa-brain"></i>
-                    My<span>Artificial</span>Vocabs
-                </div>
-                
-                <div class="nav-links">
-                    <a href="#features">Features</a>
-                    <a href="#how-it-works">How It Works</a>
-                    <a href="#languages">Languages</a>
-                    <a href="#testimonials">Testimonials</a>
-                </div>
-                
-                <div class="auth-buttons">
-                    <a href="login.html" class="btn btn-outline">Log In</a>
-                    <a href="signup.html" class="btn btn-primary">Sign Up</a>
-                </div>
-                
-                <div class="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </nav>
-        </div>
+        <nav class="navbar container">
+            <div class="logo">
+                <img src="assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="#features">Funktionen</a></li>
+                    <li><a href="#how-it-works">Wie es funktioniert</a></li>
+                    <li><a href="#testimonials">Erfahrungen</a></li>
+                    <li><a href="#pricing">Preise</a></li>
+                </ul>
+            </div>
+            <div class="cta-buttons">
+                <a href="account/login.html" class="btn btn-secondary">Anmelden</a>
+                <a href="account/signup.html" class="btn btn-primary">Kostenlos testen</a>
+            </div>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero-section">
+        <div id="particles-js" class="particles-container"></div>
         <div class="container">
             <div class="hero-content">
-                <h1>AI-Powered Vocabulary Learning</h1>
-                <p>Personalized vocabulary training using artificial intelligence to accelerate your language learning journey</p>
-                <button class="btn btn-primary" onclick="window.location.href='signup.html'">Get Started for Free</button>
-                
-                <div class="language-icons">
-                    <div class="language-icon">
-                        <div class="icon">
-                            <span>EN</span>
-                        </div>
-                        <span>English</span>
-                    </div>
-                    <div class="language-icon">
-                        <div class="icon">
-                            <span>FR</span>
-                        </div>
-                        <span>French</span>
-                    </div>
-                    <div class="language-icon">
-                        <div class="icon">
-                            <span>DE</span>
-                        </div>
-                        <span>German</span>
-                    </div>
+                <h1 class="hero-title">Vokabeln meistern mit KI-gestütztem Lernen</h1>
+                <p class="hero-subtitle">Lerne schneller, erinnere Dich länger und erreiche deine Sprachziele mit personalisierten KI-Tools.</p>
+                <div class="hero-cta">
+                    <a href="account/signup.html" class="btn btn-primary">Kostenlos starten</a>
+                    <a href="#" class="btn btn-demo" onclick="startDemo(event)">Demo ansehen <i class="fas fa-play-circle"></i></a>
                 </div>
+            </div>
+            <div class="hero-image">
+                <div class="ai-illustration"></div>
+                <div class="my-logo"></div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="features" id="features">
+    <section id="features" class="features-section">
         <div class="container">
-            <div class="section-title">
-                <h2>Why Choose MAV?</h2>
-                <p>Our AI-powered platform offers personalized vocabulary training tailored to your proficiency level and learning goals</p>
+            <div class="section-header reveal">
+                <h2>Revolutioniere dein Sprachenlernen</h2>
+                <p>Entdecke die innovativen Funktionen, die dein Lernerlebnis transformieren werden.</p>
             </div>
-            
             <div class="features-grid">
-                <div class="feature-card">
+                <div class="feature-card reveal">
                     <div class="feature-icon">
-                        <i class="fas fa-robot"></i>
+                        <img src="assets/feature-icons/ai.svg" alt="KI-Technologie" width="40">
                     </div>
-                    <h3>AI-Powered Analysis</h3>
-                    <p>Our advanced AI algorithms analyze your performance and adapt to your learning style, focusing on the vocabulary you need most.</p>
+                    <h3>KI-gestütztes Lernen</h3>
+                    <p>Unser adaptiver Algorithmus passt sich deinem Lernfortschritt an und optimiert deinen Lernpfad in Echtzeit.</p>
                 </div>
-                
-                <div class="feature-card">
+                <div class="feature-card reveal">
                     <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
+                        <img src="assets/feature-icons/personalized.svg" alt="Personalisiert" width="40">
                     </div>
-                    <h3>Proficiency Testing</h3>
-                    <p>Take comprehensive tests to determine your current language level and track your progress over time with detailed analytics.</p>
+                    <h3>Personalisierte Lernpläne</h3>
+                    <p>Maßgeschneiderte Vokabelpakete basierend auf deinen Interessen, deinem Niveau und deinen Lernzielen.</p>
                 </div>
-                
-                <div class="feature-card">
+                <div class="feature-card reveal">
                     <div class="feature-icon">
+                        <img src="assets/feature-icons/mobile.svg" alt="Mobile" width="40">
+                    </div>
+                    <h3>Überall lernen</h3>
+                    <p>Synchronisiere deinen Fortschritt über alle Geräte und lerne flexibel - auch offline.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works Section -->
+    <section id="how-it-works" class="how-it-works-section">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Wie es funktioniert</h2>
+                <p>Dein Weg zum Spracherfolg in vier einfachen Schritten</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item reveal">
+                    <div class="timeline-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>1. Profil erstellen</h3>
+                        <p>Teile uns deine Sprachziele, Interessen und dein aktuelles Niveau mit.</p>
+                    </div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-icon">
                         <i class="fas fa-brain"></i>
                     </div>
-                    <h3>Smart Repetition</h3>
-                    <p>Our spaced repetition system ensures you review words at optimal intervals for maximum retention and memory consolidation.</p>
+                    <div class="timeline-content">
+                        <h3>2. KI-Analyse</h3>
+                        <p>Unsere KI erstellt deinen personalisierten Lernplan und wählt relevante Vokabeln aus.</p>
+                    </div>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
+                <div class="timeline-item reveal">
+                    <div class="timeline-icon">
                         <i class="fas fa-graduation-cap"></i>
                     </div>
-                    <h3>Custom Vocabulary Sets</h3>
-                    <p>Learn vocabulary that's relevant to your interests, profession, or specific learning goals with customized word lists.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Learn Anywhere</h3>
-                    <p>Study on any device with our responsive platform that synchronizes your progress across all your devices.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-comments"></i>
-                    </div>
-                    <h3>Contextual Learning</h3>
-                    <p>Learn words in context with example sentences, usage notes, and cultural insights for deeper understanding.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="how-it-works" id="how-it-works">
-        <div class="container">
-            <div class="section-title">
-                <h2>How It Works</h2>
-                <p>Our innovative approach to vocabulary learning combines AI technology with proven language acquisition methods</p>
-            </div>
-            
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Take a Placement Test</h3>
-                        <p>Begin with a comprehensive assessment in your target language (English, French, or German) to determine your current proficiency level from beginner to advanced.</p>
+                    <div class="timeline-content">
+                        <h3>3. Interaktives Lernen</h3>
+                        <p>Lerne mit verschiedenen Übungstypen und erhalte sofortiges Feedback.</p>
                     </div>
                 </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>AI Analyzes Your Results</h3>
-                        <p>Our artificial intelligence engine analyzes your test results to identify your strengths, weaknesses, and gaps in vocabulary knowledge.</p>
+                <div class="timeline-item reveal">
+                    <div class="timeline-icon">
+                        <i class="fas fa-chart-line"></i>
                     </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Get Personalized Vocabulary Sets</h3>
-                        <p>Receive customized vocabulary lists tailored to your level, learning goals, and specific areas that need improvement.</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>Practice with Adaptive Exercises</h3>
-                        <p>Engage with interactive exercises that adapt to your progress, focusing more on challenging words and less on those you've mastered.</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <h3>Track Your Progress</h3>
-                        <p>Monitor your improvement through detailed analytics and regular assessments that show your vocabulary growth over time.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI Interface Section -->
-    <section class="ai-interface">
-        <div class="container">
-            <div class="interface-container">
-                <div class="interface-visual">
-                    <div class="interface-frame">
-                        <div class="interface-header">
-                            <div class="interface-title">AI Vocabulary Trainer</div>
-                        </div>
-                        <div class="interface-content">
-                            <div class="vocab-item">
-                                <div class="vocab-word">Ubiquitous</div>
-                                <div class="vocab-meaning">Present everywhere</div>
-                            </div>
-                            <div class="vocab-item">
-                                <div class="vocab-word">Eloquent</div>
-                                <div class="vocab-meaning">Fluent or persuasive in speaking</div>
-                            </div>
-                            <div class="vocab-item">
-                                <div class="vocab-word">Pragmatic</div>
-                                <div class="vocab-meaning">Dealing with things sensibly</div>
-                            </div>
-                            <div class="vocab-item">
-                                <div class="vocab-word">Resilient</div>
-                                <div class="vocab-meaning">Able to recover quickly</div>
-                            </div>
-                            <button class="btn btn-primary">Continue Learning</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="interface-info">
-                    <h3>Cutting-Edge AI Technology</h3>
-                    <p>Our proprietary artificial intelligence system analyzes your learning patterns, identifies your vocabulary gaps, and creates a personalized learning path that evolves as you progress.</p>
-                    
-                    <div class="interface-features">
-                        <div class="interface-feature">
-                            <div class="interface-feature-icon">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <div class="interface-feature-text">
-                                <h4>Smart Word Selection</h4>
-                                <p>Our AI selects words based on frequency, relevance, and your learning history.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="interface-feature">
-                            <div class="interface-feature-icon">
-                                <i class="fas fa-sync-alt"></i>
-                            </div>
-                            <div class="interface-feature-text">
-                                <h4>Adaptive Scheduling</h4>
-                                <p>Words are presented at optimal intervals for maximum retention.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="interface-feature">
-                            <div class="interface-feature-icon">
-                                <i class="fas fa-bullseye"></i>
-                            </div>
-                            <div class="interface-feature-text">
-                                <h4>Precision Learning</h4>
-                                <p>Focus your time on words you need to learn, not ones you already know.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Languages Section -->
-    <section class="languages" id="languages">
-        <div class="container">
-            <div class="section-title">
-                <h2>Available Languages</h2>
-                <p>Choose from our selection of thoroughly developed language courses powered by advanced AI technology</p>
-            </div>
-            
-            <div class="language-cards">
-                <div class="language-card">
-                    <div class="language-card-header">
-                        <h3>English</h3>
-                        <p>From beginner to advanced fluency</p>
-                    </div>
-                    <div class="language-card-body">
-                        <ul>
-                            <li><i class="fas fa-check"></i> Interactive Lessons</li>
-                            <li><i class="fas fa-check"></i> Comprehensive Tests</li>
-                            <li><i class="fas fa-check"></i> Personalized Feedback</li>
-                        </ul>
-                        <button class="btn btn-primary" onclick="window.location.href='signup.html'">Learn English</button>
-                    </div>
-                </div>
-                <div class="language-card">
-                    <div class="language-card-header">
-                        <h3>French</h3>
-                        <p>Master the language of romance</p>
-                    </div>
-                    <div class="language-card-body">
-                        <ul>
-                            <li><i class="fas fa-check"></i> Engaging Content</li>
-                            <li><i class="fas fa-check"></i> Pronunciation Guides</li>
-                            <li><i class="fas fa-check"></i> Vocabulary Drills</li>
-                        </ul>
-                        <button class="btn btn-primary" onclick="window.location.href='signup.html'">Learn French</button>
-                    </div>
-                </div>
-                <div class="language-card">
-                    <div class="language-card-header">
-                        <h3>German</h3>
-                        <p>Experience precision in language</p>
-                    </div>
-                    <div class="language-card-body">
-                        <ul>
-                            <li><i class="fas fa-check"></i> Structured Lessons</li>
-                            <li><i class="fas fa-check"></i> Grammar Deep Dive</li>
-                            <li><i class="fas fa-check"></i> Real-life Scenarios</li>
-                        </ul>
-                        <button class="btn btn-primary" onclick="window.location.href='signup.html'">Learn German</button>
+                    <div class="timeline-content">
+                        <h3>4. Fortschritt tracken</h3>
+                        <p>Verfolge deinen Lernfortschritt und passe deine Ziele an.</p>
                     </div>
                 </div>
             </div>
@@ -308,397 +138,245 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
+    <section id="testimonials" class="testimonials-section">
         <div class="container">
-            <div class="section-title">
-                <h2>What Our Users Say</h2>
-                <p>Hear from language learners who transformed their vocabulary with MAV</p>
+            <div class="section-header reveal">
+                <h2>Das sagen unsere Nutzer</h2>
+                <p>Erfahrungen von Menschen, die ihre Sprachziele mit Vocabo.ai erreicht haben</p>
             </div>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
+            <div class="testimonials-carousel">
+                <div class="testimonial-card reveal">
                     <div class="testimonial-content">
-                        "MyArtificialVocabs has revolutionized my approach to language learning. The AI-driven tests are accurate and engaging!"
+                        "Durch die KI-gestützte Lernmethode habe ich in 3 Monaten mehr Vokabeln gelernt als im ganzen letzten Jahr!"
                     </div>
                     <div class="testimonial-author">
-                        <div class="testimonial-avatar">JS</div>
-                        <div class="testimonial-info">
-                            <h4>John Smith</h4>
-                            <p>English Learner</p>
+                        <img src="https://i.pravatar.cc/150?img=32" alt="Sarah M.">
+                        <div class="author-info">
+                            <h4>Sarah M.</h4>
+                            <p>Englisch B2 → C1</p>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
+                <div class="testimonial-card reveal">
                     <div class="testimonial-content">
-                        "The personalized feedback helped me master French faster than I ever imagined. Truly a game-changer!"
+                        "Die personalisierten Lernpläne sind genial. Endlich eine App, die sich an meine Bedürfnisse anpasst!"
                     </div>
                     <div class="testimonial-author">
-                        <div class="testimonial-avatar">MC</div>
-                        <div class="testimonial-info">
-                            <h4>Marie Curie</h4>
-                            <p>French Enthusiast</p>
+                        <img src="https://i.pravatar.cc/150?img=11" alt="Markus K.">
+                        <div class="author-info">
+                            <h4>Markus K.</h4>
+                            <p>Spanisch A1 → B1</p>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-card">
+                <div class="testimonial-card reveal">
                     <div class="testimonial-content">
-                        "I love the German course! The smart repetition system keeps me on track and makes learning fun."
+                        "Mit Vocabo.ai macht Vokabellernen endlich Spaß. Die Gamification-Elemente motivieren ungemein!"
                     </div>
                     <div class="testimonial-author">
-                        <div class="testimonial-avatar">HB</div>
-                        <div class="testimonial-info">
-                            <h4>Hans Bauer</h4>
-                            <p>German Student</p>
+                        <img src="https://i.pravatar.cc/150?img=23" alt="Lisa T.">
+                        <div class="author-info">
+                            <h4>Lisa T.</h4>
+                            <p>Französisch A2 → B2</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-container reveal">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number" data-stat="active-users" data-value="1200">0</div>
+                    <div class="stat-label">Aktive Nutzer</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-number" data-stat="learned-vocab" data-value="165000">0</div>
+                    <div class="stat-label">Gelernte Vokabeln</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="stat-number" data-stat="supported-langs" data-value="12">0</div>
+                    <div class="stat-label">Unterstützte Sprachen</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <div class="stat-number" data-stat="happy-users" data-value="96">0</div>
+                    <div class="stat-suffix">%</div>
+                    <div class="stat-label">Zufriedene Nutzer</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Wähle deinen Plan</h2>
+                <p>Flexible Optionen für jeden Lerntyp</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card reveal">
+                    <div class="pricing-header">
+                        <h3>Basis</h3>
+                        <div class="price">
+                            <span class="currency">€</span>
+                            <span class="amount">0</span>
+                            <span class="period">/Monat</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> 50 neue Vokabeln pro Monat</li>
+                            <li><i class="fas fa-check"></i> Grundlegende Lernstatistiken</li>
+                            <li><i class="fas fa-check"></i> 5 Sprachen</li>
+                            <li><i class="fas fa-check"></i> Basis-Übungen</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="account/signup.html" class="btn btn-secondary">Kostenlos starten</a>
+                    </div>
+                </div>
+                <div class="pricing-card popular reveal">
+                    <div class="popular-badge">Beliebt</div>
+                    <div class="pricing-header">
+                        <h3>Premium</h3>
+                        <div class="price">
+                            <span class="currency">€</span>
+                            <span class="amount">9.99</span>
+                            <span class="period">/Monat</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Unbegrenzte Vokabeln</li>
+                            <li><i class="fas fa-check"></i> KI-Lernassistent</li>
+                            <li><i class="fas fa-check"></i> 25 Sprachen</li>
+                            <li><i class="fas fa-check"></i> Offline-Modus</li>
+                            <li><i class="fas fa-check"></i> Detaillierte Lernanalyse</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="#" class="btn btn-primary">Jetzt upgraden</a>
+                    </div>
+                </div>
+                <div class="pricing-card reveal">
+                    <div class="pricing-header">
+                        <h3>Business</h3>
+                        <div class="price">
+                            <span class="currency">€</span>
+                            <span class="amount">19.99</span>
+                            <span class="period">/Monat</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Alles aus Premium</li>
+                            <li><i class="fas fa-check"></i> Team-Verwaltung</li>
+                            <li><i class="fas fa-check"></i> Fortschrittsberichte</li>
+                            <li><i class="fas fa-check"></i> Priorisierter Support</li>
+                            <li><i class="fas fa-check"></i> Branchenspezifische Vokabeln</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="Footerlinks/kontakt.html" class="btn btn-primary">Kontaktiere uns</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Call To Action Section -->
-    <section class="cta">
+    <!-- Footer -->
+    <footer class="footer">
         <div class="container">
-            <h2>Ready to Revolutionize Your Vocabulary?</h2>
-            <p>Join thousands of learners who trust MyArtificialVocabs for their language journey. Get started today and experience the future of language learning.</p>
-            <button class="btn btn-cta" onclick="window.location.href='signup.html'">Sign Up Now</button>
-        </div>
-    </section>
-
-    <!-- Footer Section -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
+            <div class="footer-content">
                 <div class="footer-column">
-                    <h3>MyArtificialVocabs</h3>
-                    <p>Your AI-powered partner for smarter language learning.</p>
-                </div>
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#languages">Languages</a></li>
-                        <li><a href="#testimonials">Testimonials</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Support</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Follow Us</h3>
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="Footerlinks/funktionen.html">Funktionen</a></li>
+                        <li><a href="Footerlinks/preise.html">Preise</a></li>
+                        <li><a href="Footerlinks/blog.html">Blog</a></li>
+                        <li><a href="Footerlinks/updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="Footerlinks/hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="Footerlinks/dokumentation.html">Dokumentation</a></li>
+                        <li><a href="Footerlinks/community.html">Community</a></li>
+                        <li><a href="Footerlinks/kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="Footerlinks/datenschutz.html">Datenschutz</a></li>
+                        <li><a href="Footerlinks/agb.html">AGB</a></li>
+                        <li><a href="Footerlinks/cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="Footerlinks/impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
                 </div>
             </div>
             <div class="footer-bottom">
-                &copy; 2025 MyArtificialVocabs. All rights reserved.
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
             </div>
         </div>
+        <!-- <button><div class="my-logobook"></div></button> -->
     </footer>
 
-
-
-
-
-
-    <!-- Optional: JavaScript for responsive menu toggle -->
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.7/dist/countUp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="script.js"></script>
     <script>
-        // === Responsives Menü-Toggle ===
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        });
-    
-        // === Smooth-Scrolling für interne Links ===
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetElement = document.querySelector(this.getAttribute('href'));
-            if (targetElement) {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-        });
-    
-        // === Sprachumschaltung via Sprach-Icons ===
-        const languageIcons = document.querySelectorAll('.language-icon');
-        languageIcons.forEach(icon => {
-        icon.addEventListener('click', function() {
-            // Alle aktiven Markierungen entfernen
-            languageIcons.forEach(i => i.classList.remove('active'));
-            // Aktives Icon markieren
-            this.classList.add('active');
-            // Sprachcode (EN, FR, DE) aus dem inneren <span> ermitteln
-            const langCode = this.querySelector('.icon span').textContent.trim().toLowerCase();
-            // Bisherige Sprachklassen vom <body> entfernen und neue setzen
-            document.body.classList.remove('lang-en', 'lang-fr', 'lang-de');
-            if (langCode === 'en') {
-            document.body.classList.add('lang-en');
-            } else if (langCode === 'fr') {
-            document.body.classList.add('lang-fr');
-            } else if (langCode === 'de') {
-            document.body.classList.add('lang-de');
-            }
-            console.log("Sprache gewechselt zu: " + langCode.toUpperCase());
-        });
-        });
-    
-        // === Dynamisches Vokabelinterface im AI-Bereich ===
-        const continueLearningBtn = document.querySelector('.interface-content .btn');
-        const vocabItemsContainer = document.querySelector('.interface-content');
-        const vocabularySets = [
-        [
-            { word: 'Ubiquitous', meaning: 'Present everywhere' },
-            { word: 'Eloquent', meaning: 'Fluent or persuasive in speaking' },
-            { word: 'Pragmatic', meaning: 'Dealing with things sensibly' },
-            { word: 'Resilient', meaning: 'Able to recover quickly' }
-        ],
-        [
-            { word: 'Innovative', meaning: 'Featuring new methods' },
-            { word: 'Dynamic', meaning: 'Constantly changing' },
-            { word: 'Robust', meaning: 'Strong and healthy' },
-            { word: 'Versatile', meaning: 'Adaptable to many uses' }
-        ],
-        [
-            { word: 'Insightful', meaning: 'Having or showing an accurate understanding' },
-            { word: 'Efficient', meaning: 'Achieving maximum productivity with minimum wasted effort' },
-            { word: 'Strategic', meaning: 'Relating to the identification of long-term goals' },
-            { word: 'Proactive', meaning: 'Creating or controlling a situation rather than just responding' }
-        ]
-        ];
-        let currentSetIndex = 0;
-        if (continueLearningBtn) {
-        continueLearningBtn.addEventListener('click', function() {
-            currentSetIndex = (currentSetIndex + 1) % vocabularySets.length;
-            updateVocabInterface(vocabularySets[currentSetIndex]);
-        });
-        }
-        function updateVocabInterface(vocabSet) {
-        // Entferne bisherige Vokabel-Einträge (außer dem Button)
-        const children = Array.from(vocabItemsContainer.children);
-        children.forEach(child => {
-            if (!child.classList.contains('btn')) {
-            child.remove();
-            }
-        });
-        // Füge neue Einträge hinzu
-        vocabSet.forEach(item => {
-            const vocabItemDiv = document.createElement('div');
-            vocabItemDiv.classList.add('vocab-item');
-            const wordDiv = document.createElement('div');
-            wordDiv.classList.add('vocab-word');
-            wordDiv.textContent = item.word;
-            const meaningDiv = document.createElement('div');
-            meaningDiv.classList.add('vocab-meaning');
-            meaningDiv.textContent = item.meaning;
-            vocabItemDiv.appendChild(wordDiv);
-            vocabItemDiv.appendChild(meaningDiv);
-            vocabItemsContainer.insertBefore(vocabItemDiv, continueLearningBtn);
-        });
-        console.log("Vokabelliste aktualisiert auf Set #" + (currentSetIndex + 1));
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-        // Standardsprache setzen, falls nicht vorhanden
-        if (!document.body.classList.contains('lang-en') &&
-            !document.body.classList.contains('lang-fr') &&
-            !document.body.classList.contains('lang-de')) {
-            document.body.classList.add('lang-en');
-            if (languageIcons.length > 0) {
-            languageIcons[0].classList.add('active');
-            }
-        }
-        updateVocabInterface(vocabularySets[currentSetIndex]);
-        });
-    
-        // === Kontaktformular-Funktionalität (optional) ===
-        function submitContactForm(event) {
+    function startDemo(event) {
         event.preventDefault();
-        const formData = new FormData(event.target);
-        console.log('Kontaktformular abgesendet:', Object.fromEntries(formData.entries()));
-        alert('Vielen Dank für deine Nachricht!');
-        event.target.reset();
-        }
-        const contactForm = document.querySelector('#contact-form');
-        if (contactForm) {
-        contactForm.addEventListener('submit', submitContactForm);
-        }
-    
-        // === Testimonials Slider ===
-        const testimonialCards = document.querySelectorAll('.testimonial-card');
-        let currentTestimonialIndex = 0;
-        function showTestimonial(index) {
-        testimonialCards.forEach((card, i) => {
-            card.style.display = (i === index) ? 'block' : 'none';
-        });
-        }
-        if (testimonialCards.length > 1) {
-        showTestimonial(currentTestimonialIndex);
-        setInterval(() => {
-            currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonialCards.length;
-            showTestimonial(currentTestimonialIndex);
-        }, 5000); // Wechselt alle 5 Sekunden
-        }
-    
-        // === Back-to-Top Button ===
-        const backToTopBtn = document.createElement('button');
-        backToTopBtn.textContent = '↑';
-        backToTopBtn.id = 'back-to-top';
-        backToTopBtn.style.position = 'fixed';
-        backToTopBtn.style.bottom = '20px';
-        backToTopBtn.style.right = '20px';
-        backToTopBtn.style.padding = '10px 15px';
-        backToTopBtn.style.fontSize = '1.2rem';
-        backToTopBtn.style.border = 'none';
-        backToTopBtn.style.borderRadius = '50%';
-        backToTopBtn.style.backgroundColor = 'var(--primary)';
-        backToTopBtn.style.color = 'white';
-        backToTopBtn.style.cursor = 'pointer';
-        backToTopBtn.style.display = 'none';
-        document.body.appendChild(backToTopBtn);
-        backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            backToTopBtn.style.display = 'block';
-        } else {
-            backToTopBtn.style.display = 'none';
-        }
-        });
-    
-        // === Flashcard Quiz Funktionalität ===
-        const flashcards = [
-        { word: 'Ineffable', meaning: 'Too great to be expressed in words' },
-        { word: 'Ephemeral', meaning: 'Lasting for a very short time' },
-        { word: 'Serendipity', meaning: 'The occurrence of happy or beneficial events by chance' },
-        { word: 'Ebullient', meaning: 'Cheerful and full of energy' }
-        ];
-        let currentFlashcardIndex = 0;
-        let flashcardTimer = null;
-        let flashcardTimeLimit = 10; // Sekunden pro Karte
-        let flashcardScore = 0;
-    
-        function showFlashcard(index) {
-        const flashcardElement = document.getElementById('flashcard');
-        const answerElement = document.getElementById('flashcard-answer');
-        const timerElement = document.getElementById('flashcard-timer');
-        if (!flashcardElement || !answerElement || !timerElement) return;
-        const card = flashcards[index];
-        flashcardElement.textContent = card.word;
-        answerElement.textContent = '???';
-        resetFlashcardTimer();
-        }
-    
-        function revealFlashcardAnswer() {
-        const answerElement = document.getElementById('flashcard-answer');
-        if (!answerElement) return;
-        answerElement.textContent = flashcards[currentFlashcardIndex].meaning;
-        clearInterval(flashcardTimer);
-        }
-    
-        function nextFlashcard() {
-        if (currentFlashcardIndex < flashcards.length - 1) {
-            currentFlashcardIndex++;
-        } else {
-            showFlashcardSummary();
-            return;
-        }
-        showFlashcard(currentFlashcardIndex);
-        }
-    
-        function markFlashcard(correct) {
-        if (correct) {
-            flashcardScore++;
-        }
-        nextFlashcard();
-        }
-    
-        function resetFlashcardTimer() {
-        const timerElement = document.getElementById('flashcard-timer');
-        let timeLeft = flashcardTimeLimit;
-        timerElement.textContent = `Time: ${timeLeft}s`;
-        if (flashcardTimer) {
-            clearInterval(flashcardTimer);
-        }
-        flashcardTimer = setInterval(() => {
-            timeLeft--;
-            timerElement.textContent = `Time: ${timeLeft}s`;
-            if (timeLeft <= 0) {
-            clearInterval(flashcardTimer);
-            revealFlashcardAnswer();
+        
+        // Fade out current page
+        gsap.to('body', {
+            opacity: 0,
+            duration: 0.5,
+            onComplete: () => {
+                window.location.href = 'demo.html';
             }
-        }, 1000);
-        }
-      
-        function showFlashcardSummary() {
-            const flashcardContainer = document.getElementById('flashcard-container');
-            if (!flashcardContainer) return;
-            flashcardContainer.innerHTML = `
-                <h2>Sitzungsübersicht</h2>
-                <p>Deine Punktzahl: ${flashcardScore} von ${flashcards.length}</p>
-                <button id="restart-flashcards" class="btn btn-primary">Erneut starten</button>
-            `;
-            document.getElementById('restart-flashcards').addEventListener('click', function() {
-                flashcardScore = 0;
-                currentFlashcardIndex = 0;
-                showFlashcard(currentFlashcardIndex);
-            });
-        }
-      
-        // Fortschrittsanzeige für Flashcards (optional)
-        function updateFlashcardProgress() {
-            const progressBar = document.getElementById('flashcard-progress');
-            if (!progressBar) return;
-            const progress = ((currentFlashcardIndex + 1) / flashcards.length) * 100;
-            progressBar.style.width = progress + '%';
-        }
-        // Beim Wechseln der Flashcard wird auch der Fortschritt aktualisiert
-        const originalNextFlashcard = nextFlashcard;
-        nextFlashcard = function() {
-            originalNextFlashcard();
-            updateFlashcardProgress();
-        };
-      
-        // === Nutzerfortschritt speichern (optional) ===
-        function saveUserProgress() {
-            const progressData = {
-                flashcardScore,
-                currentFlashcardIndex,
-                vocabularySet: currentSetIndex
-            };
-            localStorage.setItem('userProgress', JSON.stringify(progressData));
-            console.log("Nutzerfortschritt gespeichert:", progressData);
-        }
-        window.addEventListener('beforeunload', saveUserProgress);
-
-        // Nutzerfortschritt laden
-        function loadUserProgress() {
-            const progressData = localStorage.getItem('userProgress');
-            if (progressData) {
-                const data = JSON.parse(progressData);
-                flashcardScore = data.flashcardScore || 0;
-                currentFlashcardIndex = data.currentFlashcardIndex || 0;
-                currentSetIndex = data.vocabularySet || 0;
-                updateVocabInterface(vocabularySets[currentSetIndex]);
-                showFlashcard(currentFlashcardIndex);
-                updateFlashcardProgress();
-        }
-        }
-        document.addEventListener('DOMContentLoaded', loadUserProgress);
+        });
+    }
     </script>
-
-
-
-
-
 </body>
 </html>

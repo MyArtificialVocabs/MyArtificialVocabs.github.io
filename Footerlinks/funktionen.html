@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funktionen - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Zusätzliche Styles für die Funktionen-Seite */
+        .functions-hero {
+            background: linear-gradient(135deg, var(--secondary-color), #1E1F3A);
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        .function-card {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .function-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .function-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .function-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .function-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .function-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .function-description {
+            color: var(--text-color-light);
+            line-height: 1.6;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-slide-in {
+            animation: slideIn 0.6s ease forwards;
+        }
+
+        .function-card {
+            opacity: 0;
+            animation: slideIn 0.6s ease forwards;
+        }
+
+        .function-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .function-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        /* Responsive Design Anpassungen */
+        @media (max-width: 768px) {
+            .function-grid {
+                grid-template-columns: 1fr;
+                padding: 2rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Funktionen Hero Section -->
+    <section class="functions-hero">
+        <div class="container">
+            <h1 class="hero-title animate-slide-in">Unsere Funktionen</h1>
+            <p class="hero-subtitle animate-slide-in" style="animation-delay: 0.2s">
+                Entdecke die innovativen Features, die dein Sprachenlernen revolutionieren
+            </p>
+        </div>
+    </section>
+
+    <!-- Hauptfunktionen -->
+    <section class="container">
+        <div class="function-grid">
+            <div class="function-card">
+                <div class="function-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="function-title">KI-gestütztes Lernen</h3>
+                <p class="function-description">
+                    Unser fortschrittlicher Algorithmus analysiert dein Lernverhalten und passt die Lernmethoden automatisch an deine Bedürfnisse an. Mit personalisierten Übungen und Wiederholungsintervallen maximierst du deinen Lernerfolg.
+                </p>
+            </div>
+
+            <div class="function-card">
+                <div class="function-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="function-title">Fortschrittsanalyse</h3>
+                <p class="function-description">
+                    Verfolge deinen Lernfortschritt mit detaillierten Statistiken und Visualisierungen. Erkenne deine Stärken und Schwächen und optimiere deinen Lernprozess gezielt.
+                </p>
+            </div>
+
+            <div class="function-card">
+                <div class="function-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="function-title">Mobile Learning</h3>
+                <p class="function-description">
+                    Lerne flexibel von überall - unsere App synchronisiert deinen Fortschritt über alle Geräte hinweg. Auch offline hast du Zugriff auf deine Lernmaterialien.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="funktionen.html">Funktionen</a></li>
+                        <li><a href="preise.html">Preise</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="dokumentation.html">Dokumentation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                        <li><a href="cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.7/dist/countUp.min.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html> 

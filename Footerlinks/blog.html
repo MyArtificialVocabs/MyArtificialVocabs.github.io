@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Zusätzliche Styles für die Blog-Seite */
+        .blog-hero {
+            background: linear-gradient(135deg, var(--secondary-color), #1E1F3A);
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+        }
+
+        .blog-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .category-tag {
+            padding: 0.5rem 1.5rem;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-tag:hover,
+        .category-tag.active {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        .blog-card {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover .blog-image {
+            transform: scale(1.05);
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-category {
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            line-height: 1.4;
+        }
+
+        .blog-excerpt {
+            color: var(--text-color-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .blog-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-color-lighter);
+            font-size: 0.875rem;
+        }
+
+        .blog-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .author-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .featured-post {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .featured-post .blog-image {
+            height: 100%;
+        }
+
+        .featured-post .blog-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-post .blog-title {
+            font-size: 1.75rem;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .blog-card {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .blog-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .blog-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @media (max-width: 992px) {
+            .featured-post {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-post .blog-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Blog Hero Section -->
+    <section class="blog-hero">
+        <div class="container">
+            <h1 class="hero-title">Vocabo.ai Blog</h1>
+            <p class="hero-subtitle">Entdecke die neuesten Trends und Tipps zum Sprachenlernen</p>
+            
+            <div class="blog-categories">
+                <span class="category-tag active">Alle</span>
+                <span class="category-tag">Lerntipps</span>
+                <span class="category-tag">KI & Technologie</span>
+                <span class="category-tag">Erfolgsgeschichten</span>
+                <span class="category-tag">Neuigkeiten</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Grid Section -->
+    <section class="container">
+        <div class="blog-grid">
+            <!-- Featured Post -->
+            <article class="blog-card featured-post">
+                <span class="featured-badge">Featured</span>
+                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644" alt="KI im Sprachenlernen" class="blog-image">
+                <div class="blog-content">
+                    <span class="blog-category">KI & Technologie</span>
+                    <h2 class="blog-title">Wie KI die Zukunft des Sprachenlernens revolutioniert</h2>
+                    <p class="blog-excerpt">
+                        Entdecke, wie künstliche Intelligenz personalisierte Lernpfade erstellt und deine Sprachkenntnisse auf ein neues Level hebt. Wir zeigen dir die neuesten Entwicklungen und wie du sie optimal nutzen kannst.
+                    </p>
+                    <div class="blog-meta">
+                        <div class="blog-author">
+                            <img src="https://i.pravatar.cc/150?img=32" alt="Sarah Meyer" class="author-avatar">
+                            <span>Sarah Meyer</span>
+                        </div>
+                        <span>5 Min. Lesezeit</span>
+                        <span>12. März 2024</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Regular Posts -->
+            <article class="blog-card">
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3" alt="Lerntipps" class="blog-image">
+                <div class="blog-content">
+                    <span class="blog-category">Lerntipps</span>
+                    <h3 class="blog-title">Die 5 effektivsten Methoden zum Vokabellernen</h3>
+                    <p class="blog-excerpt">
+                        Maximiere deinen Lernerfolg mit bewährten Techniken und wissenschaftlich fundierten Strategien.
+                    </p>
+                    <div class="blog-meta">
+                        <div class="blog-author">
+                            <img src="https://i.pravatar.cc/150?img=11" alt="Marcus Schmidt" class="author-avatar">
+                            <span>Marcus Schmidt</span>
+                        </div>
+                        <span>4 Min. Lesezeit</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" alt="Erfolgsgeschichte" class="blog-image">
+                <div class="blog-content">
+                    <span class="blog-category">Erfolgsgeschichten</span>
+                    <h3 class="blog-title">Von A1 zu C1 in 6 Monaten - Eine Erfolgsgeschichte</h3>
+                    <p class="blog-excerpt">
+                        Lisa erzählt, wie sie mit Vocabo.ai ihre Sprachkenntnisse in Rekordzeit verbessert hat.
+                    </p>
+                    <div class="blog-meta">
+                        <div class="blog-author">
+                            <img src="https://i.pravatar.cc/150?img=23" alt="Lisa Müller" class="author-avatar">
+                            <span>Lisa Müller</span>
+                        </div>
+                        <span>6 Min. Lesezeit</span>
+                    </div>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd" alt="Neuigkeiten" class="blog-image">
+                <div class="blog-content">
+                    <span class="blog-category">Neuigkeiten</span>
+                    <h3 class="blog-title">Neue Features: KI-gestützte Aussprachekorrektur</h3>
+                    <p class="blog-excerpt">
+                        Entdecke unsere neueste Innovation für eine perfekte Aussprache mit Echtzeit-Feedback.
+                    </p>
+                    <div class="blog-meta">
+                        <div class="blog-author">
+                            <img src="https://i.pravatar.cc/150?img=45" alt="Thomas Weber" class="author-avatar">
+                            <span>Thomas Weber</span>
+                        </div>
+                        <span>3 Min. Lesezeit</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="funktionen.html">Funktionen</a></li>
+                        <li><a href="preise.html">Preise</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="dokumentation.html">Dokumentation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                        <li><a href="cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.7/dist/countUp.min.js"></script>
+    <script src="../script.js"></script>
+    <script>
+        // Blog-Kategorien-Filter
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryTags = document.querySelectorAll('.category-tag');
+            
+            categoryTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    categoryTags.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

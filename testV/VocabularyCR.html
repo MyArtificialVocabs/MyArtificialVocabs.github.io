@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VocaboCR - Moderner Vokabeltrainer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Hauptfarben */
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --primary-light: #818CF8;
+            --secondary: #EC4899;
+            --accent: #06B6D4;
+            
+            /* Erfolgsfarben */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            
+            /* Hintergrundfarben */
+            --bg-start: #1E1F3A;
+            --bg-end: #2D1B69;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --menu-bg: rgba(255, 255, 255, 0.05);
+            
+            /* Text */
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            
+            /* Effekte */
+            --glass-effect: rgba(255, 255, 255, 0.1);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+        }
+
+        /* Animierter Hintergrund */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .gradient-sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            animation: sphereFloat 20s infinite;
+        }
+
+        .sphere-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle at center, var(--primary), transparent 70%);
+            top: -300px;
+            left: -300px;
+        }
+
+        .sphere-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle at center, var(--secondary), transparent 70%);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: -5s;
+        }
+
+        .sphere-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at center, var(--accent), transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -10s;
+        }
+
+        @keyframes sphereFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(100px, 50px) scale(1.1); }
+            50% { transform: translate(50px, -50px) scale(0.9); }
+            75% { transform: translate(-50px, 100px) scale(1.2); }
+        }
+
+        /* Schwebendes Seitenmenü */
+        .side-menu {
+            width: 280px;
+            background: var(--menu-bg);
+            backdrop-filter: blur(20px);
+            margin: 20px;
+            border-radius: 24px;
+            padding: 2rem;
+            height: calc(100vh - 40px);
+            position: fixed;
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            border: 1px solid var(--card-border);
+            animation: menuFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes menuFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .menu-header {
+            text-align: center;
+        }
+
+        .menu-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            animation: logoSpin 20s linear infinite;
+        }
+
+        @keyframes logoSpin {
+            0% { transform: perspective(1000px) rotateY(0); }
+            100% { transform: perspective(1000px) rotateY(360deg); }
+        }
+
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .menu-item {
+            padding: 1rem;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .menu-item:hover {
+            background: var(--glass-effect);
+            color: var(--text-primary);
+            transform: translateX(5px);
+        }
+
+        .menu-item.active {
+            background: var(--primary);
+            color: var(--text-primary);
+        }
+
+        /* Hauptinhalt */
+        .main-content {
+            margin-left: 320px;
+            padding: 2rem;
+            width: calc(100% - 320px);
+        }
+
+        /* Startseite */
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.8)); }
+        }
+
+        .xp-display {
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        .xp-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) var(--progress), var(--glass-effect) 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .xp-circle::before {
+            content: '';
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: var(--bg-start);
+        }
+
+        .xp-value {
+            position: relative;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .xp-info {
+            text-align: left;
+        }
+
+        .xp-level {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .xp-progress {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Aktive Kurse */
+        .active-courses {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .course-card {
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .course-card:hover::before {
+            left: 100%;
+        }
+
+        .course-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .course-progress {
+            height: 6px;
+            background: var(--glass-effect);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Kursseite */
+        .course-page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .course-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .learning-path {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .lesson-card {
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .lesson-card:hover {
+            transform: translateX(10px);
+        }
+
+        .lesson-number {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .lesson-info {
+            flex: 1;
+        }
+
+        .lesson-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Flashcard System */
+        .flashcard-container {
+            display: none;
+            perspective: 1000px;
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-text {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        /* Quiz System */
+        .quiz-container {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .quiz-question {
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--card-border);
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            transform: translateY(-2px);
+            background: var(--primary);
+        }
+
+        .quiz-option.correct {
+            background: var(--success);
+        }
+
+        .quiz-option.wrong {
+            background: var(--error);
+        }
+
+        /* Feedback System */
+        .feedback {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            background: var(--success);
+            color: white;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .feedback.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .feedback.error {
+            background: var(--error);
+        }
+
+        /* Grundlegende Variablen */
+        :root {
+            --primary-color: #4A90E2;
+            --secondary-color: #6C63FF;
+            --accent-color: #FF6B6B;
+            --success-color: #2ECC71;
+            --warning-color: #F1C40F;
+            --background-color: #F8F9FA;
+            --text-color: #2C3E50;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+        }
+
+        /* Lernoberfläche */
+        .learning-interface {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .mode-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            background: var(--background-color);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .mode-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Karteikarten */
+        .flashcard {
+            perspective: 1000px;
+            width: 100%;
+            height: 300px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        /* Quiz */
+        .quiz-container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .quiz-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 2px solid var(--background-color);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: border-color var(--transition-speed);
+        }
+
+        .quiz-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .check-btn {
+            padding: 0.75rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background var(--transition-speed);
+        }
+
+        .check-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        .feedback .correct {
+            color: var(--success-color);
+        }
+
+        .feedback .incorrect {
+            color: var(--accent-color);
+        }
+
+        /* Navigation */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .navigation-buttons button {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 25px;
+            background: var(--primary-color);
+            color: white;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .navigation-buttons button:disabled {
+            background: var(--background-color);
+            cursor: not-allowed;
+        }
+
+        /* Level-Up Benachrichtigung */
+        .level-up-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--success-color), var(--primary-color));
+            color: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            transform: translateX(120%);
+            transition: transform var(--transition-speed);
+            z-index: 1000;
+        }
+
+        .level-up-notification.show {
+            transform: translateX(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .learning-interface {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .flashcard {
+                height: 200px;
+            }
+
+            .navigation-buttons button {
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="gradient-sphere sphere-1"></div>
+        <div class="gradient-sphere sphere-2"></div>
+        <div class="gradient-sphere sphere-3"></div>
+    </div>
+
+    <!-- Schwebendes Seitenmenü -->
+    <nav class="side-menu">
+        <div class="menu-header">
+            <img src="../assets/logo/logo.png" alt="VocaboCR Logo" class="menu-logo">
+            <h2>VocaboCR</h2>
+        </div>
+        <div class="menu-items">
+            <div class="menu-item active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>Startseite</span>
+            </div>
+            <div class="menu-item" data-page="courses">
+                <i class="fas fa-book"></i>
+                <span>Kurse</span>
+            </div>
+            <div class="menu-item" data-page="settings">
+                <i class="fas fa-cog"></i>
+                <span>Einstellungen</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hauptinhalt -->
+    <main class="main-content">
+        <!-- Startseite -->
+        <section id="home" class="page active">
+            <div class="welcome-section">
+                <h1 class="welcome-title">Willkommen zurück!</h1>
+                <p>Bereit für neue Lernerfolge?</p>
+            </div>
+
+            <div class="xp-display">
+                <div class="xp-circle">
+                    <span class="xp-value">2,450 XP</span>
+                </div>
+                <div class="xp-info">
+                    <div class="xp-level">Level 12</div>
+                    <div class="xp-progress">450/1000 XP bis Level 13</div>
+                </div>
+            </div>
+
+            <h2>Deine aktiven Kurse</h2>
+            <div class="active-courses">
+                <!-- Kurskarten werden dynamisch eingefügt -->
+            </div>
+        </section>
+
+        <!-- Kursseite -->
+        <section id="course" class="course-page">
+            <div class="course-header">
+                <h1 class="course-title">Kursname</h1>
+                <p class="course-description">Kursbeschreibung</p>
+            </div>
+
+            <div class="learning-path">
+                <!-- Lektionen werden dynamisch eingefügt -->
+            </div>
+        </section>
+
+        <!-- Flashcard System -->
+        <div class="flashcard-container">
+            <div class="flashcard">
+                <div class="flashcard-front">
+                    <span class="flashcard-text">Vorderseite</span>
+                </div>
+                <div class="flashcard-back">
+                    <span class="flashcard-text">Rückseite</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz System -->
+        <div class="quiz-container">
+            <div class="quiz-question">
+                <h3>Frage</h3>
+            </div>
+            <div class="quiz-options">
+                <!-- Optionen werden dynamisch eingefügt -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Feedback System -->
+    <div class="feedback">Gut gemacht!</div>
+
+    <script>
+        // Vokabeldaten
+        const vocabularyData = {
+            "advanced_german_adjectives": {
+                name: "Fortgeschrittene Deutsche Adjektive",
+                description: "Erweitere deinen Wortschatz mit anspruchsvollen deutschen Adjektiven",
+                words: [
+                    {"term": "vielschichtig", "definition": "multifaceted"},
+                    {"term": "ambivalent", "definition": "ambivalent"},
+                    {"term": "subtil", "definition": "subtle"},
+                    {"term": "provozierend", "definition": "provocative"},
+                    {"term": "inkohärent", "definition": "incoherent"},
+                    {"term": "differenziert", "definition": "differentiated"},
+                    {"term": "grundlegend", "definition": "foundational"},
+                    {"term": "exzentrisch", "definition": "eccentric"}
+                ]
+            },
+            "business_english": {
+                name: "Business Englisch Essentials",
+                description: "Essenzielle Vokabeln für die moderne Geschäftswelt",
+                words: [
+                    {"english": "epic", "german": "gewaltig"},
+                    {"english": "tragedy", "german": "Tragödie"},
+                    {"english": "ultimately", "german": "letztendlich"},
+                    {"english": "courage", "german": "Mut"},
+                    {"english": "appropriation", "german": "Aneignung"},
+                    {"english": "shortage", "german": "Mangel"},
+                    {"english": "to recruit", "german": "rekrutieren"},
+                    {"english": "to ensure", "german": "sicherstellen"}
+                ]
+            },
+            "french_urban": {
+                name: "Französisch Urban Life",
+                description: "Moderne französische Vokabeln für den urbanen Alltag",
+                words: [
+                    {"term": "permettre à qn de faire qc", "definition": "jdm. ermöglichen etw. zu tun"},
+                    {"term": "malgré", "definition": "trotz"},
+                    {"term": "un carnet", "definition": "ein Notizbuch"},
+                    {"term": "une foule", "definition": "eine Menschenmenge"},
+                    {"term": "le chômage", "definition": "die Arbeitslosigkeit"},
+                    {"term": "la plupart des", "definition": "die meisten"},
+                    {"term": "le climat", "definition": "das Klima"},
+                    {"term": "doux/douce", "definition": "mild; sanft"}
+                ]
+            },
+            "german_verbs": {
+                name: "Deutsche Verben Advanced",
+                description: "Fortgeschrittene deutsche Verben für präzise Kommunikation",
+                words: [
+                    {"term": "reflektieren", "definition": "to reflect"},
+                    {"term": "konzeptualisieren", "definition": "to conceptualize"},
+                    {"term": "antizipieren", "definition": "to anticipate"},
+                    {"term": "revolutionieren", "definition": "to revolutionize"},
+                    {"term": "konsolidieren", "definition": "to consolidate"},
+                    {"term": "transformieren", "definition": "to transform"},
+                    {"term": "evaluieren", "definition": "to evaluate"},
+                    {"term": "synthetisieren", "definition": "to synthesize"}
+                ]
+            }
+        };
+
+        // Benutzerdaten und XP-System
+        let userData = {
+            xp: 0,
+            level: 1,
+            activeCourses: [],
+            completedLessons: {},
+            streakDays: 0,
+            lastLogin: null
+        };
+
+        // Lade gespeicherte Benutzerdaten
+        function loadUserData() {
+            const savedData = localStorage.getItem('vocabularyTrainerData');
+            if (savedData) {
+                userData = JSON.parse(savedData);
+                updateXPDisplay();
+                updateActiveCoursesDisplay();
+            }
+        }
+
+        // Speichere Benutzerdaten
+        function saveUserData() {
+            localStorage.setItem('vocabularyTrainerData', JSON.stringify(userData));
+        }
+
+        // XP hinzufügen und Level berechnen
+        function addXP(amount) {
+            userData.xp += amount;
+            const newLevel = Math.floor(Math.sqrt(userData.xp / 100)) + 1;
+            
+            if (newLevel > userData.level) {
+                userData.level = newLevel;
+                showLevelUpMessage();
+            }
+            
+            updateXPDisplay();
+            saveUserData();
+        }
+
+        // XP-Anzeige aktualisieren
+        function updateXPDisplay() {
+            const xpDisplay = document.getElementById('xpDisplay');
+            const levelDisplay = document.getElementById('levelDisplay');
+            if (xpDisplay && levelDisplay) {
+                xpDisplay.textContent = userData.xp;
+                levelDisplay.textContent = userData.level;
+                
+                // Fortschrittsbalken aktualisieren
+                const nextLevelXP = Math.pow(userData.level + 1, 2) * 100;
+                const currentLevelXP = Math.pow(userData.level, 2) * 100;
+                const progress = ((userData.xp - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100;
+                
+                const progressBar = document.getElementById('xpProgressBar');
+                if (progressBar) {
+                    progressBar.style.width = `${progress}%`;
+                }
+            }
+        }
+
+        // Level-Up Nachricht anzeigen
+        function showLevelUpMessage() {
+            const message = `Glückwunsch! Du hast Level ${userData.level} erreicht!`;
+            const notification = document.createElement('div');
+            notification.className = 'level-up-notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }, 2000);
+            }, 100);
+        }
+
+        // Aktive Kurse anzeigen
+        function updateActiveCoursesDisplay() {
+            const coursesContainer = document.getElementById('activeCoursesContainer');
+            if (coursesContainer) {
+                coursesContainer.innerHTML = '';
+                userData.activeCourses.forEach(courseId => {
+                    const course = vocabularyData[courseId];
+                    if (course) {
+                        const courseCard = createCourseCard(courseId, course);
+                        coursesContainer.appendChild(courseCard);
+                    }
+                });
+            }
+        }
+
+        // Kurs-Karte erstellen
+        function createCourseCard(courseId, course) {
+            const card = document.createElement('div');
+            card.className = 'course-card';
+            card.innerHTML = `
+                <h3>${course.name}</h3>
+                <p>${course.description}</p>
+                <div class="course-progress">
+                    <div class="progress-bar" style="width: ${calculateCourseProgress(courseId)}%"></div>
+                </div>
+                <button onclick="startCourse('${courseId}')">Fortfahren</button>
+            `;
+            return card;
+        }
+
+        // Kursfortschritt berechnen
+        function calculateCourseProgress(courseId) {
+            const completedLessons = userData.completedLessons[courseId] || [];
+            const totalLessons = vocabularyData[courseId].words.length;
+            return (completedLessons.length / totalLessons) * 100;
+        }
+
+        // Lernfunktionalitäten
+        let currentCourse = null;
+        let currentWordIndex = 0;
+        let learningMode = 'flashcard';
+
+        // Kurs starten
+        function startCourse(courseId) {
+            currentCourse = courseId;
+            currentWordIndex = 0;
+            showLearningInterface();
+        }
+
+        // Lernoberfläche anzeigen
+        function showLearningInterface() {
+            const mainContent = document.getElementById('mainContent');
+            const course = vocabularyData[currentCourse];
+            
+            mainContent.innerHTML = `
+                <div class="learning-interface">
+                    <h2>${course.name}</h2>
+                    <div class="mode-selector">
+                        <button onclick="setLearningMode('flashcard')" class="mode-btn ${learningMode === 'flashcard' ? 'active' : ''}">Karteikarten</button>
+                        <button onclick="setLearningMode('quiz')" class="mode-btn ${learningMode === 'quiz' ? 'active' : ''}">Quiz</button>
+                    </div>
+                    <div id="learningContent" class="learning-content"></div>
+                    <div class="navigation-buttons">
+                        <button onclick="previousWord()" id="prevBtn" disabled>Zurück</button>
+                        <button onclick="nextWord()" id="nextBtn">Weiter</button>
+                    </div>
+                </div>
+            `;
+            
+            showCurrentWord();
+        }
+
+        // Lernmodus setzen
+        function setLearningMode(mode) {
+            learningMode = mode;
+            showCurrentWord();
+        }
+
+        // Aktuelles Wort anzeigen
+        function showCurrentWord() {
+            const content = document.getElementById('learningContent');
+            const course = vocabularyData[currentCourse];
+            const word = course.words[currentWordIndex];
+            
+            if (learningMode === 'flashcard') {
+                content.innerHTML = `
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <h3>${word.term || word.english}</h3>
+                            </div>
+                            <div class="flashcard-back">
+                                <h3>${word.definition || word.german}</h3>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (learningMode === 'quiz') {
+                content.innerHTML = `
+                    <div class="quiz-container">
+                        <h3>${word.term || word.english}</h3>
+                        <input type="text" id="quizAnswer" placeholder="Deine Antwort..." class="quiz-input">
+                        <button onclick="checkAnswer()" class="check-btn">Überprüfen</button>
+                        <div id="feedback" class="feedback"></div>
+                    </div>
+                `;
+            }
+            
+            updateNavigationButtons();
+        }
+
+        // Karteikarte umdrehen
+        function flipCard(card) {
+            card.querySelector('.flashcard-inner').style.transform = 
+                card.querySelector('.flashcard-inner').style.transform === 'rotateY(180deg)' 
+                    ? 'rotateY(0deg)' 
+                    : 'rotateY(180deg)';
+        }
+
+        // Antwort überprüfen
+        function checkAnswer() {
+            const answer = document.getElementById('quizAnswer').value.toLowerCase().trim();
+            const word = vocabularyData[currentCourse].words[currentWordIndex];
+            const correct = (word.definition || word.german).toLowerCase().trim();
+            
+            const feedback = document.getElementById('feedback');
+            if (answer === correct) {
+                feedback.innerHTML = '<span class="correct">Richtig! 🎉</span>';
+                addXP(10);
+                markLessonComplete();
+            } else {
+                feedback.innerHTML = `<span class="incorrect">Nicht ganz! Die richtige Antwort ist: ${correct}</span>`;
+            }
+        }
+
+        // Lektion als abgeschlossen markieren
+        function markLessonComplete() {
+            if (!userData.completedLessons[currentCourse]) {
+                userData.completedLessons[currentCourse] = [];
+            }
+            
+            if (!userData.completedLessons[currentCourse].includes(currentWordIndex)) {
+                userData.completedLessons[currentCourse].push(currentWordIndex);
+                saveUserData();
+            }
+        }
+
+        // Navigation
+        function previousWord() {
+            if (currentWordIndex > 0) {
+                currentWordIndex--;
+                showCurrentWord();
+            }
+        }
+
+        function nextWord() {
+            const course = vocabularyData[currentCourse];
+            if (currentWordIndex < course.words.length - 1) {
+                currentWordIndex++;
+                showCurrentWord();
+            }
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentWordIndex === 0;
+            nextBtn.disabled = currentWordIndex === vocabularyData[currentCourse].words.length - 1;
+        }
+
+        // Initialisierung
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserData();
+            updateXPDisplay();
+            updateActiveCoursesDisplay();
+            
+            // Event Listener für Menü-Items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // Seitenwechsel
+                    const page = item.dataset.page;
+                    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+                    document.querySelector(`#${page}`).style.display = 'block';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

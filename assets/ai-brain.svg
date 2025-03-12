@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="800px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>KI-Gehirn</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="brainGradient">
+            <stop stop-color="#4C6FFF" offset="0%"></stop>
+            <stop stop-color="#2A2D4E" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="circuitGradient">
+            <stop stop-color="#7A99FF" offset="0%"></stop>
+            <stop stop-color="#4C6FFF" offset="100%"></stop>
+        </linearGradient>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="5" result="blur"></feGaussianBlur>
+            <feComposite in="SourceGraphic" in2="blur" operator="over"></feComposite>
+        </filter>
+    </defs>
+    <g id="brain-illustration" fill="none" stroke="none" stroke-width="1" fill-rule="evenodd">
+        <!-- Hintergrund-Kreise -->
+        <circle cx="400" cy="400" r="250" fill="#1E1F3A" opacity="0.5"></circle>
+        <circle cx="400" cy="400" r="230" fill="#2A2D4E" opacity="0.7"></circle>
+        
+        <!-- Gehirn-Basis -->
+        <path d="M480,290 C600,290 650,380 650,430 C650,500 600,550 500,580 C480,585 460,587 440,587 C360,587 320,565 280,550 C240,535 220,515 200,490 C180,465 170,435 170,400 C170,365 180,335 200,310 C220,285 250,265 290,255 C330,245 370,245 400,250 C430,255 460,270 480,290 Z" fill="url(#brainGradient)" opacity="0.9"></path>
+        
+        <!-- Gehirn-Details linke Seite -->
+        <path d="M290,255 C270,280 260,315 260,350 C260,385 270,420 290,445 C310,470 340,485 370,485 C400,485 430,470 450,445 C470,420 480,385 480,350 C480,315 470,280 450,255 C430,230 400,215 370,215 C340,215 310,230 290,255 Z" fill="#4C6FFF" opacity="0.15"></path>
+        
+        <!-- Gehirn-Details rechte Seite -->
+        <path d="M470,290 C450,315 440,350 440,385 C440,420 450,455 470,480 C490,505 520,520 550,520 C580,520 610,505 630,480 C650,455 660,420 660,385 C660,350 650,315 630,290 C610,265 580,250 550,250 C520,250 490,265 470,290 Z" fill="#4C6FFF" opacity="0.15"></path>
+        
+        <!-- Schaltkreise und Linien -->
+        <path d="M300,300 L350,300 L350,350 L400,350 L400,400 L450,400 L450,450 L500,450" stroke="url(#circuitGradient)" stroke-width="2" opacity="0.8"></path>
+        <path d="M320,250 L380,250 L380,320 L460,320 L460,380 L520,380" stroke="url(#circuitGradient)" stroke-width="2" opacity="0.8"></path>
+        <path d="M330,400 L370,400 L370,440 L410,440 L410,480 L480,480" stroke="url(#circuitGradient)" stroke-width="2" opacity="0.8"></path>
+        <path d="M260,350 L300,350 L300,390 L340,390 L340,430 L400,430" stroke="url(#circuitGradient)" stroke-width="2" opacity="0.8"></path>
+        <path d="M430,280 L460,280 L460,310 L490,310 L490,340 L530,340" stroke="url(#circuitGradient)" stroke-width="2" opacity="0.8"></path>
+        <path d="M380,500 L420,500 L420,460 L460,460 L460,420 L500,420" stroke="url(#circuitGradient)" stroke-width="2" opacity="0.8"></path>
+        
+        <!-- Knotenpunkte -->
+        <circle cx="300" cy="300" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="350" cy="300" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="350" cy="350" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="400" cy="350" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="400" cy="400" r="8" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="450" cy="400" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="450" cy="450" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="500" cy="450" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        
+        <circle cx="320" cy="250" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="380" cy="250" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="380" cy="320" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="460" cy="320" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="460" cy="380" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="520" cy="380" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        
+        <circle cx="330" cy="400" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="370" cy="400" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="370" cy="440" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="410" cy="440" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="410" cy="480" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        <circle cx="480" cy="480" r="5" fill="#7A99FF" filter="url(#glow)"></circle>
+        
+        <!-- Pulsierende Elemente -->
+        <circle cx="400" cy="400" r="15" fill="#7A99FF" opacity="0.3">
+            <animate attributeName="r" values="15;25;15" dur="3s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="520" cy="380" r="8" fill="#7A99FF" opacity="0.3">
+            <animate attributeName="r" values="8;15;8" dur="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.3;0.7;0.3" dur="2s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="300" cy="300" r="8" fill="#7A99FF" opacity="0.3">
+            <animate attributeName="r" values="8;15;8" dur="2.5s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.3;0.7;0.3" dur="2.5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="480" cy="480" r="8" fill="#7A99FF" opacity="0.3">
+            <animate attributeName="r" values="8;15;8" dur="3.5s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.5s" repeatCount="indefinite" />
+        </circle>
+        
+        <!-- Bewegte Pulse auf Leitungen -->
+        <circle r="3" fill="#7A99FF" opacity="0.8">
+            <animateMotion path="M300,300 L350,300 L350,350 L400,350 L400,400 L450,400 L450,450 L500,450" dur="3s" repeatCount="indefinite" />
+        </circle>
+        <circle r="3" fill="#7A99FF" opacity="0.8">
+            <animateMotion path="M320,250 L380,250 L380,320 L460,320 L460,380 L520,380" dur="4s" repeatCount="indefinite" />
+        </circle>
+        <circle r="3" fill="#7A99FF" opacity="0.8">
+            <animateMotion path="M330,400 L370,400 L370,440 L410,440 L410,480 L480,480" dur="3.5s" repeatCount="indefinite" />
+        </circle>
+        <circle r="3" fill="#7A99FF" opacity="0.8">
+            <animateMotion path="M260,350 L300,350 L300,390 L340,390 L340,430 L400,430" dur="2.5s" repeatCount="indefinite" />
+        </circle>
+        
+        <!-- 3D-Effekt-Schatten -->
+        <ellipse cx="400" cy="600" rx="200" ry="20" fill="#000000" opacity="0.2"></ellipse>
+    </g>
+</svg> 

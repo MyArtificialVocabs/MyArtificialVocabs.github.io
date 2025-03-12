@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie-Richtlinie - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .cookie-hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cookie-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .cookie-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            background: var(--background-color);
+        }
+
+        .cookie-nav {
+            position: sticky;
+            top: 80px;
+            background: var(--background-color);
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            z-index: 100;
+        }
+
+        .cookie-nav-list {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) var(--border-color);
+        }
+
+        .cookie-nav-list::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .cookie-nav-list::-webkit-scrollbar-track {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .cookie-nav-list::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .cookie-nav-item {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-full);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .cookie-nav-item:hover,
+        .cookie-nav-item.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .cookie-section {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .cookie-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cookie-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .cookie-section h2 {
+            color: var(--text-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cookie-section h2 i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .cookie-section h3 {
+            color: var(--text-color);
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .cookie-section p {
+            color: var(--text-color);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .cookie-section ul {
+            list-style: none;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cookie-section li {
+            color: var(--text-color);
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .cookie-section li::before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: -1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .cookie-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cookie-table th,
+        .cookie-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .cookie-table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .cookie-table tr:hover {
+            background: var(--background-color-hover);
+        }
+
+        .cookie-settings {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cookie-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cookie-toggle:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .cookie-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cookie-btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .cookie-btn-secondary {
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .cookie-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg,
+                var(--primary-color-transparent),
+                var(--secondary-color-transparent));
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .last-updated {
+            text-align: right;
+            color: var(--text-color-light);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--primary-color);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .cookie-nav-list {
+                flex-wrap: nowrap;
+            }
+
+            .cookie-section {
+                padding: 1.5rem;
+            }
+
+            .cookie-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .cookie-section h3 {
+                font-size: 1.3rem;
+            }
+
+            .cookie-section p,
+            .cookie-section li {
+                font-size: 1rem;
+            }
+
+            .cookie-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .cookie-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Cookie Hero Section -->
+    <section class="cookie-hero">
+        <div class="container">
+            <h1 class="hero-title">Cookie-Richtlinie</h1>
+            <p class="hero-subtitle">Erfahre mehr über die Verwendung von Cookies auf unserer Plattform</p>
+        </div>
+    </section>
+
+    <!-- Cookie Content -->
+    <div class="cookie-content">
+        <!-- Navigation -->
+        <nav class="cookie-nav">
+            <div class="cookie-nav-list">
+                <button class="cookie-nav-item active" data-section="overview">Überblick</button>
+                <button class="cookie-nav-item" data-section="types">Cookie-Arten</button>
+                <button class="cookie-nav-item" data-section="settings">Einstellungen</button>
+                <button class="cookie-nav-item" data-section="third-party">Drittanbieter</button>
+                <button class="cookie-nav-item" data-section="management">Verwaltung</button>
+            </div>
+        </nav>
+
+        <!-- Overview Section -->
+        <section id="overview" class="cookie-section visible">
+            <h2><i class="fas fa-cookie-bite"></i> Überblick</h2>
+            <p>Wir verwenden Cookies und ähnliche Technologien, um dir die bestmögliche Nutzererfahrung auf unserer Plattform zu bieten.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Wichtig:</strong> Einige Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.</p>
+            </div>
+
+            <h3>Was sind Cookies?</h3>
+            <p>Cookies sind kleine Textdateien, die beim Besuch einer Website auf deinem Gerät gespeichert werden. Sie dienen verschiedenen Zwecken:</p>
+            <ul>
+                <li>Speicherung deiner Präferenzen</li>
+                <li>Verbesserung der Nutzererfahrung</li>
+                <li>Analyse der Websitenutzung</li>
+                <li>Personalisierung von Inhalten</li>
+            </ul>
+        </section>
+
+        <!-- Types Section -->
+        <section id="types" class="cookie-section">
+            <h2><i class="fas fa-list"></i> Cookie-Arten</h2>
+            <p>Wir verwenden verschiedene Arten von Cookies:</p>
+
+            <table class="cookie-table">
+                <thead>
+                    <tr>
+                        <th>Cookie-Typ</th>
+                        <th>Zweck</th>
+                        <th>Dauer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Notwendige Cookies</td>
+                        <td>Ermöglichen grundlegende Funktionen</td>
+                        <td>Sitzung</td>
+                    </tr>
+                    <tr>
+                        <td>Funktionale Cookies</td>
+                        <td>Speichern Benutzereinstellungen</td>
+                        <td>1 Jahr</td>
+                    </tr>
+                    <tr>
+                        <td>Analyse-Cookies</td>
+                        <td>Sammeln anonyme Nutzungsdaten</td>
+                        <td>2 Jahre</td>
+                    </tr>
+                    <tr>
+                        <td>Marketing-Cookies</td>
+                        <td>Personalisierte Werbung</td>
+                        <td>90 Tage</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="cookie-section">
+            <h2><i class="fas fa-sliders-h"></i> Einstellungen</h2>
+            <p>Hier kannst du deine Cookie-Einstellungen verwalten:</p>
+
+            <div class="cookie-settings">
+                <div class="cookie-toggle">
+                    <div>
+                        <h3>Notwendige Cookies</h3>
+                        <p>Erforderlich für grundlegende Funktionen</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked disabled>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="cookie-toggle">
+                    <div>
+                        <h3>Funktionale Cookies</h3>
+                        <p>Verbessern die Nutzererfahrung</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="functional-cookies">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="cookie-toggle">
+                    <div>
+                        <h3>Analyse-Cookies</h3>
+                        <p>Helfen uns, die Website zu verbessern</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="analytics-cookies">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="cookie-toggle">
+                    <div>
+                        <h3>Marketing-Cookies</h3>
+                        <p>Ermöglichen personalisierte Werbung</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="marketing-cookies">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="cookie-buttons">
+                    <button class="cookie-btn cookie-btn-primary" id="save-preferences">Einstellungen speichern</button>
+                    <button class="cookie-btn cookie-btn-secondary" id="accept-all">Alle akzeptieren</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Third Party Section -->
+        <section id="third-party" class="cookie-section">
+            <h2><i class="fas fa-share-alt"></i> Drittanbieter</h2>
+            <p>Wir arbeiten mit folgenden Drittanbietern zusammen:</p>
+
+            <table class="cookie-table">
+                <thead>
+                    <tr>
+                        <th>Anbieter</th>
+                        <th>Zweck</th>
+                        <th>Datenschutz</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Google Analytics</td>
+                        <td>Nutzungsanalyse</td>
+                        <td><a href="https://policies.google.com/privacy" target="_blank">Link</a></td>
+                    </tr>
+                    <tr>
+                        <td>Facebook Pixel</td>
+                        <td>Marketing</td>
+                        <td><a href="https://www.facebook.com/privacy/policy/" target="_blank">Link</a></td>
+                    </tr>
+                    <tr>
+                        <td>Stripe</td>
+                        <td>Zahlungsabwicklung</td>
+                        <td><a href="https://stripe.com/privacy" target="_blank">Link</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Management Section -->
+        <section id="management" class="cookie-section">
+            <h2><i class="fas fa-cog"></i> Verwaltung</h2>
+            <p>Du hast verschiedene Möglichkeiten, Cookies zu verwalten:</p>
+
+            <h3>Browser-Einstellungen</h3>
+            <ul>
+                <li>Chrome: Einstellungen → Datenschutz und Sicherheit</li>
+                <li>Firefox: Einstellungen → Datenschutz & Sicherheit</li>
+                <li>Safari: Einstellungen → Datenschutz</li>
+                <li>Edge: Einstellungen → Cookies und Websiteberechtigungen</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Tipp:</strong> Das Löschen von Cookies kann dazu führen, dass einige Website-Funktionen nicht mehr richtig funktionieren.</p>
+            </div>
+        </section>
+
+        <p class="last-updated">Letzte Aktualisierung: 1. März 2024</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="funktionen.html">Funktionen</a></li>
+                        <li><a href="preise.html">Preise</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="dokumentation.html">Dokumentation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                        <li><a href="cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation Functionality
+            const navItems = document.querySelectorAll('.cookie-nav-item');
+            const sections = document.querySelectorAll('.cookie-section');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // Show corresponding section
+                    const targetId = item.getAttribute('data-section');
+                    sections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('visible');
+                            // Smooth scroll to section
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        } else {
+                            section.classList.remove('visible');
+                        }
+                    });
+                });
+            });
+
+            // Progress Bar
+            const progressBar = document.getElementById('progressBar');
+            
+            window.addEventListener('scroll', () => {
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight) * 100;
+                progressBar.style.width = scrolled + '%';
+            });
+
+            // Cookie Settings Functionality
+            const savePreferencesBtn = document.getElementById('save-preferences');
+            const acceptAllBtn = document.getElementById('accept-all');
+            const functionalCookies = document.getElementById('functional-cookies');
+            const analyticsCookies = document.getElementById('analytics-cookies');
+            const marketingCookies = document.getElementById('marketing-cookies');
+
+            // Load saved preferences
+            const savedPreferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
+            functionalCookies.checked = savedPreferences.functional ?? true;
+            analyticsCookies.checked = savedPreferences.analytics ?? false;
+            marketingCookies.checked = savedPreferences.marketing ?? false;
+
+            savePreferencesBtn.addEventListener('click', () => {
+                const preferences = {
+                    functional: functionalCookies.checked,
+                    analytics: analyticsCookies.checked,
+                    marketing: marketingCookies.checked
+                };
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                alert('Deine Cookie-Einstellungen wurden gespeichert!');
+            });
+
+            acceptAllBtn.addEventListener('click', () => {
+                functionalCookies.checked = true;
+                analyticsCookies.checked = true;
+                marketingCookies.checked = true;
+                
+                const preferences = {
+                    functional: true,
+                    analytics: true,
+                    marketing: true
+                };
+                localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+                alert('Alle Cookies wurden akzeptiert!');
+            });
+
+            // Intersection Observer for Sections
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Update nav item
+                        const sectionId = entry.target.id;
+                        navItems.forEach(item => {
+                            if (item.getAttribute('data-section') === sectionId) {
+                                item.classList.add('active');
+                            } else {
+                                item.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html> 

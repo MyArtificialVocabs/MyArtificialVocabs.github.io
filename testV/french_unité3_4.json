@@ -1,0 +1,30 @@
+{
+    "name": "französisch_unité3_4",
+    "words": [
+        { "term": "la Bastille", "definition": "die Bastille" },
+        { "term": "une prise", "definition": "Eroberung" },
+        { "term": "une monarchie", "definition": "Monarchie" },
+        { "term": "une union", "definition": "Vereinigung" },
+        { "term": "une nation", "definition": "Nation" },
+        { "term": "un défilé", "definition": "Parade" },
+        { "term": "des milliers", "definition": "Tausende" },
+        { "term": "un spectateur/une spectatrice", "definition": "Zuschauer(in)" },
+        { "term": "survoler qc", "definition": "überfliegen" },
+        { "term": "populaire", "definition": "beliebt" },
+        { "term": "annuel/annuelle", "definition": "jährlich" },
+        { "term": "une loi", "definition": "Gesetz" },
+        { "term": "une division", "definition": "Teilung" },
+        { "term": "éloigné/éloignée", "definition": "entfernt" },
+        { "term": "élevé/élevée", "definition": "hoch" },
+        { "term": "le loyer", "definition": "Miete" },
+        { "term": "la sixième", "definition": "6. Klasse" },
+        { "term": "la cinquième", "definition": "7. Klasse" },
+        { "term": "la quatrième", "definition": "8. Klasse" },
+        { "term": "la troisième", "definition": "9. Klasse" },
+        { "term": "le lycée professionnel", "definition": "Berufsgymnasium" },
+        { "term": "le C.A.P.", "definition": "Berufsabschluss" },
+        { "term": "le Baccalauréat professionnel", "definition": "Fachabitur" },
+        { "term": "un appartement à loyer réduit", "definition": "preisgünstige Wohnung" },
+        { "term": "H.L.M.", "definition": "Sozialwohnung" }
+    ]
+}

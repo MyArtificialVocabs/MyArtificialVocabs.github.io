@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6366F1;
+            --primary-dark: #4F46E5;
+            --primary-light: #818CF8;
+            --secondary-color: #EC4899;
+            --accent-color: #06B6D4;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --error-color: #EF4444;
+            --background-start: #1E1F3A;
+            --background-end: #2D1B69;
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --input-border: rgba(255, 255, 255, 0.1);
+            --button-gradient: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            --glass-effect: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--background-start), var(--background-end));
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        /* Seitentext-Container */
+        .side-text {
+            position: absolute;
+            max-width: 300px;
+            color: var(--text-secondary);
+            z-index: 2;
+            padding: 2rem;
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+            animation: floatSideText 8s ease-in-out infinite;
+        }
+
+        .side-text-left {
+            left: 5%;
+            top: 30%;
+        }
+
+        .side-text-right {
+            right: 5%;
+            bottom: 30%;
+        }
+
+        .side-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary-light), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .side-text p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes floatSideText {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Hintergrundanimationen */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .gradient-sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            animation: sphereFloat 20s infinite;
+        }
+
+        .sphere-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle at center, var(--primary-color), transparent 70%);
+            top: -300px;
+            left: -300px;
+            animation-delay: 0s;
+        }
+
+        .sphere-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle at center, var(--accent-color), transparent 70%);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: -5s;
+        }
+
+        .sphere-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at center, var(--secondary-color), transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -10s;
+        }
+
+        @keyframes sphereFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(100px, 50px) scale(1.1);
+            }
+            50% {
+                transform: translate(50px, -50px) scale(0.9);
+            }
+            75% {
+                transform: translate(-50px, 100px) scale(1.2);
+            }
+        }
+
+        /* Schwebende Partikel */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            animation: particleFloat 10s infinite;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(100px, 100px) rotate(90deg);
+            }
+            50% {
+                transform: translate(200px, 0) rotate(180deg);
+            }
+            75% {
+                transform: translate(100px, -100px) rotate(270deg);
+            }
+        }
+
+        /* Login Card Styles */
+        .login-card {
+            background: var(--glass-effect);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            z-index: 2;
+            transform-style: preserve-3d;
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% {
+                transform: translateY(0) rotateX(0) rotateY(0);
+            }
+            25% {
+                transform: translateY(-10px) rotateX(2deg) rotateY(-2deg);
+            }
+            75% {
+                transform: translateY(10px) rotateX(-2deg) rotateY(2deg);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .login-header img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.5));
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .login-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary-light), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.8));
+            }
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 300px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Form Styles */
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1.2rem 1rem 1.2rem 3rem;
+            background: var(--input-bg);
+            border: 2px solid var(--input-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .form-group input:focus + i {
+            color: var(--primary-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Form Options Styles */
+        .form-options {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .remember-me input[type="checkbox"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--input-border);
+            border-radius: 4px;
+            background: var(--input-bg);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .remember-me input[type="checkbox"]:checked {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .remember-me input[type="checkbox"]:checked::before {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+        }
+
+        .remember-me span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Passwort vergessen Link */
+        .forgot-password-container {
+            text-align: center;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .forgot-password {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .forgot-password::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .forgot-password:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Button Styles */
+        .login-btn {
+            position: relative;
+            padding: 1.2rem;
+            background: var(--button-gradient);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: all 0.5s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Social Login */
+        .social-login {
+            margin-top: 2.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .social-login p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-login p::before,
+        .social-login p::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--text-secondary);
+            opacity: 0.2;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--glass-effect);
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--button-gradient);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            color: white;
+        }
+
+        .social-btn:hover::before {
+            opacity: 1;
+        }
+
+        /* Signup Link */
+        .signup-link {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .signup-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 0.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .signup-link a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .signup-link a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Zusätzliche Effekte */
+        .glow-effect {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, var(--primary-color), transparent 70%);
+            filter: blur(30px);
+            opacity: 0.3;
+            animation: glowPulse 4s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .glow-1 {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .glow-2 {
+            bottom: 20%;
+            right: 10%;
+            background: radial-gradient(circle at center, var(--accent-color), transparent 70%);
+            animation-delay: 2s;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .login-header h2 {
+                font-size: 2rem;
+            }
+
+            .sphere-1, .sphere-2, .sphere-3 {
+                opacity: 0.3;
+            }
+        }
+
+        /* Zusätzliche Animationen */
+        @keyframes glowPulse {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes borderGlow {
+            0%, 100% {
+                border-color: var(--primary-color);
+            }
+            50% {
+                border-color: var(--accent-color);
+            }
+        }
+
+        /* Dynamische Partikel */
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.5;
+            animation: particleAnimation 10s infinite;
+        }
+
+        @keyframes particleAnimation {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(400px, 400px) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-background">
+        <div class="gradient-sphere sphere-1"></div>
+        <div class="gradient-sphere sphere-2"></div>
+        <div class="gradient-sphere sphere-3"></div>
+    </div>
+    
+    <div class="particle-container" id="particleContainer"></div>
+    
+    <div class="glow-effect glow-1"></div>
+    <div class="glow-effect glow-2"></div>
+
+    <!-- Seitentexte -->
+    <div class="side-text side-text-left">
+        <h3>Lerne mit KI</h3>
+        <p>Vocabo.ai nutzt fortschrittliche künstliche Intelligenz, um deinen Lernprozess zu personalisieren und zu optimieren.</p>
+        <p>Entdecke eine neue Art des Sprachenlernens!</p>
+    </div>
+    
+    <div class="side-text side-text-right">
+        <h3>Immer und überall</h3>
+        <p>Greife von jedem Gerät auf deine Lernmaterialien zu und setze deinen Fortschritt nahtlos fort.</p>
+        <p>Dein Sprachlernen, deine Regeln.</p>
+    </div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo">
+                <h2>Willkommen zurück</h2>
+                <p>Melde dich an, um dein Sprachlernen fortzusetzen</p>
+            </div>
+            <form class="login-form">
+                <div class="form-group">
+                    <input type="email" placeholder="E-Mail-Adresse" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Passwort" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox">
+                        <span>Angemeldet bleiben</span>
+                    </label>
+                </div>
+                <button type="submit" class="login-btn">Anmelden</button>
+                <div class="forgot-password-container">
+                    <a href="#" class="forgot-password">Passwort vergessen?</a>
+                </div>
+            </form>
+            <div class="social-login">
+                <p>Oder anmelden mit</p>
+                <div class="social-buttons">
+                    <button class="social-btn">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button class="social-btn">
+                        <i class="fab fa-facebook-f"></i>
+                    </button>
+                    <button class="social-btn">
+                        <i class="fab fa-apple"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="signup-link">
+                Noch kein Konto? <a href="signup.html">Jetzt registrieren</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dynamische Partikel erstellen
+        function createParticles() {
+            const container = document.getElementById('particleContainer');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Zufällige Größe
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Zufällige Position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Zufällige Animation
+                particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // 3D Tilt-Effekt
+        function addTiltEffect() {
+            const card = document.querySelector('.login-card');
+            const maxTilt = 5;
+            
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const xPercent = (x / rect.width - 0.5) * 2;
+                const yPercent = (y / rect.height - 0.5) * 2;
+                
+                const tiltX = yPercent * maxTilt;
+                const tiltY = -xPercent * maxTilt;
+                
+                card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        }
+
+        // Input Fokus-Effekte
+        function addInputEffects() {
+            const inputs = document.querySelectorAll('input');
+            
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    input.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', () => {
+                    input.parentElement.style.transform = 'scale(1)';
+                });
+            });
+        }
+
+        // Button Hover-Effekte
+        function addButtonEffects() {
+            const buttons = document.querySelectorAll('button');
+            
+            buttons.forEach(button => {
+                button.addEventListener('mousemove', (e) => {
+                    const rect = button.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    button.style.setProperty('--x', `${x}px`);
+                    button.style.setProperty('--y', `${y}px`);
+                });
+            });
+        }
+
+        // Seitentext-Effekte
+        function addSideTextEffects() {
+            const sideTexts = document.querySelectorAll('.side-text');
+            
+            sideTexts.forEach(text => {
+                text.addEventListener('mouseenter', () => {
+                    text.style.transform = 'scale(1.05) translateY(-10px)';
+                    text.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.3)';
+                });
+                
+                text.addEventListener('mouseleave', () => {
+                    text.style.transform = '';
+                    text.style.boxShadow = '';
+                });
+            });
+        }
+
+        // Checkbox-Effekt
+        function addCheckboxEffect() {
+            const checkbox = document.querySelector('.remember-me input[type="checkbox"]');
+            const label = document.querySelector('.remember-me span');
+            
+            if (checkbox && label) {
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        label.style.color = 'var(--primary-light)';
+                    } else {
+                        label.style.color = 'var(--text-secondary)';
+                    }
+                });
+            }
+        }
+
+        // Initialisierung
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            addTiltEffect();
+            addInputEffects();
+            addButtonEffects();
+            addSideTextEffects();
+            addCheckboxEffect();
+            
+            // Login-Formular Handler
+            const loginForm = document.querySelector('form');
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = document.querySelector('input[type="email"]').value;
+                const password = document.querySelector('input[type="password"]').value;
+                
+                if (email === 'leonlinzheyuan@gmail.com' && password === 'leonlinzheyuan@gmail.com') {
+                    window.location.href = '../VocaboLearn/dashboard.html';
+                } else {
+                    alert('Ungültige Anmeldedaten. Bitte versuchen Sie es erneut.');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

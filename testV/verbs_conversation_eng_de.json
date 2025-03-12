@@ -1,0 +1,25 @@
+{
+    "name": "Verbs English to German",
+    "words": [
+        {"term": "reflect", "definition": "reflektieren"},
+        {"term": "conceptualize", "definition": "konzeptualisieren"},
+        {"term": "anticipate", "definition": "antizipieren"},
+        {"term": "revolutionize", "definition": "revolutionieren"},
+        {"term": "consolidate", "definition": "konsolidieren"},
+        {"term": "transform", "definition": "transformieren"},
+        {"term": "evaluate", "definition": "evaluieren"},
+        {"term": "synthesize", "definition": "synthetisieren"},
+        {"term": "discredit", "definition": "diskreditieren"},
+        {"term": "compile", "definition": "kompilieren"},
+        {"term": "challenge", "definition": "herausfordern"},
+        {"term": "modify", "definition": "modifizieren"},
+        {"term": "optimize", "definition": "optimieren"},
+        {"term": "delegate", "definition": "delegieren"},
+        {"term": "validate", "definition": "validieren"},
+        {"term": "intensify", "definition": "intensivieren"},
+        {"term": "differentiate", "definition": "differenzieren"},
+        {"term": "extrapolate", "definition": "extrapolieren"},
+        {"term": "illustrate", "definition": "veranschaulichen"},
+        {"term": "collaborate", "definition": "kollaborieren"}
+    ]
+}

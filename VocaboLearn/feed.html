@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VocaboLearn - Feed</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #ec4899;
+            --secondary-light: #f472b6;
+            --secondary-dark: #db2777;
+            --success: #22c55e;
+            --warning: #eab308;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-light: #64748b;
+            --navbar-height: 70px;
+            --sidebar-width: 280px;
+            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--navbar-height);
+            background: white;
+            box-shadow: var(--card-shadow);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-right: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            margin-left: auto;
+        }
+
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Sidebar Panel */
+        .sidebar-panel {
+            position: fixed;
+            top: var(--navbar-height);
+            left: -var(--sidebar-width);
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--navbar-height));
+            background: white;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            padding: 2rem;
+        }
+
+        .sidebar-panel.open {
+            transform: translateX(var(--sidebar-width));
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-link i {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background: var(--primary);
+            color: white;
+            transform: translateX(10px);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 800px;
+            margin: var(--navbar-height) auto 0;
+            padding: 2rem;
+        }
+
+        .feed-header {
+            margin-bottom: 2rem;
+        }
+
+        .feed-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .feed-subtitle {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            border: none;
+            background: white;
+            color: var(--text-dark);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .achievement-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            padding: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="white" stroke-width="0.5" fill="none" opacity="0.2"/></svg>') repeat;
+            opacity: 0.1;
+        }
+
+        .achievement-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-description {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .feed-item {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        .feed-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        .feed-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .post-time {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .feed-content {
+            font-size: 1rem;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .feed-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-size: 0.875rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+        }
+
+        .stat-button:hover {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .filters {
+                justify-content: center;
+            }
+
+            .feed-item {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="course.html" class="nav-link">Kurse</a>
+            <a href="feed.html" class="nav-link active">Persönlicher Feed</a>
+        </div>
+    </nav>
+
+    <!-- Sidebar Panel -->
+    <div class="sidebar-panel" id="sidebarPanel">
+        <a href="dashboard.html" class="sidebar-link">
+            <i class="fas fa-home"></i>
+            Dashboard
+        </a>
+        <a href="course.html" class="sidebar-link">
+            <i class="fas fa-graduation-cap"></i>
+            Kurse
+        </a>
+        <a href="feed.html" class="sidebar-link active">
+            <i class="fas fa-stream"></i>
+            Persönlicher Feed
+        </a>
+        <a href="help.html" class="sidebar-link">
+            <i class="fas fa-question-circle"></i>
+            VocaboHelp
+        </a>
+        <a href="settings.html" class="sidebar-link">
+            <i class="fas fa-cog"></i>
+            Einstellungen
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="feed-header">
+            <h1 class="feed-title">Dein Lernfeed</h1>
+            <p class="feed-subtitle">Bleibe motiviert und verfolge deinen Lernfortschritt sowie den deiner Freunde.</p>
+        </div>
+
+        <div class="filters">
+            <button class="filter-button active">Alle</button>
+            <button class="filter-button">Erfolge</button>
+            <button class="filter-button">Freunde</button>
+            <button class="filter-button">Aktivitäten</button>
+        </div>
+
+        <div class="achievement-card">
+            <div class="achievement-content">
+                <div class="achievement-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2 class="achievement-title">Bereit zum Start!</h2>
+                <p class="achievement-description">Beginne deine Lernreise und sammle deine ersten Erfolge.</p>
+            </div>
+        </div>
+
+        <div class="feed-item">
+            <div class="feed-header">
+                <div class="user-avatar">A</div>
+                <div class="user-info">
+                    <div class="user-name">Alex</div>
+                    <div class="post-time">Gerade eben</div>
+                </div>
+            </div>
+            <div class="feed-content">
+                Hat sich gerade bei VocaboLearn angemeldet! 🎉
+            </div>
+            <div class="feed-stats">
+                <button class="stat-button">
+                    <i class="far fa-heart"></i>
+                    <span>0 Likes</span>
+                </button>
+                <button class="stat-button">
+                    <i class="far fa-comment"></i>
+                    <span>0 Kommentare</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="feed-item">
+            <div class="feed-header">
+                <div class="user-avatar">V</div>
+                <div class="user-info">
+                    <div class="user-name">VocaboLearn</div>
+                    <div class="post-time">Vor 1 Minute</div>
+                </div>
+            </div>
+            <div class="feed-content">
+                Willkommen in der Community! Hier findest du Motivation und Unterstützung auf deinem Lernweg. 🌟
+            </div>
+            <div class="feed-stats">
+                <button class="stat-button">
+                    <i class="far fa-heart"></i>
+                    <span>0 Likes</span>
+                </button>
+                <button class="stat-button">
+                    <i class="far fa-comment"></i>
+                    <span>0 Kommentare</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar Toggle Logic
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebarPanel = document.getElementById('sidebarPanel');
+            let isPanelLocked = false;
+
+            menuToggle.addEventListener('click', () => {
+                sidebarPanel.classList.toggle('open');
+                isPanelLocked = !isPanelLocked;
+            });
+
+            menuToggle.addEventListener('mouseenter', () => {
+                if (!isPanelLocked) {
+                    sidebarPanel.classList.add('open');
+                }
+            });
+
+            sidebarPanel.addEventListener('mouseleave', () => {
+                if (!isPanelLocked) {
+                    sidebarPanel.classList.remove('open');
+                }
+            });
+
+            // Filter button interaction
+            const filterButtons = document.querySelectorAll('.filter-button');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+            });
+
+            // Like button interaction
+            const statButtons = document.querySelectorAll('.stat-button');
+            statButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    button.style.color = getComputedStyle(document.documentElement)
+                        .getPropertyValue('--primary');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

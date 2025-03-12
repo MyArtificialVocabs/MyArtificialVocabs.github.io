@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrierung - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6366F1;
+            --primary-dark: #4F46E5;
+            --primary-light: #818CF8;
+            --secondary-color: #EC4899;
+            --accent-color: #06B6D4;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --error-color: #EF4444;
+            --background-start: #1E1F3A;
+            --background-end: #2D1B69;
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --input-border: rgba(255, 255, 255, 0.1);
+            --button-gradient: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            --glass-effect: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--background-start), var(--background-end));
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Hintergrundanimationen */
+        .animated-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .gradient-sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            animation: sphereFloat 20s infinite;
+        }
+
+        .sphere-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle at center, var(--secondary-color), transparent 70%);
+            top: -300px;
+            left: -300px;
+            animation-delay: 0s;
+        }
+
+        .sphere-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle at center, var(--accent-color), transparent 70%);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: -5s;
+        }
+
+        .sphere-3 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at center, var(--primary-color), transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -10s;
+        }
+
+        @keyframes sphereFloat {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(100px, 50px) scale(1.1);
+            }
+            50% {
+                transform: translate(50px, -50px) scale(0.9);
+            }
+            75% {
+                transform: translate(-50px, 100px) scale(1.2);
+            }
+        }
+
+        /* Schwebende Partikel */
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.5;
+            animation: particleAnimation 10s infinite;
+        }
+
+        @keyframes particleAnimation {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(400px, 400px) rotate(360deg);
+            }
+        }
+
+        /* Signup Container */
+        .signup-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        /* Seitentext-Container */
+        .side-text {
+            position: absolute;
+            max-width: 300px;
+            color: var(--text-secondary);
+            z-index: 2;
+            padding: 2rem;
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+            animation: floatSideText 8s ease-in-out infinite;
+        }
+
+        .side-text-left {
+            left: 5%;
+            top: 30%;
+        }
+
+        .side-text-right {
+            right: 5%;
+            bottom: 30%;
+        }
+
+        .side-text h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary-light), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .side-text p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes floatSideText {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Signup Card */
+        .signup-card {
+            background: var(--glass-effect);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 580px;
+            position: relative;
+            z-index: 2;
+            transform-style: preserve-3d;
+            animation: cardFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%, 100% {
+                transform: translateY(0) rotateX(0) rotateY(0);
+            }
+            25% {
+                transform: translateY(-10px) rotateX(2deg) rotateY(-2deg);
+            }
+            75% {
+                transform: translateY(10px) rotateX(-2deg) rotateY(2deg);
+            }
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .signup-header img {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.5));
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .signup-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary-light), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.8));
+            }
+        }
+
+        .signup-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 300px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Form Styles */
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1.2rem 1rem 1.2rem 3rem;
+            background: var(--input-bg);
+            border: 2px solid var(--input-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .form-group input:focus + i {
+            color: var(--primary-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Password Strength */
+        .password-strength {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            background: var(--error-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .password-strength-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .password-strength-bar.weak {
+            width: 33.33%;
+            background: var(--error-color);
+        }
+
+        .password-strength-bar.medium {
+            width: 66.66%;
+            background: var(--warning-color);
+        }
+
+        .password-strength-bar.strong {
+            width: 100%;
+            background: var(--success-color);
+        }
+
+        /* Terms Checkbox */
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+        }
+
+        .terms input[type="checkbox"] {
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            border: 2px solid var(--input-border);
+            border-radius: 6px;
+            background: var(--input-bg);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            margin-top: 0.2rem;
+        }
+
+        .terms input[type="checkbox"]:checked {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .terms input[type="checkbox"]:checked::before {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 16px;
+        }
+
+        .terms label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .terms a {
+            color: var(--primary-color);
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .terms a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .terms a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Signup Button */
+        .signup-btn {
+            position: relative;
+            padding: 1.2rem;
+            background: var(--button-gradient);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .signup-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: all 0.5s ease;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .signup-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Login Link */
+        .login-link {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 0.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .login-link a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .login-link a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .signup-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .signup-header h2 {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .sphere-1, .sphere-2, .sphere-3 {
+                opacity: 0.3;
+            }
+        }
+
+        /* Zusätzliche Animationen */
+        @keyframes glowPulse {
+            0%, 100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes borderGlow {
+            0%, 100% {
+                border-color: var(--primary-color);
+        }
+            50% {
+                border-color: var(--accent-color);
+        }
+        }
+
+        /* Zusätzliche Effekte */
+        .glow-effect {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, var(--primary-color), transparent 70%);
+            filter: blur(30px);
+            opacity: 0.3;
+            animation: glowPulse 4s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .glow-1 {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .glow-2 {
+            bottom: 20%;
+            right: 10%;
+            background: radial-gradient(circle at center, var(--accent-color), transparent 70%);
+            animation-delay: 2s;
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-background">
+        <div class="gradient-sphere sphere-1"></div>
+        <div class="gradient-sphere sphere-2"></div>
+        <div class="gradient-sphere sphere-3"></div>
+    </div>
+    
+    <div class="particle-container" id="particleContainer"></div>
+    
+    <div class="glow-effect glow-1"></div>
+    <div class="glow-effect glow-2"></div>
+
+    <!-- Seitentexte -->
+    <div class="side-text side-text-left">
+        <h3>Personalisiertes Lernen</h3>
+        <p>Vocabo.ai passt sich deinem Lernstil an und bietet dir maßgeschneiderte Übungen für optimalen Fortschritt.</p>
+        <p>Lerne in deinem eigenen Tempo!</p>
+    </div>
+    
+    <div class="side-text side-text-right">
+        <h3>Interaktive Übungen</h3>
+        <p>Entdecke vielfältige Lernmethoden mit Spracherkennungstechnologie und KI-gestützten Konversationen.</p>
+        <p>Mache Sprache lebendig!</p>
+    </div>
+
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="signup-header">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo">
+                <h2>Erstelle dein Konto</h2>
+                <p>Beginne deine Sprachlernreise mit Vocabo.ai</p>
+            </div>
+            <form class="signup-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" placeholder="Vorname" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Nachname" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="E-Mail-Adresse" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Passwort" required>
+                    <i class="fas fa-lock"></i>
+                    <div class="password-strength">
+                        <div class="password-strength-bar"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Passwort bestätigen" required>
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="terms">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        Ich habe die <a href="#">Nutzungsbedingungen</a> und die <a href="#">Datenschutzerklärung</a> gelesen und stimme zu, dass meine Daten gemäß dieser Bestimmungen verarbeitet werden. Ich bin mindestens 16 Jahre alt.
+                    </label>
+                </div>
+                <button type="submit" class="signup-btn">Konto erstellen</button>
+            </form>
+            <div class="login-link">
+                Bereits ein Konto? <a href="login.html">Jetzt anmelden</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dynamische Partikel erstellen
+        function createParticles() {
+            const container = document.getElementById('particleContainer');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Zufällige Größe
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Zufällige Position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Zufällige Animation
+                particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // 3D Tilt-Effekt
+        function addTiltEffect() {
+            const card = document.querySelector('.signup-card');
+            const maxTilt = 5;
+            
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const xPercent = (x / rect.width - 0.5) * 2;
+                const yPercent = (y / rect.height - 0.5) * 2;
+                
+                const tiltX = yPercent * maxTilt;
+                const tiltY = -xPercent * maxTilt;
+                
+                card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+            });
+        }
+
+        // Passwort-Stärke Überprüfung mit Animation
+        function updatePasswordStrength(password) {
+            const strengthBar = document.querySelector('.password-strength-bar');
+            
+            // Einfache Passwort-Stärke-Prüfung
+            const hasLower = /[a-z]/.test(password);
+            const hasUpper = /[A-Z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecial = /[!@#$%^&*]/.test(password);
+            const isLongEnough = password.length >= 8;
+            
+            const strength = [hasLower, hasUpper, hasNumber, hasSpecial, isLongEnough]
+                .filter(Boolean).length;
+            
+            strengthBar.className = 'password-strength-bar';
+            
+            if (strength > 3) {
+                strengthBar.classList.add('strong');
+            } else if (strength > 2) {
+                strengthBar.classList.add('medium');
+            } else if (strength > 0) {
+                strengthBar.classList.add('weak');
+            }
+        }
+
+        // Input Fokus-Effekte
+        function addInputEffects() {
+            const inputs = document.querySelectorAll('input');
+            
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    input.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', () => {
+                    input.parentElement.style.transform = 'scale(1)';
+                });
+                
+                if (input.type === 'password') {
+                    input.addEventListener('input', (e) => {
+                        updatePasswordStrength(e.target.value);
+                    });
+                }
+            });
+        }
+
+        // Button Hover-Effekte
+        function addButtonEffects() {
+            const buttons = document.querySelectorAll('button');
+            
+            buttons.forEach(button => {
+                button.addEventListener('mousemove', (e) => {
+                    const rect = button.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    button.style.setProperty('--x', `${x}px`);
+                    button.style.setProperty('--y', `${y}px`);
+                });
+            });
+        }
+
+        // Seitentext-Effekte
+        function addSideTextEffects() {
+            const sideTexts = document.querySelectorAll('.side-text');
+            
+            sideTexts.forEach(text => {
+                text.addEventListener('mouseenter', () => {
+                    text.style.transform = 'scale(1.05) translateY(-10px)';
+                    text.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.3)';
+                });
+                
+                text.addEventListener('mouseleave', () => {
+                    text.style.transform = '';
+                    text.style.boxShadow = '';
+                });
+            });
+        }
+
+        // Checkbox-Effekt
+        function addCheckboxEffect() {
+            const checkbox = document.querySelector('#terms');
+            const termsContainer = document.querySelector('.terms');
+            
+            if (checkbox && termsContainer) {
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        termsContainer.style.borderColor = 'var(--primary-color)';
+                        termsContainer.style.boxShadow = '0 0 15px rgba(99, 102, 241, 0.3)';
+                    } else {
+                        termsContainer.style.borderColor = 'var(--card-border)';
+                        termsContainer.style.boxShadow = 'none';
+                    }
+                });
+            }
+        }
+
+        // Formular-Validierung
+        function setupFormValidation() {
+            const form = document.querySelector('.signup-form');
+            const passwordInputs = form.querySelectorAll('input[type="password"]');
+            const submitButton = form.querySelector('.signup-btn');
+            
+            // Passwort-Übereinstimmung prüfen
+            passwordInputs[1].addEventListener('input', () => {
+                if (passwordInputs[0].value && passwordInputs[1].value) {
+                    if (passwordInputs[0].value !== passwordInputs[1].value) {
+                        passwordInputs[1].style.borderColor = 'var(--error-color)';
+                        passwordInputs[1].style.boxShadow = '0 0 0 4px rgba(239, 68, 68, 0.1)';
+                    } else {
+                        passwordInputs[1].style.borderColor = 'var(--success-color)';
+                        passwordInputs[1].style.boxShadow = '0 0 0 4px rgba(16, 185, 129, 0.1)';
+                    }
+                }
+            });
+            
+            // Button-Animation beim Hover
+            submitButton.addEventListener('mouseenter', () => {
+                submitButton.style.transform = 'translateY(-3px)';
+                submitButton.style.boxShadow = '0 10px 25px rgba(99, 102, 241, 0.4)';
+            });
+            
+            submitButton.addEventListener('mouseleave', () => {
+                submitButton.style.transform = 'translateY(0)';
+                submitButton.style.boxShadow = '0 10px 20px rgba(99, 102, 241, 0.3)';
+            });
+            
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                if (passwordInputs[0].value !== passwordInputs[1].value) {
+                    alert('Die Passwörter stimmen nicht überein!');
+                    return;
+                }
+                
+                // Hier würde normalerweise die Registrierung erfolgen
+                alert('Registrierung erfolgreich! Bitte überprüfen Sie Ihre E-Mail für die Bestätigung.');
+                window.location.href = 'login.html';
+            });
+        }
+
+        // Initialisierung
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            addTiltEffect();
+            addInputEffects();
+            addButtonEffects();
+            addSideTextEffects();
+            addCheckboxEffect();
+            setupFormValidation();
+        });
+    </script>
+</body>
+</html> 

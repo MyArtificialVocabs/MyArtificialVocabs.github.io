@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressum - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .imprint-hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .imprint-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .imprint-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            background: var(--background-color);
+        }
+
+        .imprint-nav {
+            position: sticky;
+            top: 80px;
+            background: var(--background-color);
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            z-index: 100;
+        }
+
+        .imprint-nav-list {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) var(--border-color);
+        }
+
+        .imprint-nav-list::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .imprint-nav-list::-webkit-scrollbar-track {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .imprint-nav-list::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .imprint-nav-item {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-full);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .imprint-nav-item:hover,
+        .imprint-nav-item.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .imprint-section {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .imprint-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .imprint-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .imprint-section h2 {
+            color: var(--text-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .imprint-section h2 i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .imprint-section h3 {
+            color: var(--text-color);
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .imprint-section p {
+            color: var(--text-color);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-card {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow-lg);
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .contact-item i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-top: 0.3rem;
+        }
+
+        .contact-item-content h4 {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item-content p {
+            color: var(--text-color);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg,
+                var(--primary-color-transparent),
+                var(--secondary-color-transparent));
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .last-updated {
+            text-align: right;
+            color: var(--text-color-light);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--primary-color);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .imprint-nav-list {
+                flex-wrap: nowrap;
+            }
+
+            .imprint-section {
+                padding: 1.5rem;
+            }
+
+            .imprint-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .imprint-section h3 {
+                font-size: 1.3rem;
+            }
+
+            .imprint-section p {
+                font-size: 1rem;
+            }
+
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Imprint Hero Section -->
+    <section class="imprint-hero">
+        <div class="container">
+            <h1 class="hero-title">Impressum</h1>
+            <p class="hero-subtitle">Rechtliche Informationen und Kontaktdaten</p>
+        </div>
+    </section>
+
+    <!-- Imprint Content -->
+    <div class="imprint-content">
+        <!-- Navigation -->
+        <nav class="imprint-nav">
+            <div class="imprint-nav-list">
+                <button class="imprint-nav-item active" data-section="company">Unternehmen</button>
+                <button class="imprint-nav-item" data-section="contact">Kontakt</button>
+                <button class="imprint-nav-item" data-section="register">Handelsregister</button>
+                <button class="imprint-nav-item" data-section="responsibility">Verantwortlichkeit</button>
+            </div>
+        </nav>
+
+        <!-- Company Section -->
+        <section id="company" class="imprint-section visible">
+            <h2><i class="fas fa-building"></i> Unternehmensangaben</h2>
+            <div class="contact-card">
+                <h3>Vocabo.ai GmbH</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="contact-item-content">
+                            <h4>Anschrift</h4>
+                            <p>Musterstraße 123<br>12345 Musterstadt<br>Deutschland</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div class="contact-item-content">
+                            <h4>Telefon</h4>
+                            <p>+49 (0) 123 456789</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Hinweis:</strong> Bitte nutzen Sie für Support-Anfragen unser <a href="kontakt.html">Kontaktformular</a>.</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="imprint-section">
+            <h2><i class="fas fa-envelope"></i> Kontakt</h2>
+            <div class="contact-card">
+                <h3>Geschäftsführung</h3>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-user"></i>
+                        <div class="contact-item-content">
+                            <h4>Geschäftsführer</h4>
+                            <p>Max Mustermann</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-item-content">
+                            <h4>E-Mail</h4>
+                            <p>info@vocabo.ai</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Register Section -->
+        <section id="register" class="imprint-section">
+            <h2><i class="fas fa-file-alt"></i> Handelsregister</h2>
+            <div class="contact-card">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-balance-scale"></i>
+                        <div class="contact-item-content">
+                            <h4>Registergericht</h4>
+                            <p>Amtsgericht Musterstadt</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-hashtag"></i>
+                        <div class="contact-item-content">
+                            <h4>Handelsregisternummer</h4>
+                            <p>HRB 123456</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-percent"></i>
+                        <div class="contact-item-content">
+                            <h4>USt-IdNr.</h4>
+                            <p>DE123456789</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Responsibility Section -->
+        <section id="responsibility" class="imprint-section">
+            <h2><i class="fas fa-gavel"></i> Verantwortlichkeit</h2>
+            <h3>Inhaltlich Verantwortlicher</h3>
+            <p>Gemäß § 55 Abs. 2 RStV:</p>
+            <div class="contact-card">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-user-tie"></i>
+                        <div class="contact-item-content">
+                            <h4>Verantwortlich für den Inhalt</h4>
+                            <p>Max Mustermann<br>Vocabo.ai GmbH<br>Musterstraße 123<br>12345 Musterstadt</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Haftungsausschluss</h3>
+            <p>Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich.</p>
+        </section>
+
+        <p class="last-updated">Letzte Aktualisierung: 1. März 2024</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="funktionen.html">Funktionen</a></li>
+                        <li><a href="preise.html">Preise</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="dokumentation.html">Dokumentation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                        <li><a href="cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation Functionality
+            const navItems = document.querySelectorAll('.imprint-nav-item');
+            const sections = document.querySelectorAll('.imprint-section');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // Show corresponding section
+                    const targetId = item.getAttribute('data-section');
+                    sections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('visible');
+                            // Smooth scroll to section
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        } else {
+                            section.classList.remove('visible');
+                        }
+                    });
+                });
+            });
+
+            // Progress Bar
+            const progressBar = document.getElementById('progressBar');
+            
+            window.addEventListener('scroll', () => {
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight) * 100;
+                progressBar.style.width = scrolled + '%';
+            });
+
+            // Intersection Observer for Sections
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Update nav item
+                        const sectionId = entry.target.id;
+                        navItems.forEach(item => {
+                            if (item.getAttribute('data-section') === sectionId) {
+                                item.classList.add('active');
+                            } else {
+                                item.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html> 

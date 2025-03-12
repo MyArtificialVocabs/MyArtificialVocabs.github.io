@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dokumentation - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+    <style>
+        /* Zusätzliche Styles für die Dokumentation */
+        .docs-hero {
+            background: linear-gradient(135deg, var(--secondary-color), #1E1F3A);
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .docs-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .docs-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            margin: 3rem auto;
+            max-width: 1400px;
+            padding: 0 1rem;
+        }
+
+        .docs-sidebar {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            padding-right: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) transparent;
+        }
+
+        .docs-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .docs-sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .docs-sidebar::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .docs-nav {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .docs-nav h3 {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .docs-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .docs-nav li {
+            margin-bottom: 0.5rem;
+        }
+
+        .docs-nav a {
+            display: block;
+            padding: 0.5rem;
+            color: var(--text-color-light);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s ease;
+        }
+
+        .docs-nav a:hover,
+        .docs-nav a.active {
+            color: var(--primary-color);
+            background: var(--primary-color-transparent);
+        }
+
+        .docs-nav a i {
+            margin-right: 0.5rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .docs-content {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .docs-section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .docs-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .docs-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .docs-section h2 {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .docs-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            border-radius: var(--radius-full);
+        }
+
+        .docs-section h3 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin: 2rem 0 1rem;
+        }
+
+        .docs-section p {
+            color: var(--text-color-light);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .code-block {
+            background: #1E1F3A;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-language {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .copy-btn:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .copy-btn i {
+            margin-right: 0.25rem;
+        }
+
+        pre {
+            margin: 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.9em;
+        }
+
+        .info-box {
+            background: var(--primary-color-transparent);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 1.5rem 0;
+        }
+
+        .info-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .api-endpoint {
+            background: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .http-method {
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .http-method.get {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .http-method.post {
+            background: #2196F3;
+            color: white;
+        }
+
+        .http-method.put {
+            background: #FF9800;
+            color: white;
+        }
+
+        .http-method.delete {
+            background: #F44336;
+            color: white;
+        }
+
+        .endpoint-url {
+            font-family: 'Fira Code', monospace;
+            color: var(--text-color);
+        }
+
+        .endpoint-body {
+            padding: 1rem;
+        }
+
+        .parameter-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .parameter-table th,
+        .parameter-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .parameter-table th {
+            font-weight: 600;
+            color: var(--text-color);
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .parameter-table td {
+            color: var(--text-color-light);
+        }
+
+        .parameter-type {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            color: var(--primary-color);
+        }
+
+        .required-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: var(--primary-color-transparent);
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 1024px) {
+            .docs-container {
+                grid-template-columns: 1fr;
+            }
+
+            .docs-sidebar {
+                position: relative;
+                top: 0;
+                height: auto;
+                margin-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .docs-content {
+                padding: 1.5rem;
+            }
+
+            .endpoint-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Animation Keyframes */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(var(--primary-color-rgb), 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb), 0);
+            }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .pulsing {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Documentation Hero Section -->
+    <section class="docs-hero">
+        <div class="container">
+            <h1 class="hero-title">Vocabo.ai Dokumentation</h1>
+            <p class="hero-subtitle">Umfassende technische Dokumentation und Entwicklerressourcen</p>
+        </div>
+    </section>
+
+    <!-- Documentation Content -->
+    <div class="docs-container">
+        <!-- Sidebar Navigation -->
+        <aside class="docs-sidebar">
+            <nav class="docs-nav">
+                <h3>Inhaltsverzeichnis</h3>
+                <ul>
+                    <li><a href="#getting-started" class="active"><i class="fas fa-rocket"></i>Erste Schritte</a></li>
+                    <li><a href="#api-reference"><i class="fas fa-code"></i>API-Referenz</a></li>
+                    <li><a href="#sdk-integration"><i class="fas fa-plug"></i>SDK-Integration</a></li>
+                    <li><a href="#authentication"><i class="fas fa-lock"></i>Authentifizierung</a></li>
+                    <li><a href="#webhooks"><i class="fas fa-exchange-alt"></i>Webhooks</a></li>
+                    <li><a href="#error-handling"><i class="fas fa-exclamation-triangle"></i>Fehlerbehandlung</a></li>
+                    <li><a href="#rate-limiting"><i class="fas fa-tachometer-alt"></i>Rate Limiting</a></li>
+                    <li><a href="#best-practices"><i class="fas fa-check-circle"></i>Best Practices</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="docs-content">
+            <!-- Getting Started Section -->
+            <section id="getting-started" class="docs-section">
+                <h2>Erste Schritte</h2>
+                <p>
+                    Willkommen in der Vocabo.ai Entwicklerdokumentation. Hier findest du alle Informationen, 
+                    die du benötigst, um unsere API zu nutzen und Vocabo.ai in deine Anwendung zu integrieren.
+                </p>
+
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> Wichtiger Hinweis</h4>
+                    <p>
+                        Stelle sicher, dass du einen API-Schlüssel hast, bevor du beginnst. 
+                        Du kannst einen Schlüssel in deinem Dashboard unter "API-Einstellungen" generieren.
+                    </p>
+                </div>
+
+                <h3>Installation</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-language">npm</span>
+                        <button class="copy-btn">
+                            <i class="fas fa-copy"></i>Kopieren
+                        </button>
+                    </div>
+                    <pre><code>npm install vocabo-ai-sdk</code></pre>
+                </div>
+
+                <h3>Schnellstart-Beispiel</h3>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-language">JavaScript</span>
+                        <button class="copy-btn">
+                            <i class="fas fa-copy"></i>Kopieren
+                        </button>
+                    </div>
+                    <pre><code>const VocaboAI = require('vocabo-ai-sdk');
+
+const vocabo = new VocaboAI({
+    apiKey: 'YOUR_API_KEY',
+    environment: 'production'
+});
+
+// Vokabeln abrufen
+async function getVocabulary() {
+    try {
+        const vocabulary = await vocabo.vocabulary.get({
+            language: 'en',
+            level: 'B1',
+            limit: 10
+        });
+        console.log(vocabulary);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}</code></pre>
+                </div>
+            </section>
+
+            <!-- API Reference Section -->
+            <section id="api-reference" class="docs-section">
+                <h2>API-Referenz</h2>
+                <p>
+                    Unsere RESTful API ermöglicht dir den Zugriff auf alle Funktionen von Vocabo.ai. 
+                    Alle Endpunkte akzeptieren und geben JSON zurück.
+                </p>
+
+                <h3>Vokabeln abrufen</h3>
+                <div class="api-endpoint">
+                    <div class="endpoint-header">
+                        <span class="http-method get">GET</span>
+                        <span class="endpoint-url">/api/v1/vocabulary</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <h4>Parameter</h4>
+                        <table class="parameter-table">
+                            <thead>
+                                <tr>
+                                    <th>Parameter</th>
+                                    <th>Typ</th>
+                                    <th>Beschreibung</th>
+                                    <th>Erforderlich</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>language</td>
+                                    <td><span class="parameter-type">string</span></td>
+                                    <td>Sprachcode (z.B. 'en', 'de')</td>
+                                    <td><span class="required-badge">Ja</span></td>
+                                </tr>
+                                <tr>
+                                    <td>level</td>
+                                    <td><span class="parameter-type">string</span></td>
+                                    <td>Sprachniveau (A1-C2)</td>
+                                    <td><span class="required-badge">Ja</span></td>
+                                </tr>
+                                <tr>
+                                    <td>limit</td>
+                                    <td><span class="parameter-type">integer</span></td>
+                                    <td>Anzahl der Ergebnisse (1-100)</td>
+                                    <td>Nein</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4>Beispielantwort</h4>
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-language">JSON</span>
+                                <button class="copy-btn">
+                                    <i class="fas fa-copy"></i>Kopieren
+                                </button>
+                            </div>
+                            <pre><code>{
+    "success": true,
+    "data": {
+        "vocabulary": [
+            {
+                "id": "12345",
+                "word": "example",
+                "translation": "Beispiel",
+                "level": "B1",
+                "category": "general",
+                "examples": [
+                    "This is an example sentence.",
+                    "Here's another example."
+                ]
+            }
+        ],
+        "total": 1,
+        "page": 1
+    }
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Additional Sections -->
+            <section id="sdk-integration" class="docs-section">
+                <!-- SDK Integration content -->
+            </section>
+
+            <section id="authentication" class="docs-section">
+                <!-- Authentication content -->
+            </section>
+
+            <section id="webhooks" class="docs-section">
+                <!-- Webhooks content -->
+            </section>
+
+            <section id="error-handling" class="docs-section">
+                <!-- Error Handling content -->
+            </section>
+
+            <section id="rate-limiting" class="docs-section">
+                <!-- Rate Limiting content -->
+            </section>
+
+            <section id="best-practices" class="docs-section">
+                <!-- Best Practices content -->
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="funktionen.html">Funktionen</a></li>
+                        <li><a href="preise.html">Preise</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="dokumentation.html">Dokumentation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                        <li><a href="cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.7/dist/countUp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-json.min.js"></script>
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        
+                        // Update active state in navigation
+                        document.querySelectorAll('.docs-nav a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Copy button functionality
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const codeBlock = this.closest('.code-block').querySelector('code');
+                    navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<i class="fas fa-check"></i>Kopiert!';
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    });
+                });
+            });
+
+            // Intersection Observer for scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.docs-section').forEach(section => {
+                observer.observe(section);
+            });
+
+            // Active section tracking
+            const sections = document.querySelectorAll('.docs-section');
+            const navLinks = document.querySelectorAll('.docs-nav a');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').slice(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

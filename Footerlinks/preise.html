@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preise - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Zusätzliche Styles für die Preise-Seite */
+        .pricing-hero {
+            background: linear-gradient(135deg, var(--secondary-color), #1E1F3A);
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+        }
+
+        .pricing-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: var(--primary-color);
+            border-radius: 15px;
+            padding: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            transform: translateX(-24px); /* Standardmäßig auf der linken Seite */
+        }
+
+        .toggle-switch.yearly::before {
+            transform: translateX(3px); /* Verschieben Sie den Schalter nach rechts */
+        }
+
+        .price-period {
+            font-weight: 500;
+            color: var(--text-color-light);
+        }
+
+        .price-period.active {
+            color: var(--primary-color);
+        }
+
+        .pricing-grid {
+            margin-top: 4rem;
+        }
+
+        .pricing-card {
+            transform: scale(1);
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.05);
+        }
+
+        .pricing-card.popular {
+            transform: scale(1.05);
+        }
+
+        .pricing-card.popular:hover {
+            transform: scale(1.1);
+        }
+
+        .save-badge {
+            position: absolute;
+            top: 5px;
+            right: 280px;
+            background: var(--accent-color);
+            color: rgb(255, 255, 255);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transform: rotate(-30deg);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .yearly .save-badge {
+            opacity: 1;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .pricing-card {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .pricing-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .pricing-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-grid {
+                gap: 2rem;
+            }
+
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+
+            .pricing-card.popular:hover {
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Pricing Hero Section -->
+    <section class="pricing-hero">
+        <div class="container">
+            <h1 class="hero-title">Wähle deinen Plan</h1>
+            <p class="hero-subtitle">Flexible Optionen für jeden Lerntyp</p>
+            
+            <div class="pricing-toggle">
+                <span class="price-period active">Monatlich</span>
+                <div class="toggle-switch"></div>
+                <span class="price-period">Jährlich</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="pricing-grid">
+                <!-- Basic Plan -->
+                <div class="pricing-card">
+                    <div class="save-badge">Spare 20%</div>
+                    <div class="pricing-header">
+                        <h3>Basis</h3>
+                        <div class="price">
+                            <span class="currency">€</span>
+                            <span class="amount" data-monthly="0" data-yearly="0">0</span>
+                            <span class="period">/Monat</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> 50 neue Vokabeln pro Monat</li>
+                            <li><i class="fas fa-check"></i> Grundlegende Lernstatistiken</li>
+                            <li><i class="fas fa-check"></i> 5 Sprachen</li>
+                            <li><i class="fas fa-check"></i> Basis-Übungen</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="../account/signup.html" class="btn btn-secondary">Kostenlos starten</a>
+                    </div>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="pricing-card popular">
+                    <div class="save-badge">Spare 25%</div>
+                    <div class="popular-badge">Beliebt</div>
+                    <div class="pricing-header">
+                        <h3>Premium</h3>
+                        <div class="price">
+                            <span class="currency">€</span>
+                            <span class="amount" data-monthly="9.99" data-yearly="7.99">9.99</span>
+                            <span class="period">/Monat</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Unbegrenzte Vokabeln</li>
+                            <li><i class="fas fa-check"></i> KI-Lernassistent</li>
+                            <li><i class="fas fa-check"></i> 25 Sprachen</li>
+                            <li><i class="fas fa-check"></i> Offline-Modus</li>
+                            <li><i class="fas fa-check"></i> Detaillierte Lernanalyse</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="#" class="btn btn-primary">Jetzt upgraden</a>
+                    </div>
+                </div>
+
+                <!-- Business Plan -->
+                <div class="pricing-card">
+                    <div class="save-badge">Spare 30%</div>
+                    <div class="pricing-header">
+                        <h3>Business</h3>
+                        <div class="price">
+                            <span class="currency">€</span>
+                            <span class="amount" data-monthly="19.99" data-yearly="13.99">19.99</span>
+                            <span class="period">/Monat</span>
+                        </div>
+                    </div>
+                    <div class="pricing-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Alles aus Premium</li>
+                            <li><i class="fas fa-check"></i> Team-Verwaltung</li>
+                            <li><i class="fas fa-check"></i> Fortschrittsberichte</li>
+                            <li><i class="fas fa-check"></i> Priorisierter Support</li>
+                            <li><i class="fas fa-check"></i> Branchenspezifische Vokabeln</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-cta">
+                        <a href="kontakt.html" class="btn btn-primary">Kontaktiere uns</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="funktionen.html">Funktionen</a></li>
+                        <li><a href="preise.html">Preise</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="dokumentation.html">Dokumentation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                        <li><a href="cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.7/dist/countUp.min.js"></script>
+    <script src="../script.js"></script>
+    <script>
+        // Preisumschaltung
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.querySelector('.toggle-switch');
+            const monthlySpan = document.querySelector('.price-period:first-child');
+            const yearlySpan = document.querySelector('.price-period:last-child');
+            const amounts = document.querySelectorAll('.amount');
+            
+            // Set initial state to monthly
+            toggle.classList.remove('yearly');
+            monthlySpan.classList.add('active');
+            yearlySpan.classList.remove('active');
+            amounts.forEach(amount => {
+                const monthly = amount.getAttribute('data-monthly');
+                amount.textContent = monthly;
+            });
+            document.querySelectorAll('.save-badge').forEach(badge => {
+                badge.style.opacity = '0';
+            });
+
+            toggle.addEventListener('click', function() {
+                this.classList.toggle('yearly');
+                monthlySpan.classList.toggle('active');
+                yearlySpan.classList.toggle('active');
+                
+                amounts.forEach(amount => {
+                    const monthly = amount.getAttribute('data-monthly');
+                    const yearly = amount.getAttribute('data-yearly');
+                    amount.textContent = this.classList.contains('yearly') ? yearly : monthly;
+                });
+                
+                document.querySelectorAll('.save-badge').forEach(badge => {
+                    badge.style.opacity = this.classList.contains('yearly') ? '1' : '0';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

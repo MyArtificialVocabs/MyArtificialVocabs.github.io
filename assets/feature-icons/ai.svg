@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>KI-Technologie Icon</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="iconGradient">
+            <stop stop-color="#4C6FFF" offset="0%"></stop>
+            <stop stop-color="#7A99FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="ai-icon" fill="none" stroke="none" stroke-width="1" fill-rule="evenodd">
+        <!-- Hintergrund-Kreis -->
+        <circle cx="40" cy="40" r="40" fill="url(#iconGradient)" opacity="0.1"></circle>
+        
+        <!-- Gehirn-Silhouette -->
+        <path d="M50,25 C55,25 60,30 60,35 C60,40 55,45 50,45 C48,45.5 46,46 44,46 C38,46 35,45 32,43 C29,41 27,39 25,36 C23,33 22,30 22,27 C22,24 23,21 25,19 C27,17 30,15 33,15 C36,14 39,14 42,15 C45,16 48,19 50,25 Z" stroke="url(#iconGradient)" stroke-width="2" fill="#FFFFFF"></path>
+        
+        <!-- Gehirn-Details -->
+        <path d="M30,19 C28,21 27,24 27,27 C27,30 28,33 30,35 C32,37 35,38 38,38 C41,38 44,37 46,35 C48,33 49,30 49,27 C49,24 48,21 46,19 C44,17 41,16 38,16 C35,16 32,17 30,19 Z" fill="url(#iconGradient)" opacity="0.15"></path>
+        
+        <!-- Schaltkreise -->
+        <path d="M30,25 L35,25 L35,30 L40,30 L40,35 L45,35 L45,40 L50,40" stroke="url(#iconGradient)" stroke-width="1.5" opacity="0.8"></path>
+        <path d="M32,20 L38,20 L38,26 L44,26 L44,32 L50,32" stroke="url(#iconGradient)" stroke-width="1.5" opacity="0.8"></path>
+        
+        <!-- Verbindungspunkte -->
+        <circle cx="30" cy="25" r="2" fill="url(#iconGradient)"></circle>
+        <circle cx="35" cy="25" r="2" fill="url(#iconGradient)"></circle>
+        <circle cx="35" cy="30" r="2" fill="url(#iconGradient)"></circle>
+        <circle cx="40" cy="30" r="2" fill="url(#iconGradient)"></circle>
+        <circle cx="40" cy="35" r="2" fill="url(#iconGradient)"></circle>
+        <circle cx="45" cy="35" r="2" fill="url(#iconGradient)"></circle>
+        <circle cx="45" cy="40" r="2" fill="url(#iconGradient)"></circle>
+        <circle cx="50" cy="40" r="2" fill="url(#iconGradient)"></circle>
+        
+        <!-- KI Symbol -->
+        <text font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="url(#iconGradient)">
+            <tspan x="30" y="65">KI</tspan>
+        </text>
+    </g>
+</svg> 

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hilfe-Center - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Zusätzliche Styles für das Hilfe-Center */
+        .help-hero {
+            background: linear-gradient(135deg, var(--secondary-color), #1E1F3A);
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .help-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-circle:nth-child(1) {
+            width: 120px;
+            height: 120px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 20%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .floating-circle:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 15%;
+            left: 20%;
+            animation-delay: 2s;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            padding-right: 4rem;
+            border-radius: var(--radius-full);
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            color: var(--primary-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .help-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 3rem 0 1rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-full);
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .tab:hover, .tab.active {
+            color: white;
+            border-color: transparent;
+        }
+
+        .tab:hover::before, .tab.active::before {
+            left: 0;
+        }
+
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .help-card {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .help-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .help-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .help-card:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .help-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .help-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+            z-index: -1;
+        }
+
+        .help-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .help-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .help-card:hover .help-icon {
+            transform: scale(1.2);
+        }
+
+        .help-title {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            margin: 0.5rem 0;
+        }
+
+        .help-text {
+            color: var(--text-color-light);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .help-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            margin-top: auto;
+            transition: all 0.3s ease;
+        }
+
+        .help-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .help-link:hover {
+            color: var(--primary-light);
+        }
+
+        .help-link:hover i {
+            transform: translateX(5px);
+        }
+
+        .faq-section {
+            margin: 5rem 0;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: var(--background-color);
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--primary-color);
+        }
+
+        .faq-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            padding: 0 1.5rem;
+            color: var(--text-color-light);
+            line-height: 1.6;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .contact-cta {
+            text-align: center;
+            margin: 5rem 0;
+            padding: a3rem;
+            background: linear-gradient(135deg, var(--primary-color-transparent), var(--primary-light-transparent));
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 50%, 
+                rgba(255, 255, 255, 0.1) 100%);
+            animation: shine 3s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes shine {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        .contact-cta h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .contact-cta p {
+            color: var(--text-color-light);
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .contact-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .help-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .help-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tab {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Help Hero Section -->
+    <section class="help-hero">
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+        <div class="floating-circle"></div>
+        <div class="container">
+            <h1 class="hero-title">Wie können wir dir helfen?</h1>
+            <p class="hero-subtitle">Finde schnell Antworten auf deine Fragen zu Vocabo.ai</p>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Gib deine Frage ein...">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Help Categories Tabs -->
+    <section class="container">
+        <div class="help-tabs">
+            <button class="tab active" data-tab="quickstart">Schnellstart</button>
+            <button class="tab" data-tab="account">Konto & Einstellungen</button>
+            <button class="tab" data-tab="features">Funktionen</button>
+            <button class="tab" data-tab="troubleshooting">Fehlerbehebung</button>
+            <button class="tab" data-tab="billing">Abrechnung</button>
+        </div>
+
+        <!-- Quickstart Tab Content -->
+        <div class="tab-content active" id="quickstart">
+            <div class="help-grid">
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="help-title">Erste Schritte mit Vocabo.ai</h3>
+                    <p class="help-text">
+                        Lerne die Grundlagen von Vocabo.ai kennen und starte deine Sprachlernreise.
+                    </p>
+                    <a href="#" class="help-link">
+                        Guide ansehen <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h3 class="help-title">Profil einrichten</h3>
+                    <p class="help-text">
+                        Optimiere dein Lernprofil für personalisierte Empfehlungen und bessere Ergebnisse.
+                    </p>
+                    <a href="#" class="help-link">
+                        Anleitung lesen <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="help-title">Lernziele festlegen</h3>
+                    <p class="help-text">
+                        Definiere deine Sprachziele und erstelle einen personalisierten Lernplan.
+                    </p>
+                    <a href="#" class="help-link">
+                        Tipps erhalten <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="help-title">Mobile App installieren</h3>
+                    <p class="help-text">
+                        Lerne unterwegs mit unserer leistungsstarken mobilen App für iOS und Android.
+                    </p>
+                    <a href="#" class="help-link">
+                        Download-Anleitung <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Tab Content -->
+        <div class="tab-content" id="account">
+            <div class="help-grid">
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3 class="help-title">Accounteinstellungen</h3>
+                    <p class="help-text">
+                        Verwalte deine persönlichen Daten, Passwort und Sicherheitseinstellungen.
+                    </p>
+                    <a href="#" class="help-link">
+                        Mehr erfahren <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3 class="help-title">Benachrichtigungen</h3>
+                    <p class="help-text">
+                        Passe Benachrichtigungseinstellungen an deine Lerngewohnheiten an.
+                    </p>
+                    <a href="#" class="help-link">
+                        Einstellungen anzeigen <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="help-title">Benutzeroberfläche</h3>
+                    <p class="help-text">
+                        Personalisiere die App-Darstellung mit Themes und Farbschemata.
+                    </p>
+                    <a href="#" class="help-link">
+                        Optionen erkunden <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="help-title">Datenschutz & Sicherheit</h3>
+                    <p class="help-text">
+                        Informiere dich über unsere Maßnahmen zum Schutz deiner Daten.
+                    </p>
+                    <a href="#" class="help-link">
+                        Richtlinien lesen <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Tab Content -->
+        <div class="tab-content" id="features">
+            <!-- Ähnliches Grid-Layout für die Features-Tab -->
+        </div>
+
+        <!-- Troubleshooting Tab Content -->
+        <div class="tab-content" id="troubleshooting">
+            <!-- Ähnliches Grid-Layout für den Troubleshooting-Tab -->
+        </div>
+
+        <!-- Billing Tab Content -->
+        <div class="tab-content" id="billing">
+            <!-- Ähnliches Grid-Layout für den Billing-Tab -->
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="container faq-section">
+        <div class="section-header">
+            <h2>Häufig gestellte Fragen</h2>
+            <p>Schnelle Antworten auf die wichtigsten Fragen</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Wie funktioniert der KI-Lernalgorithmus?</span>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                        Unser KI-Lernalgorithmus analysiert dein Lernverhalten, Antwortzeiten und Fehler, um ein personalisiertes Lernprofil zu erstellen. Er identifiziert Muster und passt die Schwierigkeit und Wiederholungsintervalle automatisch an, um deinen Lernfortschritt zu optimieren. Dabei berücksichtigt er wissenschaftliche Erkenntnisse zur Gedächtnisbildung und Informationsverarbeitung.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Wie kann ich meinen Lernfortschritt verfolgen?</span>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                        Dein Lernfortschritt wird in deinem persönlichen Dashboard übersichtlich dargestellt. Hier findest du detaillierte Statistiken zu deinen Lernzeiten, gemeisterten Vokabeln, Fehlerquoten und einer Prognose für deinen weiteren Lernverlauf. Du kannst tägliche, wöchentliche und monatliche Berichte einsehen, die deine Entwicklung aufzeigen.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Kann ich Vocabo.ai offline nutzen?</span>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                        Ja, mit unserem Premium- und Business-Abonnement kannst du Vokabelpakete für das Offline-Lernen herunterladen. Die App synchronisiert deinen Fortschritt automatisch, sobald du wieder online bist. So kannst du auch unterwegs ohne Internetverbindung lernen, beispielsweise im Flugzeug oder an Orten mit schlechter Netzabdeckung.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Wie kann ich mein Abonnement kündigen?</span>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                        Du kannst dein Abonnement jederzeit in deinen Kontoeinstellungen unter "Abonnement verwalten" kündigen. Die Kündigung wird zum Ende deiner aktuellen Abrechnungsperiode wirksam. Bis dahin hast du weiterhin vollen Zugriff auf alle Premium-Funktionen. Wir senden dir eine Bestätigung per E-Mail, sobald deine Kündigung bearbeitet wurde.
+                    </p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Wie viele Sprachen werden unterstützt?</span>
+                    <i class="fas fa-chevron-down faq-arrow"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>
+                        Vocabo.ai unterstützt derzeit 25 Sprachen, darunter Englisch, Spanisch, Französisch, Deutsch, Italienisch, Portugiesisch, Russisch, Japanisch, Chinesisch, Koreanisch und viele mehr. Wir erweitern unser Sprachangebot kontinuierlich, basierend auf dem Feedback unserer Nutzer. Für Business-Kunden bieten wir auch branchenspezifische Fachsprachen an.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact CTA -->
+    <section class="container">
+        <div class="contact-cta">
+            <h3>Noch Fragen?</h3>
+            <p>Unser Support-Team steht dir bei allen Fragen rund um Vocabo.ai zur Verfügung. Wir sind für dich da und helfen dir gerne weiter.</p>
+            
+            <div class="contact-btns">
+                <a href="kontakt.html" class="btn btn-primary">Kontakt aufnehmen</a>
+                <a href="community.html" class="btn btn-secondary">Community besuchen</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="funktionen.html">Funktionen</a></li>
+                        <li><a href="preise.html">Preise</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="dokumentation.html">Dokumentation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                        <li><a href="cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.7/dist/countUp.min.js"></script>
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to current tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // FAQ accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', function() {
+                    // Close other items
+                    faqItems.forEach(i => {
+                        if (i !== item) {
+                            i.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+            
+            // Search input animation
+            const searchInput = document.querySelector('.search-input');
+            
+            searchInput.addEventListener('focus', function() {
+                this.parentElement.classList.add('active');
+            });
+            
+            searchInput.addEventListener('blur', function() {
+                this.parentElement.classList.remove('active');
+            });
+            
+            // Animate cards on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            document.querySelectorAll('.help-card').forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html> 

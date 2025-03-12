@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Benutzer-Avatar 3</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="avatarGradient3">
+            <stop stop-color="#2A2D4E" offset="0%"></stop>
+            <stop stop-color="#444B7D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="avatar-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="background" fill="url(#avatarGradient3)" cx="100" cy="100" r="100"></circle>
+        <circle id="face" fill="#FFFFFF" cx="100" cy="85" r="40"></circle>
+        <path d="M100,140 C66.8,140 40,166.8 40,200 L160,200 C160,166.8 133.2,140 100,140 Z" id="body" fill="#FFFFFF"></path>
+        <circle id="eye-left" fill="#333333" cx="85" cy="80" r="5"></circle>
+        <circle id="eye-right" fill="#333333" cx="115" cy="80" r="5"></circle>
+        <path d="M85,100 C85,100 93,95 100,95 C107,95 115,100 115,100" id="smile" stroke="#333333" stroke-width="3" stroke-linecap="round"></path>
+        <path d="M60,50 C60,50 80,70 100,70 C120,70 140,50 140,50 C140,50 130,30 100,30 C70,30 60,50 60,50 Z" id="hair" fill="#333333"></path>
+        <path d="M75,80 C75,80 75,70 85,70" id="eyebrow-left" stroke="#333333" stroke-width="3" stroke-linecap="round"></path>
+        <path d="M125,80 C125,80 125,70 115,70" id="eyebrow-right" stroke="#333333" stroke-width="3" stroke-linecap="round"></path>
+    </g>
+</svg> 

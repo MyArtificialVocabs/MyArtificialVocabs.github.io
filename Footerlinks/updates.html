@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Updates - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Zusätzliche Styles für die Updates-Seite */
+        .updates-hero {
+            background: linear-gradient(135deg, var(--secondary-color), #1E1F3A);
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+        }
+
+        .updates-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 2rem 0;
+        }
+
+        .updates-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--primary-light));
+            border-radius: var(--radius-full);
+        }
+
+        .update-item {
+            position: relative;
+            margin-bottom: 4rem;
+            width: calc(50% - 2rem);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .update-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .update-item:nth-child(odd) {
+            margin-left: auto;
+            padding-left: 3rem;
+        }
+
+        .update-item:nth-child(even) {
+            margin-right: auto;
+            padding-right: 3rem;
+            text-align: right;
+        }
+
+        .update-dot {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            top: 0;
+            border: 4px solid var(--background-color);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .update-item:nth-child(odd) .update-dot {
+            left: -12px;
+        }
+
+        .update-item:nth-child(even) .update-dot {
+            right: -12px;
+        }
+
+        .update-item:hover .update-dot {
+            transform: scale(1.2);
+            background: var(--primary-light);
+        }
+
+        .update-content {
+            background: var(--background-color);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .update-item:hover .update-content {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .update-version {
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .update-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .update-description {
+            color: var(--text-color-light);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .update-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .update-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .update-features i {
+            color: var(--primary-color);
+        }
+
+        .update-date {
+            font-size: 0.875rem;
+            color: var(--text-color-lighter);
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .updates-timeline::before {
+                left: 30px;
+            }
+
+            .update-item {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+                padding-left: 2rem !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+
+            .update-item .update-dot {
+                left: -42px !important;
+                right: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Updates Hero Section -->
+    <section class="updates-hero">
+        <div class="container">
+            <h1 class="hero-title">Produktupdates</h1>
+            <p class="hero-subtitle">Entdecke die neuesten Verbesserungen und Funktionen von Vocabo.ai</p>
+        </div>
+    </section>
+
+    <!-- Updates Timeline -->
+    <section class="container">
+        <div class="updates-timeline">
+            <!-- Update 1 -->
+            <div class="update-item">
+                <div class="update-dot"></div>
+                <div class="update-content">
+                    <span class="update-version">Version 2.5.0</span>
+                    <h3 class="update-title">KI-gestützte Aussprachekorrektur</h3>
+                    <p class="update-description">
+                        Unsere neueste Innovation ermöglicht es dir, deine Aussprache in Echtzeit zu verbessern.
+                    </p>
+                    <ul class="update-features">
+                        <li><i class="fas fa-check"></i> Echtzeit-Feedback zur Aussprache</li>
+                        <li><i class="fas fa-check"></i> Personalisierte Übungsvorschläge</li>
+                        <li><i class="fas fa-check"></i> Verbesserter Spracherkennungsalgorithmus</li>
+                    </ul>
+                    <div class="update-date">15. März 2024</div>
+                </div>
+            </div>
+
+            <!-- Update 2 -->
+            <div class="update-item">
+                <div class="update-dot"></div>
+                <div class="update-content">
+                    <span class="update-version">Version 2.4.0</span>
+                    <h3 class="update-title">Erweitertes Vokabeltraining</h3>
+                    <p class="update-description">
+                        Neue Übungstypen und verbesserte Lernalgorithmen für effektiveres Lernen.
+                    </p>
+                    <ul class="update-features">
+                        <li><i class="fas fa-check"></i> Neue interaktive Übungen</li>
+                        <li><i class="fas fa-check"></i> Optimierte Wiederholungsintervalle</li>
+                        <li><i class="fas fa-check"></i> Kontextbasiertes Lernen</li>
+                    </ul>
+                    <div class="update-date">1. März 2024</div>
+                </div>
+            </div>
+
+            <!-- Update 3 -->
+            <div class="update-item">
+                <div class="update-dot"></div>
+                <div class="update-content">
+                    <span class="update-version">Version 2.3.0</span>
+                    <h3 class="update-title">Verbessertes Nutzererlebnis</h3>
+                    <p class="update-description">
+                        Umfangreiche UI/UX-Verbesserungen für eine noch intuitivere Bedienung.
+                    </p>
+                    <ul class="update-features">
+                        <li><i class="fas fa-check"></i> Neues Dashboard-Design</li>
+                        <li><i class="fas fa-check"></i> Verbesserte Navigation</li>
+                        <li><i class="fas fa-check"></i> Dark Mode Unterstützung</li>
+                    </ul>
+                    <div class="update-date">15. Februar 2024</div>
+                </div>
+            </div>
+
+            <!-- Update 4 -->
+            <div class="update-item">
+                <div class="update-dot"></div>
+                <div class="update-content">
+                    <span class="update-version">Version 2.2.0</span>
+                    <h3 class="update-title">Erweiterte Sprachunterstützung</h3>
+                    <p class="update-description">
+                        Neue Sprachen und verbesserte Übersetzungsfunktionen.
+                    </p>
+                    <ul class="update-features">
+                        <li><i class="fas fa-check"></i> 5 neue Sprachen hinzugefügt</li>
+                        <li><i class="fas fa-check"></i> Verbesserte Übersetzungsgenauigkeit</li>
+                        <li><i class="fas fa-check"></i> Neue regionale Varianten</li>
+                    </ul>
+                    <div class="update-date">1. Februar 2024</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="funktionen.html">Funktionen</a></li>
+                        <li><a href="preise.html">Preise</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="dokumentation.html">Dokumentation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                        <li><a href="cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/countup.js@2.0.7/dist/countUp.min.js"></script>
+    <script src="../script.js"></script>
+    <script>
+        // Animiere Updates beim Scrollen
+        document.addEventListener('DOMContentLoaded', function() {
+            const updateItems = document.querySelectorAll('.update-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.2
+            });
+            
+            updateItems.forEach(item => {
+                observer.observe(item);
+            });
+        });
+    </script>
+</body>
+</html> 

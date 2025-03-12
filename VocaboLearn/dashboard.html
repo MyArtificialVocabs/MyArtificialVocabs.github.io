@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VocaboLearn - Dashboard</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            /* Moderne Farbpalette */
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #ec4899;
+            --secondary-light: #f472b6;
+            --secondary-dark: #db2777;
+            --success: #22c55e;
+            --warning: #eab308;
+            --error: #EF4444;
+            
+            /* Neutrale Farben */
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-light: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            
+            /* Glasmorphism */
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            
+            /* Layout */
+            --navbar-height: 70px;
+            --sidebar-width: 280px;
+            --border-radius-sm: 0.5rem;
+            --border-radius: 1rem;
+            --border-radius-lg: 1.5rem;
+            
+            /* Animationen */
+            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Schatten */
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-glow: 0 0 20px rgba(37, 99, 235, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #F8FAFC, #EEF2FF);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--navbar-height);
+            background: white;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-right: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            margin-left: auto;
+        }
+
+        .nav-link {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Sidebar Panel */
+        .sidebar-panel {
+            position: fixed;
+            top: var(--navbar-height);
+            left: -var(--sidebar-width);
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--navbar-height));
+            background: white;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            padding: 2rem;
+        }
+
+        .sidebar-panel.open {
+            transform: translateX(var(--sidebar-width));
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-link i {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-link:hover, .sidebar-link.active {
+            background: var(--primary);
+            color: white;
+            transform: translateX(10px);
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: var(--navbar-height) auto 0;
+            padding: 2rem;
+            display: grid;
+            gap: 2rem;
+        }
+
+        /* Moderne Welcome Section */
+        .welcome-section {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--border-radius-lg);
+            padding: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="white" stroke-width="0.5" fill="none" opacity="0.2"/></svg>') repeat;
+            opacity: 0.1;
+            animation: patternMove 20s linear infinite;
+        }
+
+        @keyframes patternMove {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-100px) translateY(-100px); }
+        }
+
+        .welcome-content {
+            flex: 1;
+            z-index: 1;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, rgba(255,255,255,0.8));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+
+        /* Moderne Statistik-Karten */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: iconShine 3s infinite;
+        }
+
+        @keyframes iconShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Moderne Fortschrittssektion */
+        .progress-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .progress-card {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(236, 72, 153, 0.1));
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--glass-border);
+        }
+
+        .progress-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .progress-info {
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-language {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .progress-stat {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Moderne Streak-Sektion */
+        .streak-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius-lg);
+            padding: 2rem;
+        }
+
+        .streak-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .streak-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .streak-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 0.875rem;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--text-light);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 0;
+        }
+
+        .day span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .day:hover {
+            transform: scale(1.1);
+        }
+
+        .day.active::before {
+            opacity: 1;
+        }
+
+        .day.active span {
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .welcome-section {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem;
+            }
+
+            .welcome-subtitle {
+                margin: 0 auto;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Moderne Animationen */
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links">
+            <a href="dashboard.html" class="nav-link active">Dashboard</a>
+            <a href="course.html" class="nav-link">Kurse</a>
+            <a href="feed.html" class="nav-link">Persönlicher Feed</a>
+        </div>
+    </nav>
+
+    <!-- Sidebar Panel -->
+    <div class="sidebar-panel" id="sidebarPanel">
+        <a href="dashboard.html" class="sidebar-link active">
+            <i class="fas fa-home"></i>
+            Dashboard
+        </a>
+        <a href="course.html" class="sidebar-link">
+            <i class="fas fa-graduation-cap"></i>
+            Kurse
+        </a>
+        <a href="feed.html" class="sidebar-link">
+            <i class="fas fa-stream"></i>
+            Persönlicher Feed
+        </a>
+        <a href="help.html" class="sidebar-link">
+            <i class="fas fa-question-circle"></i>
+            VocaboHelp
+        </a>
+        <a href="settings.html" class="sidebar-link">
+            <i class="fas fa-cog"></i>
+            Einstellungen
+        </a>
+    </div>
+
+    <div class="dashboard-container">
+        <section class="welcome-section">
+            <div class="welcome-content">
+                <h1 class="welcome-title">Willkommen zurück, Alex!</h1>
+                <p class="welcome-subtitle">Dein persönlicher Lernassistent ist bereit, dich bei deiner Sprachreise zu unterstützen. Heute ist ein perfekter Tag, um Neues zu lernen!</p>
+            </div>
+        </section>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-brain"></i>
+                        </div>
+                <div class="stat-value" data-value="0">0</div>
+                <div class="stat-label">Gelernte Wörter</div>
+                    </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <div class="stat-value" data-value="0">0</div>
+                <div class="stat-label">Tage Streak</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-value" data-value="0">0</div>
+                <div class="stat-label">XP Gesamt</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-value" data-value="0">0</div>
+                <div class="stat-label">Errungenschaften</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-value" data-value="0">0</div>
+                <div class="stat-label">Lernminuten</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-check"></i>
+                        </div>
+                <div class="stat-value" data-value="0">0%</div>
+                <div class="stat-label">Erfolgsquote</div>
+                        </div>
+                    </div>
+
+        <section class="progress-section">
+            <div class="progress-header">
+                <h2 class="progress-title">Dein Lernfortschritt</h2>
+                        </div>
+            <div class="progress-grid">
+                <div class="progress-card">
+                    <div class="progress-info">
+                        <div class="progress-language">Englisch</div>
+                        <div class="progress-stats">
+                            <span class="progress-stat">0/1000 Wörter</span>
+                            <span class="progress-stat">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-card">
+                    <div class="progress-info">
+                        <div class="progress-language">Spanisch</div>
+                        <div class="progress-stats">
+                            <span class="progress-stat">0/1000 Wörter</span>
+                            <span class="progress-stat">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                            </div>
+                <div class="progress-card">
+                    <div class="progress-info">
+                        <div class="progress-language">Französisch</div>
+                        <div class="progress-stats">
+                            <span class="progress-stat">0/1000 Wörter</span>
+                            <span class="progress-stat">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                            </div>
+                <div class="progress-card">
+                    <div class="progress-info">
+                        <div class="progress-language">Italienisch</div>
+                        <div class="progress-stats">
+                            <span class="progress-stat">0/1000 Wörter</span>
+                            <span class="progress-stat">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="streak-section">
+            <div class="streak-header">
+                <h2 class="streak-title">Deine Lernserie</h2>
+            </div>
+            <div class="streak-calendar">
+                <div class="day"><span>M</span></div>
+                <div class="day"><span>D</span></div>
+                <div class="day"><span>M</span></div>
+                <div class="day"><span>D</span></div>
+                <div class="day"><span>F</span></div>
+                <div class="day"><span>S</span></div>
+                <div class="day"><span>S</span></div>
+                <div class="day"><span>1</span></div>
+                <div class="day"><span>2</span></div>
+                <div class="day"><span>3</span></div>
+                <div class="day"><span>4</span></div>
+                <div class="day"><span>5</span></div>
+                <div class="day"><span>6</span></div>
+                <div class="day"><span>7</span></div>
+                <div class="day"><span>8</span></div>
+                <div class="day"><span>9</span></div>
+                <div class="day"><span>10</span></div>
+                <div class="day"><span>11</span></div>
+                <div class="day"><span>12</span></div>
+                <div class="day"><span>13</span></div>
+                <div class="day"><span>14</span></div>
+                </div>
+            </section>
+    </div>
+
+    <script>
+        // Animate progress bars on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Sidebar Toggle Logic
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebarPanel = document.getElementById('sidebarPanel');
+            let isPanelLocked = false;
+
+            menuToggle.addEventListener('click', () => {
+                sidebarPanel.classList.toggle('open');
+                isPanelLocked = !isPanelLocked;
+            });
+
+            menuToggle.addEventListener('mouseenter', () => {
+                if (!isPanelLocked) {
+                    sidebarPanel.classList.add('open');
+                }
+            });
+
+            sidebarPanel.addEventListener('mouseleave', () => {
+                if (!isPanelLocked) {
+                    sidebarPanel.classList.remove('open');
+                }
+            });
+            
+            // Animate progress bars
+            const progressBars = document.querySelectorAll('.progress-fill');
+            progressBars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = targetWidth;
+                }, 500);
+            });
+
+            // Add hover effect to days
+            const days = document.querySelectorAll('.day');
+            days.forEach(day => {
+                day.addEventListener('click', () => {
+                    day.classList.toggle('active');
+                });
+            });
+
+            // Animate stat values
+            const statValues = document.querySelectorAll('.stat-value');
+            statValues.forEach(stat => {
+                const finalValue = parseInt(stat.dataset.value);
+                let currentValue = 0;
+                const duration = 2000; // 2 seconds
+                const steps = 60;
+                const increment = finalValue / steps;
+                const interval = duration / steps;
+
+                const counter = setInterval(() => {
+                    currentValue += increment;
+                    if (currentValue >= finalValue) {
+                        currentValue = finalValue;
+                        clearInterval(counter);
+                    }
+                    stat.textContent = Math.round(currentValue) + (stat.textContent.includes('%') ? '%' : '');
+                }, interval);
+            });
+        });
+    </script>
+</body>
+</html> 

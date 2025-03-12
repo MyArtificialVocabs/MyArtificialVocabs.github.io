@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allgemeine Geschäftsbedingungen - Vocabo.ai</title>
+    <link rel="icon" type="image/png" href="../assets/logo/logoWebtab.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .terms-hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 120px 0 60px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terms-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .terms-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            background: var(--background-color);
+        }
+
+        .terms-nav {
+            position: sticky;
+            top: 80px;
+            background: var(--background-color);
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            z-index: 100;
+        }
+
+        .terms-nav-list {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color) var(--border-color);
+        }
+
+        .terms-nav-list::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .terms-nav-list::-webkit-scrollbar-track {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .terms-nav-list::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .terms-nav-item {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-full);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .terms-nav-item:hover,
+        .terms-nav-item.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .terms-section {
+            background: var(--background-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .terms-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .terms-section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .terms-section h2 {
+            color: var(--text-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .terms-section h2 i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .terms-section h3 {
+            color: var(--text-color);
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .terms-section p {
+            color: var(--text-color);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .terms-section ul {
+            list-style: none;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .terms-section li {
+            color: var(--text-color);
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        .terms-section li::before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: -1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg,
+                var(--primary-color-transparent),
+                var(--secondary-color-transparent));
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .highlight-box p {
+            margin: 0;
+            color: var(--text-color);
+        }
+
+        .last-updated {
+            text-align: right;
+            color: var(--text-color-light);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--primary-color);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .terms-nav-list {
+                flex-wrap: nowrap;
+            }
+
+            .terms-section {
+                padding: 1.5rem;
+            }
+
+            .terms-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .terms-section h3 {
+                font-size: 1.3rem;
+            }
+
+            .terms-section p,
+            .terms-section li {
+                font-size: 1rem;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo/logo.png" alt="Vocabo.ai Logo" class="logo-img">
+                <span class="logo-text-left">Vocabo</span>
+                <span class="logo-text-right">.ai</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Terms Hero Section -->
+    <section class="terms-hero">
+        <div class="container">
+            <h1 class="hero-title">Allgemeine Geschäftsbedingungen</h1>
+            <p class="hero-subtitle">Unsere Nutzungsbedingungen für eine faire Zusammenarbeit</p>
+        </div>
+    </section>
+
+    <!-- Terms Content -->
+    <div class="terms-content">
+        <!-- Navigation -->
+        <nav class="terms-nav">
+            <div class="terms-nav-list">
+                <button class="terms-nav-item active" data-section="general">Allgemeines</button>
+                <button class="terms-nav-item" data-section="services">Leistungen</button>
+                <button class="terms-nav-item" data-section="registration">Registrierung</button>
+                <button class="terms-nav-item" data-section="usage">Nutzung</button>
+                <button class="terms-nav-item" data-section="payment">Zahlung</button>
+                <button class="terms-nav-item" data-section="termination">Kündigung</button>
+                <button class="terms-nav-item" data-section="liability">Haftung</button>
+            </div>
+        </nav>
+
+        <!-- General Section -->
+        <section id="general" class="terms-section visible">
+            <h2><i class="fas fa-gavel"></i> Allgemeines</h2>
+            <p>Die nachfolgenden Geschäftsbedingungen regeln das Vertragsverhältnis zwischen der Vocabo.ai GmbH und den Nutzern unserer Lernplattform.</p>
+            
+            <div class="highlight-box">
+                <p><strong>Wichtig:</strong> Mit der Nutzung unserer Dienste akzeptierst du diese Geschäftsbedingungen.</p>
+            </div>
+
+            <h3>Geltungsbereich</h3>
+            <p>Diese AGB gelten für alle Dienstleistungen und Angebote der Vocabo.ai GmbH, insbesondere für:</p>
+            <ul>
+                <li>Die Nutzung der Lernplattform</li>
+                <li>Mobile Apps und Anwendungen</li>
+                <li>Support- und Zusatzleistungen</li>
+            </ul>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="terms-section">
+            <h2><i class="fas fa-tasks"></i> Leistungen</h2>
+            <p>Vocabo.ai bietet folgende Leistungen an:</p>
+            <ul>
+                <li>KI-gestützte Vokabellernplattform</li>
+                <li>Personalisierte Lernpläne</li>
+                <li>Fortschrittsanalysen und Statistiken</li>
+                <li>Mobile Apps für iOS und Android</li>
+            </ul>
+
+            <h3>Leistungsumfang</h3>
+            <p>Der genaue Leistungsumfang richtet sich nach dem gewählten Tarif:</p>
+            <ul>
+                <li>Basis: Grundlegende Lernfunktionen</li>
+                <li>Premium: Voller Funktionsumfang</li>
+                <li>Business: Zusätzliche Teamfunktionen</li>
+            </ul>
+        </section>
+
+        <!-- Registration Section -->
+        <section id="registration" class="terms-section">
+            <h2><i class="fas fa-user-plus"></i> Registrierung</h2>
+            <p>Für die Nutzung unserer Dienste ist eine Registrierung erforderlich.</p>
+            
+            <h3>Voraussetzungen</h3>
+            <ul>
+                <li>Vollständige und wahrheitsgemäße Angaben</li>
+                <li>Mindestalter: 16 Jahre</li>
+                <li>Gültige E-Mail-Adresse</li>
+                <li>Sicheres Passwort</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Hinweis:</strong> Die Registrierung ist kostenlos und unverbindlich.</p>
+            </div>
+        </section>
+
+        <!-- Usage Section -->
+        <section id="usage" class="terms-section">
+            <h2><i class="fas fa-laptop"></i> Nutzung</h2>
+            <p>Bei der Nutzung unserer Plattform gelten folgende Regeln:</p>
+            
+            <h3>Pflichten des Nutzers</h3>
+            <ul>
+                <li>Keine missbräuchliche Nutzung</li>
+                <li>Schutz der Zugangsdaten</li>
+                <li>Beachtung der Urheberrechte</li>
+                <li>Respektvoller Umgang in der Community</li>
+            </ul>
+
+            <h3>Verbotene Handlungen</h3>
+            <ul>
+                <li>Manipulation der Plattform</li>
+                <li>Verbreitung schädlicher Inhalte</li>
+                <li>Automatisierte Zugriffe</li>
+                <li>Weitergabe von Zugangsdaten</li>
+            </ul>
+        </section>
+
+        <!-- Payment Section -->
+        <section id="payment" class="terms-section">
+            <h2><i class="fas fa-credit-card"></i> Zahlung</h2>
+            <p>Für Premium-Funktionen fallen folgende Kosten an:</p>
+            
+            <h3>Zahlungsbedingungen</h3>
+            <ul>
+                <li>Monatliche oder jährliche Abrechnung</li>
+                <li>Automatische Verlängerung</li>
+                <li>14-tägiges Widerrufsrecht</li>
+                <li>Verschiedene Zahlungsmethoden</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Wichtig:</strong> Die Preise verstehen sich inkl. MwSt. und werden im Voraus berechnet.</p>
+            </div>
+        </section>
+
+        <!-- Termination Section -->
+        <section id="termination" class="terms-section">
+            <h2><i class="fas fa-door-open"></i> Kündigung</h2>
+            <p>Die Kündigung kann wie folgt erfolgen:</p>
+            
+            <h3>Kündigungsfristen</h3>
+            <ul>
+                <li>Basis-Account: Jederzeit möglich</li>
+                <li>Premium: 30 Tage zum Monatsende</li>
+                <li>Business: 3 Monate zum Quartalsende</li>
+            </ul>
+
+            <h3>Kündigungsgründe</h3>
+            <ul>
+                <li>Ordentliche Kündigung</li>
+                <li>Außerordentliche Kündigung</li>
+                <li>Verstoß gegen AGB</li>
+            </ul>
+        </section>
+
+        <!-- Liability Section -->
+        <section id="liability" class="terms-section">
+            <h2><i class="fas fa-shield-alt"></i> Haftung</h2>
+            <p>Unsere Haftung ist wie folgt geregelt:</p>
+            
+            <h3>Haftungsbeschränkung</h3>
+            <ul>
+                <li>Vorsatz und grobe Fahrlässigkeit</li>
+                <li>Verletzung wesentlicher Vertragspflichten</li>
+                <li>Gesetzliche Produkthaftung</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Hinweis:</strong> Die Haftung für leichte Fahrlässigkeit ist ausgeschlossen.</p>
+            </div>
+        </section>
+
+        <p class="last-updated">Letzte Aktualisierung: 1. März 2024</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <h3>Vocabo<span>.ai</span></h3>
+                    </div>
+                    <p>Revolutioniere dein Sprachenlernen mit KI-gestützter Technologie.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Produkt</h4>
+                    <ul>
+                        <li><a href="funktionen.html">Funktionen</a></li>
+                        <li><a href="preise.html">Preise</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="hilfe-center.html">Hilfe-Center</a></li>
+                        <li><a href="dokumentation.html">Dokumentation</a></li>
+                        <li><a href="community.html">Community</a></li>
+                        <li><a href="kontakt.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Rechtliches</h4>
+                    <ul>
+                        <li><a href="datenschutz.html">Datenschutz</a></li>
+                        <li><a href="agb.html">AGB</a></li>
+                        <li><a href="cookie-richtlinie.html">Cookie-Richtlinie</a></li>
+                        <li><a href="impressum.html">Impressum</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Newsletter</h4>
+                    <p>Abonniere für kostenlose Lerntipps und Updates.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Deine E-Mail-Adresse">
+                        <button type="submit" class="btn btn-primary">Abonnieren</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>© 2025 Vocabo.ai. Alle Rechte vorbehalten.</p>
+                </div>
+                <button id="theme-toggle-btn">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation Functionality
+            const navItems = document.querySelectorAll('.terms-nav-item');
+            const sections = document.querySelectorAll('.terms-section');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // Show corresponding section
+                    const targetId = item.getAttribute('data-section');
+                    sections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('visible');
+                            // Smooth scroll to section
+                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        } else {
+                            section.classList.remove('visible');
+                        }
+                    });
+                });
+            });
+
+            // Progress Bar
+            const progressBar = document.getElementById('progressBar');
+            
+            window.addEventListener('scroll', () => {
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (window.scrollY / windowHeight) * 100;
+                progressBar.style.width = scrolled + '%';
+            });
+
+            // Intersection Observer for Sections
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Update nav item
+                        const sectionId = entry.target.id;
+                        navItems.forEach(item => {
+                            if (item.getAttribute('data-section') === sectionId) {
+                                item.classList.add('active');
+                            } else {
+                                item.classList.remove('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html> 
